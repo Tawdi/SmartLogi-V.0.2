@@ -1,0 +1,21 @@
+spring:
+
+  # database connection
+  datasource:
+    url: jdbc:postgresql://localhost:5432/smartlogi_dms
+    username: human
+    password: ahmed
+    driver-class-name: org.postgresql.Driver
+
+  #  jpa / hibernate
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+
+  # Liquibase Configuration
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog-master.yaml
+    enabled: true
+
+
