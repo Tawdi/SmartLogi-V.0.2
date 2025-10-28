@@ -1,8 +1,8 @@
-package com.smartlogi.smartlogidms.common.service;
+package com.smartlogi.smartlogidms.common.service.implementation;
 
 import com.smartlogi.smartlogidms.common.exception.ResourceNotFoundException;
 import com.smartlogi.smartlogidms.common.mapper.BaseMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.smartlogi.smartlogidms.common.service.BaseCrudService;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,8 +11,8 @@ import java.util.Optional;
 
 public abstract class BaseCrudServiceImpl<T, RequestDTO, ResponseDTO, ID> implements BaseCrudService<RequestDTO, ResponseDTO, ID> {
 
-    private final JpaRepository<T, ID> repository;
-    private final BaseMapper<T, RequestDTO, ResponseDTO> mapper;
+    protected final JpaRepository<T, ID> repository;
+    protected final BaseMapper<T, RequestDTO, ResponseDTO> mapper;
 
     protected BaseCrudServiceImpl(JpaRepository<T, ID> repository, BaseMapper<T, RequestDTO, ResponseDTO> mapper) {
         this.repository = repository;

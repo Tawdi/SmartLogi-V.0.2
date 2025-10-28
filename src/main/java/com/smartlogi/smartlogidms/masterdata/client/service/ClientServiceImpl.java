@@ -1,6 +1,7 @@
 package com.smartlogi.smartlogidms.masterdata.client.service;
 
-import com.smartlogi.smartlogidms.common.service.BaseCrudServiceImpl;
+import com.smartlogi.smartlogidms.common.service.implementation.BaseCrudServiceImpl;
+import com.smartlogi.smartlogidms.common.service.implementation.StringCrudServiceImpl;
 import com.smartlogi.smartlogidms.masterdata.client.api.ClientMapper;
 import com.smartlogi.smartlogidms.masterdata.client.api.ClientRequestDTO;
 import com.smartlogi.smartlogidms.masterdata.client.api.ClientResponseDTO;
@@ -15,7 +16,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class ClientServiceImpl extends BaseCrudServiceImpl<ClientExpediteur, ClientRequestDTO, ClientResponseDTO, UUID> implements ClientService {
+public class ClientServiceImpl extends StringCrudServiceImpl<ClientExpediteur, ClientRequestDTO, ClientResponseDTO> implements ClientService {
 
     private final ClientExpediteurRepository repository;
     private final ClientMapper mapper;
