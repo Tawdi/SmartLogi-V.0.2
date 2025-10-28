@@ -1,19 +1,16 @@
-package com.smartlogi.smartlogidms.masterdata.client.api;
+package com.smartlogi.smartlogidms.masterdata.recipient.api;
 
 import com.smartlogi.smartlogidms.common.api.BaseResponseDTO;
 import com.smartlogi.smartlogidms.masterdata.shared.api.PersonneResponseDTO;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.UUID;
-
-@Getter
 @Setter
-public class ClientResponseDTO extends PersonneResponseDTO<String> {
+@Getter
+public class RecipientResponseDTO extends PersonneResponseDTO<String> {
 
     private String rue;
     private String ville;
     private String codePostal;
-
 
 }
