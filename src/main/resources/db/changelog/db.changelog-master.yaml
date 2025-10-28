@@ -1,4 +1,6 @@
 databaseChangeLog:
 
   - include:
-      file: db/changelog/2025/10/27-01-changelog-senders.yaml
+      file: db/changelog/2025/10/28-01-changelog.yaml
+  - include:
+      file: db/changelog/2025/10/28-02-changelog-recipient.yaml

@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 1761580565469-1
+      id: 1761688457773-2
       author: human
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -10,45 +10,9 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     primaryKey: true
-                    primaryKeyName: pk_adresse
-                  defaultValueComputed: gen_random_uuid()
+                    primaryKeyName: pk_recipient
                   name: id
-                  type: UUID
-              - column:
-                  constraints:
-                    nullable: false
-                  name: created_at
-                  type: DATETIME
-              - column:
-                  constraints:
-                    nullable: false
-                  name: updated_at
-                  type: DATETIME
-              - column:
-                  name: ville
-                  type: VARCHAR(255)
-              - column:
-                  name: rue
-                  type: VARCHAR(255)
-              - column:
-                  name: code_postal
-                  type: VARCHAR(255)
-            tableName: adresse
-  - changeSet:
-      id: 1761580565469-2
-      author: human
-      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
-      changes:
-        - createTable:
-            columns:
-              - column:
-                  constraints:
-                    nullable: false
-                    primaryKey: true
-                    primaryKeyName: pk_senders
-                  defaultValueComputed: gen_random_uuid()
-                  name: id
-                  type: UUID
+                  type: CHAR(36)
               - column:
                   constraints:
                     nullable: false
@@ -83,28 +47,29 @@ databaseChangeLog:
                   name: updated_at
                   type: DATETIME
               - column:
-                  defaultValueComputed: gen_random_uuid()
                   name: adresse_id
-                  type: UUID
-            tableName: senders
+                  type: CHAR(36)
+            tableName: recipient
+
   - changeSet:
-      id: 1761580565469-3
+      id: 1761688457773-4
       author: human
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
         - addUniqueConstraint:
             columnNames: adresse_id
-            constraintName: uc_senders_adresse
-            tableName: senders
+            constraintName: uc_recipient_adresse
+            tableName: recipient
+
   - changeSet:
-      id: 1761580565469-4
+      id: 1761688457773-6
       author: human
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
         - addForeignKeyConstraint:
             baseColumnNames: adresse_id
-            baseTableName: senders
-            constraintName: FK_SENDERS_ON_ADRESSE
+            baseTableName: recipient
+            constraintName: FK_RECIPIENT_ON_ADRESSE
             referencedColumnNames: id
             referencedTableName: adresse
-
+  
