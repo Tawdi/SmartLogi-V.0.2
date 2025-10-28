@@ -5,14 +5,19 @@ import java.util.Optional;
 
 /**
  *
- * @param <T> Entity type
- * @param <ID>  ID type
+ * @param <RequestDTO> Request DTO type
+ * @param <ResponseDTO> Request DTO type
+ * @param <ID>     ID type
  */
-public interface BaseCrudService<T, ID> {
+public interface BaseCrudService<RequestDTO,ResponseDTO, ID> {
 
-    T save(T entity);
-    Optional<T> findById(ID id);
-    List<T> findAll();
+    ResponseDTO save(RequestDTO entity);
+
+    Optional<ResponseDTO> findById(ID id);
+
+    List<ResponseDTO> findAll();
+
     void deleteById(ID id);
+
     boolean existsById(ID id);
 }
