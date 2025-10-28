@@ -15,7 +15,7 @@ import java.util.UUID;
 
 /*
  * A base entity class that provides common fields:
- * - id: Primary key
+ * - id: is subClasses
  * - createdAt: Timestamp of creation (managed by JPA Auditing)
  * - updatedAt: Timestamp of last update (managed by JPA Auditing)
  */
@@ -25,13 +25,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public abstract class BaseEntity {
+public sealed abstract class BaseEntity<ID> permits UuidBaseEntity , StringBaseEntity , LongBaseEntity  {
 
-    @Id
-    @GeneratedValue
-    @JdbcTypeCode(SqlTypes.UUID)
-    @Column(columnDefinition = "UUID DEFAULT gen_random_uuid()", updatable = false, nullable = false)
-    private UUID id;
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
@@ -40,4 +35,7 @@ public abstract class BaseEntity {
     @LastModifiedDate
     @Column(nullable = false)
     private Instant updatedAt;
+
+    public abstract ID getId();
+    public abstract void setId(ID id);
 }

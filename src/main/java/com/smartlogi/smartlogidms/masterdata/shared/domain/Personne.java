@@ -1,6 +1,8 @@
 package com.smartlogi.smartlogidms.masterdata.shared.domain;
 
 import com.smartlogi.smartlogidms.common.domain.BaseEntity;
+import com.smartlogi.smartlogidms.common.domain.StringBaseEntity;
+import com.smartlogi.smartlogidms.common.domain.UuidBaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +12,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
-public class Personne extends BaseEntity {
+public class Personne extends StringBaseEntity {
 
     @Column(length = 50, name = "first_name", nullable = false)
     private String firstName;

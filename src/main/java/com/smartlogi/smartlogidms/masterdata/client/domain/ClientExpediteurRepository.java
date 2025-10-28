@@ -1,10 +1,10 @@
 package com.smartlogi.smartlogidms.masterdata.client.domain;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.smartlogi.smartlogidms.common.domain.repository.StringRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 
 @Repository
-public interface ClientExpediteurRepository extends JpaRepository<ClientExpediteur, UUID> {
+public interface ClientExpediteurRepository extends StringRepository<ClientExpediteur> {
 }
