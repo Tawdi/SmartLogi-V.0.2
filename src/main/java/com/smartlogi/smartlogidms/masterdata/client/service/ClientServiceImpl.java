@@ -26,17 +26,20 @@ public class ClientServiceImpl extends StringCrudServiceImpl<ClientExpediteur, C
         this.mapper = clientMapper;
     }
 
-    //TODO
+
     @Override
     @Transactional(readOnly = true)
     public Optional<ClientResponseDTO> findByEmail(String email) {
-        return Optional.empty();
+        return repository.findByEmail(email)
+                .map(mapper::entityToResponseDto);
+
     }
 
-    //TODO
+
     @Override
     @Transactional(readOnly = true)
     public Page<ClientResponseDTO> searchClients(String keyword, Pageable pageable) {
-        return null;
+        return  repository.searchClients(keyword,pageable)
+                .map(mapper::entityToResponseDto);
     }
 }

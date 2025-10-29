@@ -6,7 +6,9 @@ import com.smartlogi.smartlogidms.masterdata.zone.api.ZoneRequestDTO;
 import com.smartlogi.smartlogidms.masterdata.zone.api.ZoneResponseDTO;
 import com.smartlogi.smartlogidms.masterdata.zone.domain.Zone;
 import com.smartlogi.smartlogidms.masterdata.zone.domain.ZoneRepository;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ZoneServiceImpl extends StringCrudServiceImpl<Zone, ZoneRequestDTO, ZoneResponseDTO> implements ZoneService {
 
     private final ZoneRepository repository;
