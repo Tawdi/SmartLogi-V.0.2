@@ -1,6 +1,7 @@
 package com.smartlogi.smartlogidms.common.api.controller;
 
 import com.smartlogi.smartlogidms.common.api.dto.ApiResponse;
+import com.smartlogi.smartlogidms.common.api.dto.ValidationGroups;
 import com.smartlogi.smartlogidms.common.domain.BaseEntity;
 import com.smartlogi.smartlogidms.common.service.BaseCrudService;
 import com.smartlogi.smartlogidms.common.mapper.BaseMapper;
@@ -9,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,7 +27,7 @@ public abstract class AbstractBaseController<T extends BaseEntity<ID>, ID, RQ, R
 
     @Override
     @PostMapping({"","/"})
-    public ResponseEntity<ApiResponse<RS>> create(@Valid @RequestBody RQ requestDTO) {
+    public ResponseEntity<ApiResponse<RS>> create(@Validated(ValidationGroups.Create.class) @RequestBody RQ requestDTO) {
 
         RS responseDTO = service.save(requestDTO);
 
@@ -35,7 +37,7 @@ public abstract class AbstractBaseController<T extends BaseEntity<ID>, ID, RQ, R
 
     @Override
     @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse<RS>> update(@PathVariable ID id, @Valid @RequestBody RQ requestDTO) {
+    public ResponseEntity<ApiResponse<RS>> update(@PathVariable ID id,  @Validated(ValidationGroups.Update.class)  @RequestBody RQ requestDTO) {
         RS responseDTO = service.update(id, requestDTO);
         return ResponseEntity.ok(ApiResponse.success("Resource updated successfully", responseDTO));
     }
