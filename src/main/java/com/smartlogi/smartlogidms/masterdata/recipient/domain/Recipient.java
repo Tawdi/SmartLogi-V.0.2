@@ -2,10 +2,7 @@ package com.smartlogi.smartlogidms.masterdata.recipient.domain;
 
 import com.smartlogi.smartlogidms.masterdata.shared.domain.Adresse;
 import com.smartlogi.smartlogidms.masterdata.shared.domain.Personne;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,8 +13,7 @@ import lombok.Setter;
 public class Recipient extends Personne {
 
 
-    @OneToOne
-    @JoinColumn(name = "adresse_id")
+    @Embedded
     private Adresse adresse;
 
     public Recipient(String firstName, String lastName, String email, String phoneNumber, Adresse adresse) {

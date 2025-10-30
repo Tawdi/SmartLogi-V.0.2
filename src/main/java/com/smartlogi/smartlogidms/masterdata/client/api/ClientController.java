@@ -1,12 +1,13 @@
 package com.smartlogi.smartlogidms.masterdata.client.api;
 
 import com.smartlogi.smartlogidms.common.api.controller.StringBaseController;
+import com.smartlogi.smartlogidms.common.api.dto.ApiResponse;
 import com.smartlogi.smartlogidms.masterdata.client.domain.ClientExpediteur;
 import com.smartlogi.smartlogidms.masterdata.client.service.ClientService;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/clients")

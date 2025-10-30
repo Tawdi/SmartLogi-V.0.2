@@ -19,8 +19,8 @@ public class ClientServiceImpl extends StringCrudServiceImpl<ClientExpediteur, C
     private final ClientExpediteurRepository repository;
     private final ClientMapper mapper;
 
-    public ClientServiceImpl(ClientExpediteurRepository clientExpediteurRepository , ClientMapper clientMapper) {
-        super(clientExpediteurRepository,clientMapper);
+    public ClientServiceImpl(ClientExpediteurRepository clientExpediteurRepository, ClientMapper clientMapper) {
+        super(clientExpediteurRepository, clientMapper);
         this.repository = clientExpediteurRepository;
         this.mapper = clientMapper;
     }
@@ -38,7 +38,7 @@ public class ClientServiceImpl extends StringCrudServiceImpl<ClientExpediteur, C
     @Override
     @Transactional(readOnly = true)
     public Page<ClientResponseDTO> searchClients(String keyword, Pageable pageable) {
-        return  repository.searchClients(keyword,pageable)
+        return repository.searchClients(keyword, pageable)
                 .map(mapper::toDto);
     }
 }

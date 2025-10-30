@@ -1,0 +1,77 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1761991111111-1
+      author: human
+      changes:
+        - addColumn:
+            tableName: senders
+            columns:
+              - column:
+                  name: ville
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: rue
+                  type: VARCHAR(255)
+              - column:
+                  name: code_postal
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+
+        - addColumn:
+            tableName: recipient
+            columns:
+              - column:
+                  name: ville
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: rue
+                  type: VARCHAR(255)
+              - column:
+                  name: code_postal
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 1761991111111-2
+      author: human
+      changes:
+        - dropForeignKeyConstraint:
+            baseTableName: senders
+            constraintName: FK_SENDERS_ON_ADRESSE
+
+        - dropForeignKeyConstraint:
+            baseTableName: recipient
+            constraintName: FK_RECIPIENT_ON_ADRESSE
+
+        - dropUniqueConstraint:
+            constraintName: uc_senders_adresse
+            tableName: senders
+
+        - dropUniqueConstraint:
+            constraintName: uc_recipient_adresse
+            tableName: recipient
+
+  - changeSet:
+      id: 1761991111111-3
+      author: human
+      changes:
+        - dropColumn:
+            tableName: senders
+            columnName: adresse_id
+
+        - dropColumn:
+            tableName: recipient
+            columnName: adresse_id
+
+  - changeSet:
+      id: 1761991111111-4
+      author: human
+      changes:
+        - dropTable:
+            tableName: adresse
