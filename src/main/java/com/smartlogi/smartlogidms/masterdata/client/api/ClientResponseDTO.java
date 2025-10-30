@@ -1,11 +1,8 @@
 package com.smartlogi.smartlogidms.masterdata.client.api;
 
-import com.smartlogi.smartlogidms.common.api.BaseResponseDTO;
 import com.smartlogi.smartlogidms.masterdata.shared.api.PersonneResponseDTO;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.UUID;
 
 @Getter
 @Setter

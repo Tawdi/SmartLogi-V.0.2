@@ -34,21 +34,21 @@ public class DriverServiceImpl extends StringCrudServiceImpl<Driver, DriverReque
     @Transactional(readOnly = true)
     public Optional<DriverResponseDTO> findByEmail(String email) {
         return repository.findByEmail(email)
-                .map(mapper::entityToResponseDto);
+                .map(mapper::toDto);
     }
 
     @Override
     @Transactional(readOnly = true)
     public Page<DriverResponseDTO> searchDrivers(String keyword, Pageable pageable) {
         return repository.searchDrivers(keyword, pageable)
-                .map(mapper::entityToResponseDto);
+                .map(mapper::toDto);
     }
 
     @Override
     @Transactional(readOnly = true)
     public Page<DriverResponseDTO> findDriversByZone(String zoneId, Pageable pageable) {
         return repository.findByZoneAssigneeId(zoneId, pageable)
-                .map(mapper::entityToResponseDto);
+                .map(mapper::toDto);
     }
 
     @Override
@@ -63,6 +63,6 @@ public class DriverServiceImpl extends StringCrudServiceImpl<Driver, DriverReque
 
         Driver updatedDriver = repository.save(driver);
 
-        return mapper.entityToResponseDto(updatedDriver);
+        return mapper.toDto(updatedDriver);
     }
 }

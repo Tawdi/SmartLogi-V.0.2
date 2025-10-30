@@ -1,6 +1,5 @@
 package com.smartlogi.smartlogidms.masterdata.client.service;
 
-import com.smartlogi.smartlogidms.common.service.implementation.BaseCrudServiceImpl;
 import com.smartlogi.smartlogidms.common.service.implementation.StringCrudServiceImpl;
 import com.smartlogi.smartlogidms.masterdata.client.api.ClientMapper;
 import com.smartlogi.smartlogidms.masterdata.client.api.ClientRequestDTO;
@@ -31,7 +30,7 @@ public class ClientServiceImpl extends StringCrudServiceImpl<ClientExpediteur, C
     @Transactional(readOnly = true)
     public Optional<ClientResponseDTO> findByEmail(String email) {
         return repository.findByEmail(email)
-                .map(mapper::entityToResponseDto);
+                .map(mapper::toDto);
 
     }
 
@@ -40,6 +39,6 @@ public class ClientServiceImpl extends StringCrudServiceImpl<ClientExpediteur, C
     @Transactional(readOnly = true)
     public Page<ClientResponseDTO> searchClients(String keyword, Pageable pageable) {
         return  repository.searchClients(keyword,pageable)
-                .map(mapper::entityToResponseDto);
+                .map(mapper::toDto);
     }
 }
