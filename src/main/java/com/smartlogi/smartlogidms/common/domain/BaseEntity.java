@@ -24,7 +24,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @MappedSuperclass
-@EntityListeners(AuditingEntityListener.class)
+//@EntityListeners(AuditingEntityListener.class)
 public sealed abstract class BaseEntity<ID> permits UuidBaseEntity , StringBaseEntity , LongBaseEntity  {
 
 
