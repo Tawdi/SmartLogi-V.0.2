@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface ClientService extends StringCrudService<ClientRequestDTO, ClientResponseDTO> {
 
-    Optional<ClientResponseDTO> findByEmail(String email);
+    ClientResponseDTO findByEmail(String email);
 
     Page<ClientResponseDTO> searchClients(String keyword, Pageable pageable);
 

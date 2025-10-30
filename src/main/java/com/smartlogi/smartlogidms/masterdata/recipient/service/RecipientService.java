@@ -8,6 +8,6 @@ import java.util.Optional;
 
 public interface RecipientService extends StringCrudService<RecipientRequestDTO, RecipientResponseDTO> {
 
-    Optional<RecipientResponseDTO> findByEmail(String email);
+    RecipientResponseDTO findByEmail(String email);
 
 }

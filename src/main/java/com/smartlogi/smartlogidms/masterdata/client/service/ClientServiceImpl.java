@@ -1,5 +1,6 @@
 package com.smartlogi.smartlogidms.masterdata.client.service;
 
+import com.smartlogi.smartlogidms.common.exception.ResourceNotFoundException;
 import com.smartlogi.smartlogidms.common.service.implementation.StringCrudServiceImpl;
 import com.smartlogi.smartlogidms.masterdata.client.api.ClientMapper;
 import com.smartlogi.smartlogidms.masterdata.client.api.ClientRequestDTO;
@@ -28,10 +29,10 @@ public class ClientServiceImpl extends StringCrudServiceImpl<ClientExpediteur, C
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<ClientResponseDTO> findByEmail(String email) {
-        return repository.findByEmail(email)
-                .map(mapper::toDto);
-
+    public ClientResponseDTO findByEmail(String email) {
+        ClientExpediteur entity = repository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("Resource not found with email: " + email));
+        return mapper.toDto(entity);
     }
 
 

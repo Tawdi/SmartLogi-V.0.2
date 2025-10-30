@@ -1,0 +1,23 @@
+package com.smartlogi.smartlogidms.masterdata.recipient.api;
+
+import com.smartlogi.smartlogidms.common.api.controller.StringBaseController;
+import com.smartlogi.smartlogidms.masterdata.recipient.service.RecipientService;
+import com.smartlogi.smartlogidms.masterdata.recipient.domain.Recipient;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/api/recipients")
+public class RecipientController extends StringBaseController<Recipient, RecipientRequestDTO, RecipientResponseDTO> {
+
+    private final RecipientService recipientService;
+    private final RecipientMapper recipientMapper;
+
+    public RecipientController(RecipientService recipientService, RecipientMapper recipientMapper) {
+        super(recipientService, recipientMapper);
+        this.recipientService = recipientService;
+        this.recipientMapper = recipientMapper;
+    }
+
+
+}
