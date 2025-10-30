@@ -1,4 +1,4 @@
-package com.smartlogi.smartlogidms.common.api;
+package com.smartlogi.smartlogidms.common.api.dto;
 
 import lombok.Getter;
 import lombok.Setter;
