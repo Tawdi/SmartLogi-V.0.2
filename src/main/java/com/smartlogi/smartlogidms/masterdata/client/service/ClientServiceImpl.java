@@ -1,6 +1,6 @@
 package com.smartlogi.smartlogidms.masterdata.client.service;
 
-import com.smartlogi.smartlogidms.common.service.implementation.BaseCrudServiceImpl;
+import com.smartlogi.smartlogidms.common.exception.ResourceNotFoundException;
 import com.smartlogi.smartlogidms.common.service.implementation.StringCrudServiceImpl;
 import com.smartlogi.smartlogidms.masterdata.client.api.ClientMapper;
 import com.smartlogi.smartlogidms.masterdata.client.api.ClientRequestDTO;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class ClientServiceImpl extends StringCrudServiceImpl<ClientExpediteur, ClientRequestDTO, ClientResponseDTO> implements ClientService {
@@ -21,23 +20,26 @@ public class ClientServiceImpl extends StringCrudServiceImpl<ClientExpediteur, C
     private final ClientExpediteurRepository repository;
     private final ClientMapper mapper;
 
-    public ClientServiceImpl(ClientExpediteurRepository clientExpediteurRepository , ClientMapper clientMapper) {
-        super(clientExpediteurRepository,clientMapper);
+    public ClientServiceImpl(ClientExpediteurRepository clientExpediteurRepository, ClientMapper clientMapper) {
+        super(clientExpediteurRepository, clientMapper);
         this.repository = clientExpediteurRepository;
         this.mapper = clientMapper;
     }
 
-    //TODO
+
     @Override
     @Transactional(readOnly = true)
-    public Optional<ClientResponseDTO> findByEmail(String email) {
-        return Optional.empty();
+    public ClientResponseDTO findByEmail(String email) {
+        ClientExpediteur entity = repository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("Resource not found with email: " + email));
+        return mapper.toDto(entity);
     }
 
-    //TODO
+
     @Override
     @Transactional(readOnly = true)
     public Page<ClientResponseDTO> searchClients(String keyword, Pageable pageable) {
-        return null;
+        return repository.searchClients(keyword, pageable)
+                .map(mapper::toDto);
     }
 }

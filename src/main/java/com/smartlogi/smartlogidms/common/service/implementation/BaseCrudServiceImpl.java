@@ -5,6 +5,8 @@ import com.smartlogi.smartlogidms.common.domain.repository.GenericRepository;
 import com.smartlogi.smartlogidms.common.exception.ResourceNotFoundException;
 import com.smartlogi.smartlogidms.common.mapper.BaseMapper;
 import com.smartlogi.smartlogidms.common.service.BaseCrudService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -23,23 +25,44 @@ public abstract class BaseCrudServiceImpl<T extends BaseEntity<ID>, RequestDTO, 
     @Override
     @Transactional
     public ResponseDTO save(RequestDTO requestDto) {
-        T entity = mapper.requestDtoToEntity(requestDto);
+        T entity = mapper.toEntity(requestDto);
         T savedEntity = repository.save(entity);
-        return mapper.entityToResponseDto(savedEntity);
+        return mapper.toDto(savedEntity);
+    }
+
+    @Override
+    @Transactional
+    public ResponseDTO update(ID id, RequestDTO requestDTO) {
+
+        T existingEntity = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Resource not found with id: " + id));
+
+        mapper.updateEntityFromDto(requestDTO, existingEntity);
+
+        T savedEntity = repository.save(existingEntity);
+        return mapper.toDto(savedEntity);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<ResponseDTO> findById(ID id) {
-
-        return repository.findById(id).map(mapper::entityToResponseDto);
+    public ResponseDTO findById(ID id) {
+        T entity = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Resource not found with id: " + id));
+        return mapper.toDto(entity);
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<ResponseDTO> findAll() {
-        List<T> entities =  repository.findAll();
+        List<T> entities = repository.findAll();
         return mapper.entitiesToResponseDtos(entities);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<ResponseDTO> findAll(Pageable pageable) {
+        Page<T> entityPage = repository.findAll(pageable);
+        return entityPage.map(mapper::toDto);
     }
 
     @Override
@@ -48,6 +71,7 @@ public abstract class BaseCrudServiceImpl<T extends BaseEntity<ID>, RequestDTO, 
         if (!repository.existsById(id)) {
             throw new ResourceNotFoundException("Resource not found with id: " + id);
         }
+        repository.deleteById(id);
     }
 
     @Override

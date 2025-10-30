@@ -1,17 +1,22 @@
 package com.smartlogi.smartlogidms.masterdata.client.api;
 
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.smartlogi.smartlogidms.common.api.controller.StringBaseController;
+import com.smartlogi.smartlogidms.masterdata.client.domain.ClientExpediteur;
+import com.smartlogi.smartlogidms.masterdata.client.service.ClientService;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/clients")
-public class ClientController {
+public class ClientController extends StringBaseController<ClientExpediteur, ClientRequestDTO, ClientResponseDTO> {
 
-    @GetMapping
-    public ResponseEntity<String> getAll(){
+    private final ClientService clientService;
+    private final ClientMapper clientMapper;
 
-        return ResponseEntity.ok("azerty azerty");
+    public ClientController(ClientService clientService, ClientMapper clientMapper) {
+        super(clientService, clientMapper);
+        this.clientService = clientService;
+        this.clientMapper = clientMapper;
     }
+
+
 }

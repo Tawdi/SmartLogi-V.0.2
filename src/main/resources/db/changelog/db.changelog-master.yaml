@@ -4,3 +4,9 @@ databaseChangeLog:
       file: db/changelog/2025/10/28-01-changelog.yaml
   - include:
       file: db/changelog/2025/10/28-02-changelog-recipient.yaml
+  - include:
+      file: db/changelog/2025/10/29-01-changelog-zone.yaml
+  - include:
+      file: db/changelog/2025/10/29-01-changelog-livreur.yaml
+  - include:
+      file: db/changelog/2025/10/30-01-changelog-drop-adresse.yaml

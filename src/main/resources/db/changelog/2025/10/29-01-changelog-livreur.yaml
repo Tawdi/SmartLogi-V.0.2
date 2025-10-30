@@ -1,0 +1,67 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1761734706430-2
+      author: human
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_livreur
+                  name: id
+                  type: CHAR(36)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: first_name
+                  type: VARCHAR(50)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: last_name
+                  type: VARCHAR(50)
+              - column:
+                  name: email
+                  type: VARCHAR(100)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: phone_number
+                  type: VARCHAR(20)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: role
+                  type: VARCHAR(20)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: created_at
+                  type: DATETIME
+              - column:
+                  constraints:
+                    nullable: false
+                  name: updated_at
+                  type: DATETIME
+              - column:
+                  name: vehicule
+                  type: VARCHAR(100)
+              - column:
+                  name: zone_assignee_id
+                  type: CHAR(36)
+            tableName: livreur
+  - changeSet:
+      id: 1761734706430-8
+      author: human
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: zone_assignee_id
+            baseTableName: livreur
+            constraintName: FK_LIVREUR_ON_ZONE_ASSIGNEE
+            referencedColumnNames: id
+            referencedTableName: zone
+

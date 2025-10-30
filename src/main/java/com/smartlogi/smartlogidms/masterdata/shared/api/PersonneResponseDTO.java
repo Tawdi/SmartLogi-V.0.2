@@ -1,6 +1,6 @@
 package com.smartlogi.smartlogidms.masterdata.shared.api;
 
-import com.smartlogi.smartlogidms.common.api.BaseResponseDTO;
+import com.smartlogi.smartlogidms.common.api.dto.BaseResponseDTO;
 import lombok.Getter;
 import lombok.Setter;
 
