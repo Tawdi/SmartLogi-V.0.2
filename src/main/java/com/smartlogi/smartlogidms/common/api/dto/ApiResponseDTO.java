@@ -11,15 +11,15 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ApiResponse<T> {
+public class ApiResponseDTO<T> {
     private String status;
     private String message;
     private T data;
     private LocalDateTime timestamp;
     private String path;
 
-    public static <T> ApiResponse<T> success(String message, T data) {
-        ApiResponse<T> response = new ApiResponse<>();
+    public static <T> ApiResponseDTO<T> success(String message, T data) {
+        ApiResponseDTO<T> response = new ApiResponseDTO<>();
         response.setStatus("SUCCESS");
         response.setMessage(message);
         response.setData(data);
@@ -27,8 +27,8 @@ public class ApiResponse<T> {
         return response;
     }
 
-    public static <T> ApiResponse<T> error(String message) {
-        ApiResponse<T> response = new ApiResponse<>();
+    public static <T> ApiResponseDTO<T> error(String message) {
+        ApiResponseDTO<T> response = new ApiResponseDTO<>();
         response.setStatus("ERROR");
         response.setMessage(message);
         response.setTimestamp(LocalDateTime.now());
