@@ -7,9 +7,11 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString(callSuper = true)
 public class PersonneRequestDTO implements BaseResquestDTO {
 
     @NotBlank(groups = ValidationGroups.Create.class, message = "Le nom est obligatoire")
