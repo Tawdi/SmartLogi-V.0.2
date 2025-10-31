@@ -17,6 +17,7 @@ public class ApiResponseDTO<T> {
     private T data;
     private LocalDateTime timestamp;
     private String path;
+    private Object errors;
 
     public static <T> ApiResponseDTO<T> success(String message, T data) {
         ApiResponseDTO<T> response = new ApiResponseDTO<>();
@@ -31,6 +32,15 @@ public class ApiResponseDTO<T> {
         ApiResponseDTO<T> response = new ApiResponseDTO<>();
         response.setStatus("ERROR");
         response.setMessage(message);
+        response.setTimestamp(LocalDateTime.now());
+        return response;
+    }
+
+    public static <T> ApiResponseDTO<T> error(String message, Object errors) {
+        ApiResponseDTO<T> response = new ApiResponseDTO<>();
+        response.setStatus("ERROR");
+        response.setMessage(message);
+        response.setErrors(errors);
         response.setTimestamp(LocalDateTime.now());
         return response;
     }
