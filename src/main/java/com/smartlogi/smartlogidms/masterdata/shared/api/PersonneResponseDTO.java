@@ -3,9 +3,11 @@ package com.smartlogi.smartlogidms.masterdata.shared.api;
 import com.smartlogi.smartlogidms.common.api.dto.BaseResponseDTO;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString(callSuper = true)
 public class PersonneResponseDTO<ID> extends BaseResponseDTO<ID> {
 
     protected String firstName;

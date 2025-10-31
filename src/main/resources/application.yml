@@ -17,4 +17,14 @@ spring:
     change-log: classpath:/db/changelog/db.changelog-master.yaml
     enabled: true
 
+logging:
+  level:
+    root: INFO
+    com.smartlogi.smartlogidms: DEBUG
 
+  pattern:
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: logs/myapp.log
+#    console: "%d{yyyy-MM-dd HH:mm:ss} %clr([%thread]){faint} %clr(%-5level){%style{INFO=blue,WARN=yellow,ERROR=red}} %clr(%logger{36}){cyan} - %msg%n"
+#    console: "%d{yyyy-MM-dd HH:mm:ss} %clr([%thread]){faint} %highlight(%-5level) %clr(%logger{36}){cyan} - %msg%n"

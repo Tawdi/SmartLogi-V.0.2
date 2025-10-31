@@ -6,9 +6,11 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Setter
 @Getter
+@ToString(callSuper = true)
 public class RecipientRequestDTO extends PersonneRequestDTO {
 
     @Size(max = 255, message = "La rue ne doit pas dépasser 255 caractères")

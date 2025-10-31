@@ -6,9 +6,11 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Setter
 @Getter
+@ToString(callSuper = true)
 public class ZoneRequestDTO implements BaseResquestDTO {
 
     @NotBlank(groups = ValidationGroups.Create.class,message = "Le nom de zone est obligatoire")
