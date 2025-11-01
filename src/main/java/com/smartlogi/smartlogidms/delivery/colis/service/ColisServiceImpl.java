@@ -13,8 +13,12 @@ import com.smartlogi.smartlogidms.masterdata.recipient.domain.Recipient;
 import com.smartlogi.smartlogidms.masterdata.recipient.domain.RecipientRepository;
 import com.smartlogi.smartlogidms.masterdata.zone.domain.Zone;
 import com.smartlogi.smartlogidms.masterdata.zone.domain.ZoneRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class ColisServiceImpl extends StringCrudServiceImpl<Colis, ColisRequestDTO, ColisResponseDTO> implements ColisService {
@@ -45,6 +49,32 @@ public class ColisServiceImpl extends StringCrudServiceImpl<Colis, ColisRequestD
         entity.setZone(loadZone(requestDto.getZoneId()));
         Colis savedEntity = repository.save(entity);
         return mapper.toDto(savedEntity);
+    }
+
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<ColisResponseDTO> findByExpediteurId(String expediteurId, Colis.ColisStatus status, Pageable pageable) {
+        Page<Colis> colisPage;
+
+        if (status == null) {
+            // All
+            colisPage = colisRepository.findByExpediteurId(expediteurId, null, pageable);
+        } else if (status == Colis.ColisStatus.DELIVERED) {
+            // Delivered
+            colisPage = colisRepository.findByExpediteurId(expediteurId, status, pageable);
+        } else {
+            // In progress (all except DELIVERED)
+            List<Colis.ColisStatus> inProgressStatuses = List.of(
+                    Colis.ColisStatus.CREATED,
+                    Colis.ColisStatus.COLLECTED,
+                    Colis.ColisStatus.IN_STOCK,
+                    Colis.ColisStatus.IN_TRANSIT
+            );
+            colisPage = colisRepository.findByExpediteurIdAndStatuts(expediteurId, inProgressStatuses, pageable);
+        }
+
+        return colisPage.map(colisMapper::toDto);
     }
 
 
