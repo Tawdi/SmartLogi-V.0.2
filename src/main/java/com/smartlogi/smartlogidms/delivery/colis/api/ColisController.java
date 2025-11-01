@@ -35,4 +35,16 @@ public class ColisController extends StringBaseController<Colis, ColisRequestDTO
         Page<ColisResponseDTO> parcels = colisService.findByExpediteurId(expediteurId, status, pageable);
         return ResponseEntity.ok(ApiResponseDTO.success("Parcels retrieved", parcels));
     }
+
+
+    @GetMapping("/destinataire/{destinataireId}")
+    @Operation(summary = "Get parcels for a destinataire", description = "Filter by status (optional)")
+    public ResponseEntity<ApiResponseDTO<Page<ColisResponseDTO>>> getParcelsByDestinataire(
+            @PathVariable String destinataireId,
+            @Parameter(description = "Status filter (null for all)") @RequestParam(required = false) Colis.ColisStatus status,
+            @Parameter(description = "Pagination") Pageable pageable) {
+
+        Page<ColisResponseDTO> parcels = colisService.findByDestinataireId(destinataireId, status, pageable);
+        return ResponseEntity.ok(ApiResponseDTO.success("Parcels for destinataire", parcels));
+    }
 }
