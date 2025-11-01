@@ -1,0 +1,156 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2025-11-01-create-colis-table
+      author: smartlogi-dev
+      comment: "Create colis table with String ID, embedded address, and proper FK constraints"
+      changes:
+        - createTable:
+            tableName: colis
+            columns:
+              # --- Inherited from StringBaseEntity ---
+              - column:
+                  name: id
+                  type: varchar(50)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+
+              # --- Colis Business Fields ---
+              - column:
+                  name: reference
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: poids
+                  type: double precision
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(255)
+              - column:
+                  name: statut
+                  type: varchar(20)
+                  defaultValue: 'CREATED'
+                  constraints:
+                    nullable: false
+              - column:
+                  name: priorite
+                  type: varchar(20)
+                  defaultValue: 'MEDIUM'
+                  constraints:
+                    nullable: false
+
+              # --- Foreign Keys (String IDs) ---
+              - column:
+                  name: expediteur_id
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: destinataire_id
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: livreur_id
+                  type: varchar(50)
+              - column:
+                  name: zone_id
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+
+              # --- Embedded AdresseLivraison (flattened) ---
+              - column:
+                  name: ville
+                  type: varchar(100)
+              - column:
+                  name: rue
+                  type: varchar(255)
+              - column:
+                  name: code_postal
+                  type: varchar(20)
+
+        # --- Foreign Key Constraints ---
+        - addForeignKeyConstraint:
+            baseTableName: colis
+            baseColumnNames: expediteur_id
+            referencedTableName: senders
+            referencedColumnNames: id
+            constraintName: fk_colis_expediteur
+            onDelete: RESTRICT
+            onUpdate: RESTRICT
+
+        - addForeignKeyConstraint:
+            baseTableName: colis
+            baseColumnNames: destinataire_id
+            referencedTableName: recipient
+            referencedColumnNames: id
+            constraintName: fk_colis_destinataire
+            onDelete: RESTRICT
+            onUpdate: RESTRICT
+
+        - addForeignKeyConstraint:
+            baseTableName: colis
+            baseColumnNames: livreur_id
+            referencedTableName: livreur
+            referencedColumnNames: id
+            constraintName: fk_colis_livreur
+            onDelete: SET NULL
+            onUpdate: RESTRICT
+
+        - addForeignKeyConstraint:
+            baseTableName: colis
+            baseColumnNames: zone_id
+            referencedTableName: zone
+            referencedColumnNames: id
+            constraintName: fk_colis_zone
+            onDelete: RESTRICT
+            onUpdate: RESTRICT
+
+        # --- Indexes for Performance ---
+        - createIndex:
+            tableName: colis
+            indexName: idx_colis_reference
+            unique: true
+            columns:
+              - column: { name: reference }
+
+        - createIndex:
+            tableName: colis
+            indexName: idx_colis_statut
+            columns:
+              - column: { name: statut }
+
+        - createIndex:
+            tableName: colis
+            indexName: idx_colis_priorite
+            columns:
+              - column: { name: priorite }
+
+        - createIndex:
+            tableName: colis
+            indexName: idx_colis_zone_id
+            columns:
+              - column: { name: zone_id }
+
+        - createIndex:
+            tableName: colis
+            indexName: idx_colis_expediteur_id
+            columns:
+              - column: { name: expediteur_id }

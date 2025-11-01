@@ -7,4 +7,16 @@ import org.mapstruct.*;
 
 @Mapper
 public interface ZoneMapper extends BaseMapper<Zone, ZoneRequestDTO, ZoneResponseDTO> {
+
+    @Override
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    Zone toEntity(ZoneRequestDTO dto);
+
+    @Override
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    void updateEntityFromDto(ZoneRequestDTO dto, @MappingTarget Zone entity);
 }
