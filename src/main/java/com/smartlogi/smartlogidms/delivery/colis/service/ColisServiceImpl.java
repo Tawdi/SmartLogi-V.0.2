@@ -30,13 +30,13 @@ public class ColisServiceImpl extends StringCrudServiceImpl<Colis, ColisRequestD
     private final RecipientRepository destinataireRepo;
     private final ZoneRepository zoneRepo;
 
-    public ColisServiceImpl(ColisRepository colisRepository, ColisMapper colisMapper ,RecipientRepository destinataireRepo,ClientExpediteurRepository expediteurRepo,ZoneRepository zoneRepo) {
+    public ColisServiceImpl(ColisRepository colisRepository, ColisMapper colisMapper, RecipientRepository destinataireRepo, ClientExpediteurRepository expediteurRepo, ZoneRepository zoneRepo) {
         super(colisRepository, colisMapper);
         this.colisRepository = colisRepository;
         this.colisMapper = colisMapper;
-        this.expediteurRepo= expediteurRepo;
-        this.destinataireRepo= destinataireRepo;
-        this.zoneRepo= zoneRepo;
+        this.expediteurRepo = expediteurRepo;
+        this.destinataireRepo = destinataireRepo;
+        this.zoneRepo = zoneRepo;
 
     }
 
@@ -73,6 +73,16 @@ public class ColisServiceImpl extends StringCrudServiceImpl<Colis, ColisRequestD
             );
             colisPage = colisRepository.findByExpediteurIdAndStatuts(expediteurId, inProgressStatuses, pageable);
         }
+
+        return colisPage.map(colisMapper::toDto);
+    }
+
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<ColisResponseDTO> findByDestinataireId(String destinataireId, Colis.ColisStatus status, Pageable pageable) {
+
+        Page<Colis> colisPage = colisRepository.findByDestinataireId(destinataireId, status, pageable);
 
         return colisPage.map(colisMapper::toDto);
     }
