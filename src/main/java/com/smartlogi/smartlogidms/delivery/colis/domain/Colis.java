@@ -1,5 +1,6 @@
 package com.smartlogi.smartlogidms.delivery.colis.domain;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.smartlogi.smartlogidms.common.domain.StringBaseEntity;
 import com.smartlogi.smartlogidms.masterdata.client.domain.ClientExpediteur;
 import com.smartlogi.smartlogidms.masterdata.driver.domain.Driver;
@@ -59,7 +60,14 @@ public class Colis extends StringBaseEntity {
         COLLECTED,
         IN_STOCK,
         IN_TRANSIT,
-        DELIVERED
+        DELIVERED;
+
+        @JsonCreator
+        public static ColisStatus fromString(String key) {
+            return key == null
+                    ? null
+                    : ColisStatus.valueOf(key.toUpperCase());
+        }
     }
 
     public enum Priorite {

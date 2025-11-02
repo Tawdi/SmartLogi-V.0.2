@@ -109,6 +109,36 @@ public class ColisServiceImpl extends StringCrudServiceImpl<Colis, ColisRequestD
         return mapper.toDto(savedEntity);
     }
 
+
+    @Override
+    @Transactional
+    public ColisResponseDTO updateStatus(String id, Colis.ColisStatus newStatus){
+        Colis colis = colisRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Colis not found: " + id));
+
+        Colis.ColisStatus current = colis.getStatut();
+
+        boolean isValidTransition = switch (current) {
+            case CREATED     -> newStatus == Colis.ColisStatus.COLLECTED;
+            case COLLECTED   -> newStatus == Colis.ColisStatus.IN_STOCK;
+            case IN_STOCK    -> newStatus == Colis.ColisStatus.IN_TRANSIT;
+            case IN_TRANSIT  -> newStatus == Colis.ColisStatus.DELIVERED;
+            case DELIVERED   -> false; // No further changes
+            default          -> false;
+        };
+
+        if (!isValidTransition) {
+            throw new IllegalStateException(
+                    "Invalid status transition: " + current + " → " + newStatus +
+                            ". Allowed: " + getAllowedTransitions(current)
+            );
+        }
+
+        colis.setStatut(newStatus);
+        Colis saved = colisRepository.save(colis);
+        return colisMapper.toDto(saved);
+    }
+
     private ClientExpediteur loadExpediteur(String id) {
         return expediteurRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Expediteur not found: " + id));
@@ -122,5 +152,15 @@ public class ColisServiceImpl extends StringCrudServiceImpl<Colis, ColisRequestD
     private Zone loadZone(String id) {
         return zoneRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Zone not found: " + id));
+    }
+    private String getAllowedTransitions(Colis.ColisStatus current) {
+        return switch (current) {
+            case CREATED     -> "COLLECTED";
+            case COLLECTED   -> "IN_STOCK";
+            case IN_STOCK    -> "IN_TRANSIT";
+            case IN_TRANSIT  -> "DELIVERED";
+            case DELIVERED   -> "none (final state)";
+            default          -> "unknown";
+        };
     }
 }

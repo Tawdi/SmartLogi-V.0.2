@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -113,7 +114,28 @@ public class GlobalExceptionHandler {
     }
 
     /* --------------------------------------------------------------------- *
-     *  5. Catch-all for any other exception (500)
+     *  5. JSON Errors
+     * --------------------------------------------------------------------- */
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ApiResponseDTO<Void>> handleJsonError(HttpMessageNotReadableException ex) {
+        return ResponseEntity.badRequest()
+                .body(ApiResponseDTO.error("Invalid JSON: " + ex.getMessage()));
+    }
+
+    /* --------------------------------------------------------------------- *
+     *  6. Status-transition violation (your business rule)
+     * --------------------------------------------------------------------- */
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<ApiResponseDTO<Void>> handleIllegalState(IllegalStateException ex, HttpServletRequest request) {
+        logger.warn("Business rule violation: {}", ex.getMessage());
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(ApiResponseDTO.error(ex.getMessage()));
+    }
+
+    /* --------------------------------------------------------------------- *
+     *  ?. Catch-all for any other exception (500)
      * --------------------------------------------------------------------- */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponseDTO<String>> handleGenericException(

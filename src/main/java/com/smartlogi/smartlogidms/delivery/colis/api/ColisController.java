@@ -6,6 +6,7 @@ import com.smartlogi.smartlogidms.delivery.colis.domain.Colis;
 import com.smartlogi.smartlogidms.delivery.colis.service.ColisService;
 import io.swagger.v3.oas.annotations.*;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -46,5 +47,15 @@ public class ColisController extends StringBaseController<Colis, ColisRequestDTO
 
         Page<ColisResponseDTO> parcels = colisService.findByDestinataireId(destinataireId, status, pageable);
         return ResponseEntity.ok(ApiResponseDTO.success("Parcels for destinataire", parcels));
+    }
+
+    @PutMapping("/{id}/status")
+    @Operation(summary = "Update parcel status (livreur only)")
+    public ResponseEntity<ApiResponseDTO<ColisResponseDTO>> updateStatus(
+            @PathVariable String id,
+            @RequestBody @Valid UpdateStatusRequest request) {
+
+        ColisResponseDTO updated = colisService.updateStatus(id, request.getStatus());
+        return ResponseEntity.ok(ApiResponseDTO.success("Status updated to " + request.getStatus(), updated));
     }
 }
