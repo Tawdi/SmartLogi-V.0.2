@@ -5,8 +5,13 @@ import com.smartlogi.smartlogidms.common.service.implementation.StringCrudServic
 import com.smartlogi.smartlogidms.delivery.colis.api.ColisMapper;
 import com.smartlogi.smartlogidms.delivery.colis.api.ColisRequestDTO;
 import com.smartlogi.smartlogidms.delivery.colis.api.ColisResponseDTO;
+import com.smartlogi.smartlogidms.delivery.colis.api.UpdateStatusRequest;
 import com.smartlogi.smartlogidms.delivery.colis.domain.Colis;
 import com.smartlogi.smartlogidms.delivery.colis.domain.ColisRepository;
+import com.smartlogi.smartlogidms.delivery.historique.api.HistoriqueLivraisonMapper;
+import com.smartlogi.smartlogidms.delivery.historique.api.HistoriqueLivraisonResponseDTO;
+import com.smartlogi.smartlogidms.delivery.historique.domain.HistoriqueLivraison;
+import com.smartlogi.smartlogidms.delivery.historique.domain.HistoriqueLivraisonRepository;
 import com.smartlogi.smartlogidms.masterdata.client.domain.ClientExpediteur;
 import com.smartlogi.smartlogidms.masterdata.client.domain.ClientExpediteurRepository;
 import com.smartlogi.smartlogidms.masterdata.recipient.domain.Recipient;
@@ -30,13 +35,21 @@ public class ColisServiceImpl extends StringCrudServiceImpl<Colis, ColisRequestD
     private final RecipientRepository destinataireRepo;
     private final ZoneRepository zoneRepo;
 
-    public ColisServiceImpl(ColisRepository colisRepository, ColisMapper colisMapper, RecipientRepository destinataireRepo, ClientExpediteurRepository expediteurRepo, ZoneRepository zoneRepo) {
+    private final HistoriqueLivraisonRepository historyRepo;
+    private final HistoriqueLivraisonMapper historyMapper;
+
+    public ColisServiceImpl(ColisRepository colisRepository, ColisMapper colisMapper,
+                            RecipientRepository destinataireRepo,
+                            ClientExpediteurRepository expediteurRepo, ZoneRepository zoneRepo,
+                            HistoriqueLivraisonRepository historyRepo, HistoriqueLivraisonMapper historyMapper) {
         super(colisRepository, colisMapper);
         this.colisRepository = colisRepository;
         this.colisMapper = colisMapper;
         this.expediteurRepo = expediteurRepo;
         this.destinataireRepo = destinataireRepo;
         this.zoneRepo = zoneRepo;
+        this.historyRepo = historyRepo;
+        this.historyMapper = historyMapper;
 
     }
 
@@ -112,19 +125,22 @@ public class ColisServiceImpl extends StringCrudServiceImpl<Colis, ColisRequestD
 
     @Override
     @Transactional
-    public ColisResponseDTO updateStatus(String id, Colis.ColisStatus newStatus){
+    public ColisResponseDTO updateStatus(String id, UpdateStatusRequest requestDTO) {
         Colis colis = colisRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Colis not found: " + id));
 
+        Colis.ColisStatus newStatus = requestDTO.getStatut();
+
         Colis.ColisStatus current = colis.getStatut();
 
+
         boolean isValidTransition = switch (current) {
-            case CREATED     -> newStatus == Colis.ColisStatus.COLLECTED;
-            case COLLECTED   -> newStatus == Colis.ColisStatus.IN_STOCK;
-            case IN_STOCK    -> newStatus == Colis.ColisStatus.IN_TRANSIT;
-            case IN_TRANSIT  -> newStatus == Colis.ColisStatus.DELIVERED;
-            case DELIVERED   -> false; // No further changes
-            default          -> false;
+            case CREATED -> newStatus == Colis.ColisStatus.COLLECTED;
+            case COLLECTED -> newStatus == Colis.ColisStatus.IN_STOCK;
+            case IN_STOCK -> newStatus == Colis.ColisStatus.IN_TRANSIT;
+            case IN_TRANSIT -> newStatus == Colis.ColisStatus.DELIVERED;
+            case DELIVERED -> false; // No further changes
+            default -> false;
         };
 
         if (!isValidTransition) {
@@ -136,7 +152,21 @@ public class ColisServiceImpl extends StringCrudServiceImpl<Colis, ColisRequestD
 
         colis.setStatut(newStatus);
         Colis saved = colisRepository.save(colis);
+
+        // track
+        HistoriqueLivraison history = new HistoriqueLivraison(saved, current, newStatus,
+                requestDTO.getUtilisateurId(),
+                requestDTO.getCommentaire().isEmpty() ? " Status Updated ": requestDTO.getCommentaire() ); // will work with
+        historyRepo.save(history);
+
         return colisMapper.toDto(saved);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<HistoriqueLivraisonResponseDTO> getHistory(String colisId, Pageable pageable) {
+        return historyRepo.findByColisId(colisId, pageable)
+                .map(historyMapper::toDto);
     }
 
     private ClientExpediteur loadExpediteur(String id) {
@@ -153,14 +183,15 @@ public class ColisServiceImpl extends StringCrudServiceImpl<Colis, ColisRequestD
         return zoneRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Zone not found: " + id));
     }
+
     private String getAllowedTransitions(Colis.ColisStatus current) {
         return switch (current) {
-            case CREATED     -> "COLLECTED";
-            case COLLECTED   -> "IN_STOCK";
-            case IN_STOCK    -> "IN_TRANSIT";
-            case IN_TRANSIT  -> "DELIVERED";
-            case DELIVERED   -> "none (final state)";
-            default          -> "unknown";
+            case CREATED -> "COLLECTED";
+            case COLLECTED -> "IN_STOCK";
+            case IN_STOCK -> "IN_TRANSIT";
+            case IN_TRANSIT -> "DELIVERED";
+            case DELIVERED -> "none (final state)";
+            default -> "unknown";
         };
     }
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -56,7 +57,7 @@ public class GlobalExceptionHandler {
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach(error -> {
             String field = ((FieldError) error).getField();
-            String msg   = error.getDefaultMessage();
+            String msg = error.getDefaultMessage();
             errors.put(field, msg);
         });
 
@@ -132,6 +133,27 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(ApiResponseDTO.error(ex.getMessage()));
+    }
+
+    /* --------------------------------------------------------------------- *
+     *  7. Spring MVC: No static resource / wrong URL (e.g. /historyn)
+     * --------------------------------------------------------------------- */
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseEntity<ApiResponseDTO<String>> handleNoResourceFound(
+            NoResourceFoundException ex,
+            HttpServletRequest request) {
+
+        logger.warn("No resource found for request: {} {}", request.getMethod(), request.getRequestURI());
+
+        String message = String.format(
+                "The requested endpoint '%s' does not exist. Check the URL and HTTP method.",
+                request.getRequestURI()
+        );
+
+        ApiResponseDTO<String> response = ApiResponseDTO.error(message);
+        response.setPath(request.getRequestURI());
+
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
     /* --------------------------------------------------------------------- *

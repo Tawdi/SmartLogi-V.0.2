@@ -1,0 +1,68 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1762092557207-2
+      author: human
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_historique_livraison
+                  name: id
+                  type: CHAR(36)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: created_at
+                  type: DATETIME
+              - column:
+                  constraints:
+                    nullable: false
+                  name: updated_at
+                  type: DATETIME
+              - column:
+                  constraints:
+                    nullable: false
+                  name: colis_id
+                  type: CHAR(36)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: ancien_statut
+                  type: VARCHAR(20)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: nouveau_statut
+                  type: VARCHAR(20)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: date_changement
+                  type: DATETIME
+              - column:
+                  constraints:
+                    nullable: false
+                  name: utilisateur_id
+                  type: VARCHAR(50)
+              - column:
+                  name: commentaire
+                  type: VARCHAR(500)
+            tableName: historique_livraison
+  - changeSet:
+      id: 1762092557207-12
+      author: human
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: colis_id
+            baseTableName: historique_livraison
+            constraintName: FK_HISTORIQUE_LIVRAISON_ON_COLIS
+            referencedColumnNames: id
+            referencedTableName: colis
+            onDelete: CASCADE
+            onUpdate: RESTRICT
+
