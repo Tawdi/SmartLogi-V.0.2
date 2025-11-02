@@ -109,6 +109,27 @@ public class ColisServiceImpl extends StringCrudServiceImpl<Colis, ColisRequestD
         return mapper.toDto(savedEntity);
     }
 
+
+    @Override
+    @Transactional
+    public ColisResponseDTO updateStatus(String id, Colis.ColisStatus newStatus){
+        Colis colis = colisRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Colis not found: " + id));
+
+        Colis.ColisStatus current = colis.getStatut();
+
+        if (newStatus == Colis.ColisStatus.COLLECTED && current != Colis.ColisStatus.CREATED) {
+            throw new IllegalStateException("Can only set to COLLECTED from CREATED");
+        }
+        if (newStatus == Colis.ColisStatus.DELIVERED && current != Colis.ColisStatus.IN_TRANSIT) {
+            throw new IllegalStateException("Can only set to DELIVERED from IN_TRANSIT");
+        }
+
+        colis.setStatut(newStatus);
+        Colis saved = colisRepository.save(colis);
+        return colisMapper.toDto(saved);
+    }
+
     private ClientExpediteur loadExpediteur(String id) {
         return expediteurRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Expediteur not found: " + id));

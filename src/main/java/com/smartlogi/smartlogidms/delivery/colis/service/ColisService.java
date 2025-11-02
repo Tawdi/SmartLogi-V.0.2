@@ -10,4 +10,5 @@ import org.springframework.data.domain.Pageable;
 public interface ColisService extends StringCrudService<ColisRequestDTO, ColisResponseDTO> {
     Page<ColisResponseDTO> findByExpediteurId(String expediteurId, Colis.ColisStatus status, Pageable pageable);
     Page<ColisResponseDTO> findByDestinataireId(String destinataireId, Colis.ColisStatus status, Pageable pageable);
+    ColisResponseDTO updateStatus(String id, Colis.ColisStatus newStatus);
 }
