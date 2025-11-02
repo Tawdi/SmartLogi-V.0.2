@@ -118,11 +118,20 @@ public class ColisServiceImpl extends StringCrudServiceImpl<Colis, ColisRequestD
 
         Colis.ColisStatus current = colis.getStatut();
 
-        if (newStatus == Colis.ColisStatus.COLLECTED && current != Colis.ColisStatus.CREATED) {
-            throw new IllegalStateException("Can only set to COLLECTED from CREATED");
-        }
-        if (newStatus == Colis.ColisStatus.DELIVERED && current != Colis.ColisStatus.IN_TRANSIT) {
-            throw new IllegalStateException("Can only set to DELIVERED from IN_TRANSIT");
+        boolean isValidTransition = switch (current) {
+            case CREATED     -> newStatus == Colis.ColisStatus.COLLECTED;
+            case COLLECTED   -> newStatus == Colis.ColisStatus.IN_STOCK;
+            case IN_STOCK    -> newStatus == Colis.ColisStatus.IN_TRANSIT;
+            case IN_TRANSIT  -> newStatus == Colis.ColisStatus.DELIVERED;
+            case DELIVERED   -> false; // No further changes
+            default          -> false;
+        };
+
+        if (!isValidTransition) {
+            throw new IllegalStateException(
+                    "Invalid status transition: " + current + " → " + newStatus +
+                            ". Allowed: " + getAllowedTransitions(current)
+            );
         }
 
         colis.setStatut(newStatus);
@@ -143,5 +152,15 @@ public class ColisServiceImpl extends StringCrudServiceImpl<Colis, ColisRequestD
     private Zone loadZone(String id) {
         return zoneRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Zone not found: " + id));
+    }
+    private String getAllowedTransitions(Colis.ColisStatus current) {
+        return switch (current) {
+            case CREATED     -> "COLLECTED";
+            case COLLECTED   -> "IN_STOCK";
+            case IN_STOCK    -> "IN_TRANSIT";
+            case IN_TRANSIT  -> "DELIVERED";
+            case DELIVERED   -> "none (final state)";
+            default          -> "unknown";
+        };
     }
 }
