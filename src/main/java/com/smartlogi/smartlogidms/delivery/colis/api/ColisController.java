@@ -4,6 +4,7 @@ import com.smartlogi.smartlogidms.common.api.controller.StringBaseController;
 import com.smartlogi.smartlogidms.common.api.dto.ApiResponseDTO;
 import com.smartlogi.smartlogidms.delivery.colis.domain.Colis;
 import com.smartlogi.smartlogidms.delivery.colis.service.ColisService;
+import com.smartlogi.smartlogidms.delivery.historique.api.HistoriqueLivraisonResponseDTO;
 import io.swagger.v3.oas.annotations.*;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -55,7 +56,17 @@ public class ColisController extends StringBaseController<Colis, ColisRequestDTO
             @PathVariable String id,
             @RequestBody @Valid UpdateStatusRequest request) {
 
-        ColisResponseDTO updated = colisService.updateStatus(id, request.getStatus());
-        return ResponseEntity.ok(ApiResponseDTO.success("Status updated to " + request.getStatus(), updated));
+        ColisResponseDTO updated = colisService.updateStatus(id, request);
+        return ResponseEntity.ok(ApiResponseDTO.success("Status updated to " + request.getStatut(), updated));
+    }
+
+    @GetMapping("/{id}/history")
+    @Operation(summary = "Get history for a parcel")
+    public ResponseEntity<ApiResponseDTO<Page<HistoriqueLivraisonResponseDTO>>> getHistory(
+            @PathVariable String id,
+            Pageable pageable) {
+
+        Page<HistoriqueLivraisonResponseDTO> history = colisService.getHistory(id, pageable);
+        return ResponseEntity.ok(ApiResponseDTO.success("Parcel history", history));
     }
 }
