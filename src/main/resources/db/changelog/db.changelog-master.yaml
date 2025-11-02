@@ -12,3 +12,5 @@ databaseChangeLog:
       file: db/changelog/2025/10/30-01-changelog-drop-adresse.yaml
   - include:
       file: db/changelog/2025/11/01-01-changelog-colis.yaml
+  - include:
+      file: db/changelog/2025/11/02-01-changelog-historique-livraison.yaml
