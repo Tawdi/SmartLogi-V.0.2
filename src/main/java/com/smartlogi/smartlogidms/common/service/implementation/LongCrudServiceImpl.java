@@ -1,6 +1,6 @@
 package com.smartlogi.smartlogidms.common.service.implementation;
 
-import com.smartlogi.smartlogidms.common.domain.LongBaseEntity;
+import com.smartlogi.smartlogidms.common.domain.entity.Id.LongBaseEntity;
 import com.smartlogi.smartlogidms.common.domain.repository.LongRepository;
 import com.smartlogi.smartlogidms.common.mapper.BaseMapper;
 import com.smartlogi.smartlogidms.common.service.LongCrudService;

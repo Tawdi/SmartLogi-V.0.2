@@ -32,3 +32,8 @@ ignore/
 logs/
 ### VS Code ###
 .vscode/
+
+
+
+#log
+*.log

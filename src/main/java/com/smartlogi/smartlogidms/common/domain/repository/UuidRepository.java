@@ -1,6 +1,6 @@
 package com.smartlogi.smartlogidms.common.domain.repository;
 
-import com.smartlogi.smartlogidms.common.domain.UuidBaseEntity;
+import com.smartlogi.smartlogidms.common.domain.entity.Id.UuidBaseEntity;
 import org.springframework.data.repository.NoRepositoryBean;
 
 import java.util.UUID;

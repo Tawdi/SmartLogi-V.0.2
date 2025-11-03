@@ -1,8 +1,6 @@
 package com.smartlogi.smartlogidms.masterdata.shared.domain;
 
-import com.smartlogi.smartlogidms.common.domain.BaseEntity;
-import com.smartlogi.smartlogidms.common.domain.StringBaseEntity;
-import com.smartlogi.smartlogidms.common.domain.UuidBaseEntity;
+import com.smartlogi.smartlogidms.common.domain.entity.Id.StringBaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

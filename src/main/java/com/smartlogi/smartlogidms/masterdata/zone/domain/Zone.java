@@ -1,6 +1,6 @@
 package com.smartlogi.smartlogidms.masterdata.zone.domain;
 
-import com.smartlogi.smartlogidms.common.domain.StringBaseEntity;
+import com.smartlogi.smartlogidms.common.domain.entity.Id.StringBaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import lombok.Getter;
