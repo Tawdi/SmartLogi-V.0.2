@@ -1,17 +1,14 @@
-package com.smartlogi.smartlogidms.common.domain;
+package com.smartlogi.smartlogidms.common.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
+//import org.hibernate.annotations.SQLRestriction;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
-import java.util.UUID;
 
 /*
  * A base entity class that provides common fields:
@@ -24,8 +21,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @MappedSuperclass
-//@EntityListeners(AuditingEntityListener.class)
-public sealed abstract class BaseEntity<ID> permits UuidBaseEntity , StringBaseEntity , LongBaseEntity  {
+public sealed abstract class BaseEntity<ID> permits HardDeletableEntity, SoftDeletableEntity {
 
 
     @CreatedDate

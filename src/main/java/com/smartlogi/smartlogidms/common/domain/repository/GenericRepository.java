@@ -1,6 +1,6 @@
 package com.smartlogi.smartlogidms.common.domain.repository;
 
-import com.smartlogi.smartlogidms.common.domain.BaseEntity;
+import com.smartlogi.smartlogidms.common.domain.entity.BaseEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 

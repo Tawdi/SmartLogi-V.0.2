@@ -1,5 +1,7 @@
-package com.smartlogi.smartlogidms.common.domain;
+package com.smartlogi.smartlogidms.common.domain.entity.Id;
 
+import com.smartlogi.smartlogidms.common.domain.entity.BaseEntity;
+import com.smartlogi.smartlogidms.common.domain.entity.SoftDeletableEntity;
 import jakarta.persistence.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
@@ -9,7 +11,7 @@ import java.util.UUID;
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public non-sealed class UuidBaseEntity extends BaseEntity<UUID> {
+public class UuidBaseEntity extends SoftDeletableEntity<UUID> {
 
     @Id
     @GeneratedValue
