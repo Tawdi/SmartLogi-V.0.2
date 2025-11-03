@@ -1,7 +1,7 @@
 package com.smartlogi.smartlogidms.delivery.colis.domain;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.smartlogi.smartlogidms.common.domain.StringBaseEntity;
+import com.smartlogi.smartlogidms.common.domain.entity.Id.StringBaseEntity;
 import com.smartlogi.smartlogidms.masterdata.client.domain.ClientExpediteur;
 import com.smartlogi.smartlogidms.masterdata.driver.domain.Driver;
 import com.smartlogi.smartlogidms.masterdata.recipient.domain.Recipient;
@@ -36,19 +36,19 @@ public class Colis extends StringBaseEntity {
     @Column(nullable = false)
     private Priorite priorite = Priorite.MEDIUM;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "expediteur_id", nullable = false)
     private ClientExpediteur expediteur;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "destinataire_id", nullable = false)
     private Recipient destinataire;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "livreur_id")
     private Driver livreur;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "zone_id", nullable = false)
     private Zone zone;
 

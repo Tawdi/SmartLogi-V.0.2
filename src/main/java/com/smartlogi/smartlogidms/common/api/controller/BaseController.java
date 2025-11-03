@@ -1,6 +1,6 @@
 package com.smartlogi.smartlogidms.common.api.controller;
 import com.smartlogi.smartlogidms.common.api.dto.ApiResponseDTO;
-import com.smartlogi.smartlogidms.common.domain.BaseEntity;
+import com.smartlogi.smartlogidms.common.domain.entity.BaseEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;

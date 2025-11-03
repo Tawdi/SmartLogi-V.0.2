@@ -1,6 +1,6 @@
 package com.smartlogi.smartlogidms.common.service.implementation;
 
-import com.smartlogi.smartlogidms.common.domain.BaseEntity;
+import com.smartlogi.smartlogidms.common.domain.entity.BaseEntity;
 import com.smartlogi.smartlogidms.common.domain.repository.GenericRepository;
 import com.smartlogi.smartlogidms.common.exception.ResourceNotFoundException;
 import com.smartlogi.smartlogidms.common.mapper.BaseMapper;
@@ -10,7 +10,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 public abstract class BaseCrudServiceImpl<T extends BaseEntity<ID>, RequestDTO, ResponseDTO, ID> implements BaseCrudService<RequestDTO, ResponseDTO, ID> {
 

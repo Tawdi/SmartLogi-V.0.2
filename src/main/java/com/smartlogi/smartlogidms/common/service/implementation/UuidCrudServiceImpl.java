@@ -1,7 +1,7 @@
 package com.smartlogi.smartlogidms.common.service.implementation;
 
 
-import com.smartlogi.smartlogidms.common.domain.UuidBaseEntity;
+import com.smartlogi.smartlogidms.common.domain.entity.Id.UuidBaseEntity;
 import com.smartlogi.smartlogidms.common.domain.repository.UuidRepository;
 import com.smartlogi.smartlogidms.common.mapper.BaseMapper;
 import com.smartlogi.smartlogidms.common.service.UuidCrudService;

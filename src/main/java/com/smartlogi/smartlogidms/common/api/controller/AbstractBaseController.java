@@ -2,13 +2,12 @@ package com.smartlogi.smartlogidms.common.api.controller;
 
 import com.smartlogi.smartlogidms.common.api.dto.ApiResponseDTO;
 import com.smartlogi.smartlogidms.common.api.dto.ValidationGroups;
-import com.smartlogi.smartlogidms.common.domain.BaseEntity;
+import com.smartlogi.smartlogidms.common.domain.entity.BaseEntity;
 import com.smartlogi.smartlogidms.common.service.BaseCrudService;
 import com.smartlogi.smartlogidms.common.mapper.BaseMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

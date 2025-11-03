@@ -1,11 +1,13 @@
-package com.smartlogi.smartlogidms.common.domain;
+package com.smartlogi.smartlogidms.common.domain.entity.Id;
 
+import com.smartlogi.smartlogidms.common.domain.entity.BaseEntity;
+import com.smartlogi.smartlogidms.common.domain.entity.HardDeletableEntity;
 import jakarta.persistence.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public non-sealed class LongBaseEntity extends BaseEntity<Long> {
+public class LongBaseEntity extends HardDeletableEntity<Long> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

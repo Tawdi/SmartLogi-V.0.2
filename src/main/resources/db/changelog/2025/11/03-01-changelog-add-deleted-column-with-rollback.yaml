@@ -1,0 +1,87 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2025-11-03-1762092557207
+      author: human
+      comment: Add 'deleted' boolean column to all soft-deletable tables
+      changes:
+
+        - addColumn:
+            tableName: colis
+            columns:
+              - column:
+                  name: deleted
+                  type: boolean
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false
+                  remarks: Soft-delete flag (true = deleted)
+        - addColumn:
+            tableName: senders
+            columns:
+              - column:
+                  name: deleted
+                  type: boolean
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false
+                  remarks: Soft-delete flag
+        - addColumn:
+            tableName: recipient
+            columns:
+              - column:
+                  name: deleted
+                  type: boolean
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false
+                  remarks: Soft-delete flag
+        - addColumn:
+            tableName: historique_livraison
+            columns:
+              - column:
+                  name: deleted
+                  type: boolean
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false
+                  remarks: Soft-delete flag
+        - addColumn:
+            tableName: zone
+            columns:
+              - column:
+                  name: deleted
+                  type: boolean
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false
+                  remarks: Soft-delete flag
+        - addColumn:
+            tableName: livreur
+            columns:
+              - column:
+                  name: deleted
+                  type: boolean
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false
+                  remarks: Soft-delete flag
+
+      rollback:
+        - dropColumn:
+            tableName: colis
+            columnName: deleted
+        - dropColumn:
+            tableName: senders
+            columnName: deleted
+        - dropColumn:
+            tableName: recipient
+            columnName: deleted
+        - dropColumn:
+            tableName: historique_livraison
+            columnName: deleted
+        - dropColumn:
+            tableName: zone
+            columnName: deleted
+        - dropColumn:
+            tableName: livreur
+            columnName: deleted
