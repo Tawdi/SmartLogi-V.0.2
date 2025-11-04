@@ -16,6 +16,8 @@ public interface ColisService extends StringCrudService<ColisRequestDTO, ColisRe
 
     Page<ColisResponseDTO> findByDestinataireId(String destinataireId, Colis.ColisStatus status, Pageable pageable);
 
+    Page<ColisResponseDTO> findByLivreurId(String livreurId, Colis.ColisStatus status, Pageable pageable);
+
     ColisResponseDTO updateStatus(String id, UpdateStatusRequest newStatus);
 
     // history

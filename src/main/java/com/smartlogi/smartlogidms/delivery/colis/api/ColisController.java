@@ -38,6 +38,17 @@ public class ColisController extends StringBaseController<Colis, ColisRequestDTO
         return ResponseEntity.ok(ApiResponseDTO.success("Parcels retrieved", parcels));
     }
 
+    @GetMapping("/driver/{livreurId}")
+    @Operation(summary = "Get parcels for a driver (livreur)", description = "Filter by status (optional); null = all, DELIVERED = delivered, other = in progress")
+    public ResponseEntity<ApiResponseDTO<Page<ColisResponseDTO>>> getParcelsByDriver(
+            @PathVariable String livreurId,
+            @Parameter(description = "Status filter (CREATED, DELIVERED, etc.; null for all)") @RequestParam(required = false) Colis.ColisStatus status,
+            @Parameter(description = "Pagination (page, size, sort)") Pageable pageable) {
+
+        Page<ColisResponseDTO> parcels = colisService.findByLivreurId(livreurId, status, pageable);
+        return ResponseEntity.ok(ApiResponseDTO.success("Parcels retrieved", parcels));
+    }
+
 
     @GetMapping("/destinataire/{destinataireId}")
     @Operation(summary = "Get parcels for a destinataire", description = "Filter by status (optional)")

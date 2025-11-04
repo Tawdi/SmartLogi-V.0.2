@@ -102,6 +102,15 @@ public class ColisServiceImpl extends StringCrudServiceImpl<Colis, ColisRequestD
         return colisPage.map(colisMapper::toDto);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public Page<ColisResponseDTO> findByLivreurId(String livreurId, Colis.ColisStatus status, Pageable pageable) {
+
+        Page<Colis> colisPage = colisRepository.findByLivreurId(livreurId, status, pageable);
+
+        return colisPage.map(colisMapper::toDto);
+    }
+
 
     @Override
     @Transactional

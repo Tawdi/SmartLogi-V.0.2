@@ -30,4 +30,10 @@ public interface ColisRepository extends StringRepository<Colis> {
             @Param("destinataireId") String destinataireId,
             @Param("statut") Colis.ColisStatus statut,
             Pageable pageable);
+
+    @Query("SELECT c FROM Colis c WHERE c.livreur.id = :livreurId and (:statut IS NULL OR c.statut = :statut ) ")
+    Page<Colis> findByLivreurId(
+            @Param("livreurId") String livreurId,
+            @Param("statut") Colis.ColisStatus statut,
+            Pageable pageable);
 }
