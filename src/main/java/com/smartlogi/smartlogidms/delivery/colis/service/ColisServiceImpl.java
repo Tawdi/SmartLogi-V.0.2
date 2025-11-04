@@ -203,6 +203,25 @@ public class ColisServiceImpl extends StringCrudServiceImpl<Colis, ColisRequestD
         return colisMapper.toDto(saved);
     }
 
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<SyntheseDTO<String>> getSyntheseByZone() {
+        return colisRepository.countByZone();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<SyntheseDTO<Colis.ColisStatus>> getSyntheseByStatut() {
+        return colisRepository.countByStatut();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<SyntheseDTO<Colis.Priorite>> getSyntheseByPriorite() {
+        return colisRepository.countByPriorite();
+    }
+
     private Colis loadColis(String id) {
         return colisRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Colis not found: " + id));

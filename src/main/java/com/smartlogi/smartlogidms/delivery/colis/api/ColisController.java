@@ -13,6 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/colis")
 @Tag(name = "Colis", description = "Colis management APIs")
@@ -90,5 +92,27 @@ public class ColisController extends StringBaseController<Colis, ColisRequestDTO
     ) {
         ColisResponseDTO response = colisService.assignerLivreur(id, request);
         return ResponseEntity.ok(ApiResponseDTO.success("Driver assigned successfully", response));
+    }
+
+
+    @GetMapping("/synthese/zone")
+    @Operation(summary = "Synthèse par zone", description = "Nombre et poids total de colis par zone")
+    public ResponseEntity<ApiResponseDTO<List<SyntheseDTO<String>>>> syntheseByZone() {
+        List<SyntheseDTO<String>> data = colisService.getSyntheseByZone();
+        return ResponseEntity.ok(ApiResponseDTO.success("Synthèse par zone", data));
+    }
+
+    @GetMapping("/synthese/statut")
+    @Operation(summary = "Synthèse par statut")
+    public ResponseEntity<ApiResponseDTO<List<SyntheseDTO<Colis.ColisStatus>>>> syntheseByStatut() {
+        List<SyntheseDTO<Colis.ColisStatus>> data = colisService.getSyntheseByStatut();
+        return ResponseEntity.ok(ApiResponseDTO.success("Synthèse par statut", data));
+    }
+
+    @GetMapping("/synthese/priorite")
+    @Operation(summary = "Synthèse par priorité")
+    public ResponseEntity<ApiResponseDTO<List<SyntheseDTO<Colis.Priorite>>>> syntheseByPriorite() {
+        List<SyntheseDTO<Colis.Priorite>> data = colisService.getSyntheseByPriorite();
+        return ResponseEntity.ok(ApiResponseDTO.success("Synthèse par priorité", data));
     }
 }

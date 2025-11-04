@@ -1,6 +1,7 @@
 package com.smartlogi.smartlogidms.delivery.colis.domain;
 
 import com.smartlogi.smartlogidms.common.domain.repository.StringRepository;
+import com.smartlogi.smartlogidms.delivery.colis.api.SyntheseDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -36,4 +37,17 @@ public interface ColisRepository extends StringRepository<Colis> {
             @Param("livreurId") String livreurId,
             @Param("statut") Colis.ColisStatus statut,
             Pageable pageable);
+
+
+    @Query("SELECT new com.smartlogi.smartlogidms.delivery.colis.api.SyntheseDTO(z.name, COUNT(c), SUM(c.poids)) " +
+            "FROM Colis c JOIN c.zone z  GROUP BY z.id, z.name")
+    List<SyntheseDTO<String>> countByZone();
+
+    @Query("SELECT new com.smartlogi.smartlogidms.delivery.colis.api.SyntheseDTO(c.statut, COUNT(c), SUM(c.poids)) " +
+            "FROM Colis c GROUP BY c.statut")
+    List<SyntheseDTO<Colis.ColisStatus>> countByStatut();
+
+    @Query("SELECT new com.smartlogi.smartlogidms.delivery.colis.api.SyntheseDTO(c.priorite, COUNT(c), SUM(c.poids)) " +
+            "FROM Colis c GROUP BY c.priorite")
+    List<SyntheseDTO<Colis.Priorite>> countByPriorite();
 }
