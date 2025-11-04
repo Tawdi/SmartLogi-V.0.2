@@ -121,7 +121,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ApiResponseDTO<Void>> handleJsonError(HttpMessageNotReadableException ex) {
         return ResponseEntity.badRequest()
-                .body(ApiResponseDTO.error("Invalid JSON: " + ex.getMessage()));
+                .body(ApiResponseDTO.error("Invalid JSON "));
     }
 
     /* --------------------------------------------------------------------- *

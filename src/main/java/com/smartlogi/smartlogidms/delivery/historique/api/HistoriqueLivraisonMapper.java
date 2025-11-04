@@ -6,6 +6,8 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring")
 public interface HistoriqueLivraisonMapper {
 
+    @Mapping(target = "colisId", source = "colis.id")
+    @Mapping(target = "colisReference", source = "colis.reference")
     HistoriqueLivraisonResponseDTO toDto(HistoriqueLivraison entity);
 
 }

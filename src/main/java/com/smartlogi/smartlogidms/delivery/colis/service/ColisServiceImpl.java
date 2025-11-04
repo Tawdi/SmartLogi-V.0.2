@@ -2,10 +2,7 @@ package com.smartlogi.smartlogidms.delivery.colis.service;
 
 import com.smartlogi.smartlogidms.common.exception.ResourceNotFoundException;
 import com.smartlogi.smartlogidms.common.service.implementation.StringCrudServiceImpl;
-import com.smartlogi.smartlogidms.delivery.colis.api.ColisMapper;
-import com.smartlogi.smartlogidms.delivery.colis.api.ColisRequestDTO;
-import com.smartlogi.smartlogidms.delivery.colis.api.ColisResponseDTO;
-import com.smartlogi.smartlogidms.delivery.colis.api.UpdateStatusRequest;
+import com.smartlogi.smartlogidms.delivery.colis.api.*;
 import com.smartlogi.smartlogidms.delivery.colis.domain.Colis;
 import com.smartlogi.smartlogidms.delivery.colis.domain.ColisRepository;
 import com.smartlogi.smartlogidms.delivery.historique.api.HistoriqueLivraisonMapper;
@@ -14,6 +11,8 @@ import com.smartlogi.smartlogidms.delivery.historique.domain.HistoriqueLivraison
 import com.smartlogi.smartlogidms.delivery.historique.domain.HistoriqueLivraisonRepository;
 import com.smartlogi.smartlogidms.masterdata.client.domain.ClientExpediteur;
 import com.smartlogi.smartlogidms.masterdata.client.domain.ClientExpediteurRepository;
+import com.smartlogi.smartlogidms.masterdata.driver.domain.Driver;
+import com.smartlogi.smartlogidms.masterdata.driver.domain.DriverRepository;
 import com.smartlogi.smartlogidms.masterdata.recipient.domain.Recipient;
 import com.smartlogi.smartlogidms.masterdata.recipient.domain.RecipientRepository;
 import com.smartlogi.smartlogidms.masterdata.zone.domain.Zone;
@@ -34,6 +33,7 @@ public class ColisServiceImpl extends StringCrudServiceImpl<Colis, ColisRequestD
     private final ClientExpediteurRepository expediteurRepo;
     private final RecipientRepository destinataireRepo;
     private final ZoneRepository zoneRepo;
+    private final DriverRepository driverRepo;
 
     private final HistoriqueLivraisonRepository historyRepo;
     private final HistoriqueLivraisonMapper historyMapper;
@@ -41,6 +41,7 @@ public class ColisServiceImpl extends StringCrudServiceImpl<Colis, ColisRequestD
     public ColisServiceImpl(ColisRepository colisRepository, ColisMapper colisMapper,
                             RecipientRepository destinataireRepo,
                             ClientExpediteurRepository expediteurRepo, ZoneRepository zoneRepo,
+                            DriverRepository driverRepo,
                             HistoriqueLivraisonRepository historyRepo, HistoriqueLivraisonMapper historyMapper) {
         super(colisRepository, colisMapper);
         this.colisRepository = colisRepository;
@@ -50,6 +51,7 @@ public class ColisServiceImpl extends StringCrudServiceImpl<Colis, ColisRequestD
         this.zoneRepo = zoneRepo;
         this.historyRepo = historyRepo;
         this.historyMapper = historyMapper;
+        this.driverRepo = driverRepo;
 
     }
 
@@ -100,13 +102,21 @@ public class ColisServiceImpl extends StringCrudServiceImpl<Colis, ColisRequestD
         return colisPage.map(colisMapper::toDto);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public Page<ColisResponseDTO> findByLivreurId(String livreurId, Colis.ColisStatus status, Pageable pageable) {
+
+        Page<Colis> colisPage = colisRepository.findByLivreurId(livreurId, status, pageable);
+
+        return colisPage.map(colisMapper::toDto);
+    }
+
 
     @Override
     @Transactional
     public ColisResponseDTO update(String id, ColisRequestDTO requestDTO) {
 
-        Colis existingEntity = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Resource not found with id: " + id));
+        Colis existingEntity = loadColis(id);
 
         mapper.updateEntityFromDto(requestDTO, existingEntity);
         if (requestDTO.getExpediteurId() != null) {
@@ -156,7 +166,7 @@ public class ColisServiceImpl extends StringCrudServiceImpl<Colis, ColisRequestD
         // track
         HistoriqueLivraison history = new HistoriqueLivraison(saved, current, newStatus,
                 requestDTO.getUtilisateurId(),
-                requestDTO.getCommentaire().isEmpty() ? " Status Updated ": requestDTO.getCommentaire() ); // will work with
+                requestDTO.getCommentaire().isEmpty() ? " Status Updated " : requestDTO.getCommentaire()); // will work with
         historyRepo.save(history);
 
         return colisMapper.toDto(saved);
@@ -167,6 +177,54 @@ public class ColisServiceImpl extends StringCrudServiceImpl<Colis, ColisRequestD
     public Page<HistoriqueLivraisonResponseDTO> getHistory(String colisId, Pageable pageable) {
         return historyRepo.findByColisId(colisId, pageable)
                 .map(historyMapper::toDto);
+    }
+
+    @Override
+    @Transactional
+    public ColisResponseDTO assignerLivreur(String colisId, AssignerLivreurRequestDTO request) {
+        Colis colis = loadColis(colisId);
+        Driver driver = loadDriver(request.livreurId());
+
+        String oldDriverId = colis.getLivreur() != null ? colis.getLivreur().getId() : null;
+        colis.setLivreur(driver);
+        Colis saved = colisRepository.save(colis);
+
+        String comment = oldDriverId == null
+                ? "Assigned to driver ID=" + driver.getId()
+                : "Reassigned from driver ID=" + oldDriverId + " to driver ID=" + driver.getId();
+        HistoriqueLivraison history = new HistoriqueLivraison(
+                saved,
+                colis.getStatut(),
+                colis.getStatut(),
+                "MANAGER",
+                comment
+        );
+        historyRepo.save(history);
+        return colisMapper.toDto(saved);
+    }
+
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<SyntheseDTO<String>> getSyntheseByZone() {
+        return colisRepository.countByZone();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<SyntheseDTO<Colis.ColisStatus>> getSyntheseByStatut() {
+        return colisRepository.countByStatut();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<SyntheseDTO<Colis.Priorite>> getSyntheseByPriorite() {
+        return colisRepository.countByPriorite();
+    }
+
+    private Colis loadColis(String id) {
+        return colisRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Colis not found: " + id));
     }
 
     private ClientExpediteur loadExpediteur(String id) {
@@ -182,6 +240,11 @@ public class ColisServiceImpl extends StringCrudServiceImpl<Colis, ColisRequestD
     private Zone loadZone(String id) {
         return zoneRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Zone not found: " + id));
+    }
+
+    private Driver loadDriver(String id) {
+        return driverRepo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Driver not found: " + id));
     }
 
     private String getAllowedTransitions(Colis.ColisStatus current) {

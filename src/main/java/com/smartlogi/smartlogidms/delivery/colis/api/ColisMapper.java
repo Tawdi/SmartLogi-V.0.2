@@ -47,6 +47,7 @@ public interface ColisMapper extends BaseMapper<Colis, ColisRequestDTO, ColisRes
     @Mapping(target = "expediteur", source = "expediteur")
     @Mapping(target = "destinataire", source = "destinataire")
     @Mapping(target = "zone", source = "zone")
+    @Mapping(target = "livreur", source = "livreur")
     @Mapping(target = "adresseLivraison", source = "adresseLivraison")
     ColisResponseDTO toDto(Colis entity);
 }
