@@ -69,4 +69,15 @@ public class ColisController extends StringBaseController<Colis, ColisRequestDTO
         Page<HistoriqueLivraisonResponseDTO> history = colisService.getHistory(id, pageable);
         return ResponseEntity.ok(ApiResponseDTO.success("Parcel history", history));
     }
+
+
+    @PutMapping("/{id}/assign")
+    @Operation(summary = "Assign a driver to a package", description = "Manager only")
+    public ResponseEntity<ApiResponseDTO<ColisResponseDTO>> assignerLivreur(
+            @PathVariable String id,
+            @Valid @RequestBody AssignerLivreurRequestDTO request
+    ) {
+        ColisResponseDTO response = colisService.assignerLivreur(id, request);
+        return ResponseEntity.ok(ApiResponseDTO.success("Driver assigned successfully", response));
+    }
 }
