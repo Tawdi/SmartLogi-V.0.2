@@ -79,7 +79,8 @@ public abstract class AbstractBaseController<T extends BaseEntity<ID>, ID, RQ, R
     }
 
     @Override
-    @GetMapping
+    @GetMapping("/no-pagination")
+//    @GetMapping
     @Operation(
             summary = "Get all resources",
             description = "Retrieves all resources of this type. Use with caution for large datasets."
@@ -91,7 +92,8 @@ public abstract class AbstractBaseController<T extends BaseEntity<ID>, ID, RQ, R
     }
 
     @Override
-    @GetMapping("/paginated")
+    @GetMapping
+//    @GetMapping("/paginated")
     @Operation(
             summary = "Get paginated resources",
             description = "Retrieves resources with pagination support. Use page, size, and sort parameters for control."
