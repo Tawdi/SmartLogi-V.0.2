@@ -1,5 +1,6 @@
 package com.smartlogi.smartlogidms.masterdata.recipient.domain;
 
+import com.smartlogi.smartlogidms.common.annotation.Searchable;
 import com.smartlogi.smartlogidms.masterdata.shared.domain.Adresse;
 import com.smartlogi.smartlogidms.masterdata.shared.domain.Personne;
 import jakarta.persistence.*;
@@ -10,6 +11,7 @@ import lombok.Setter;
 @Table(name = "recipient")
 @Getter
 @Setter
+@Searchable(fields = {"firstName","lastName","phoneNumber","email"})
 public class Recipient extends Personne {
 
 

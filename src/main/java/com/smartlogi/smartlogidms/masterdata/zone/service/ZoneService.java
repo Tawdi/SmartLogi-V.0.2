@@ -5,5 +5,5 @@ import com.smartlogi.smartlogidms.masterdata.zone.api.ZoneRequestDTO;
 import com.smartlogi.smartlogidms.masterdata.zone.api.ZoneResponseDTO;
 import com.smartlogi.smartlogidms.masterdata.zone.domain.Zone;
 
-public interface ZoneService extends StringCrudService<ZoneRequestDTO,ZoneResponseDTO> {
+public interface ZoneService extends StringCrudService<Zone,ZoneRequestDTO,ZoneResponseDTO> {
 }

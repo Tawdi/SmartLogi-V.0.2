@@ -7,7 +7,7 @@ import com.smartlogi.smartlogidms.common.service.LongCrudService;
 
 public class LongCrudServiceImpl<T extends LongBaseEntity, RequestDTO, ResponseDTO>
         extends BaseCrudServiceImpl<T, RequestDTO, ResponseDTO, Long>
-        implements LongCrudService<RequestDTO, ResponseDTO> {
+        implements LongCrudService<T,RequestDTO, ResponseDTO> {
 
     protected LongCrudServiceImpl(LongRepository<T> repository, BaseMapper<T, RequestDTO, ResponseDTO> mapper) {
         super(repository, mapper);

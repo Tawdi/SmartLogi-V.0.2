@@ -6,7 +6,7 @@ import com.smartlogi.smartlogidms.common.mapper.BaseMapper;
 
 public abstract class StringBaseController<T extends StringBaseEntity, RQ, RS> extends AbstractBaseController<T, String, RQ, RS> {
 
-    protected StringBaseController(StringCrudService<RQ, RS> service, BaseMapper<T, RQ, RS> mapper) {
+    protected StringBaseController(StringCrudService<T,RQ, RS> service, BaseMapper<T, RQ, RS> mapper) {
         super(service, mapper);
     }
 }

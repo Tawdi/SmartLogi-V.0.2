@@ -1,6 +1,7 @@
 package com.smartlogi.smartlogidms.delivery.colis.domain;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.smartlogi.smartlogidms.common.annotation.Searchable;
 import com.smartlogi.smartlogidms.common.domain.entity.Id.StringBaseEntity;
 import com.smartlogi.smartlogidms.masterdata.client.domain.ClientExpediteur;
 import com.smartlogi.smartlogidms.masterdata.driver.domain.Driver;
@@ -17,6 +18,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@Searchable(fields = {"reference","description"})
 public class Colis extends StringBaseEntity {
 
     @Column(nullable = false, unique = true, length = 50)

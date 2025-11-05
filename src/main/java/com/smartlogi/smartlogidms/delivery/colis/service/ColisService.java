@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
-public interface ColisService extends StringCrudService<ColisRequestDTO, ColisResponseDTO> {
+public interface ColisService extends StringCrudService<Colis,ColisRequestDTO, ColisResponseDTO> {
 
     Page<ColisResponseDTO> findByExpediteurId(String expediteurId, Colis.ColisStatus status, Pageable pageable);
 
