@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 public interface BaseController<T extends BaseEntity<ID>, ID, RQ, RS> {
 
@@ -19,7 +20,7 @@ public interface BaseController<T extends BaseEntity<ID>, ID, RQ, RS> {
 
     ResponseEntity<ApiResponseDTO<List<RS>>> getAll();
 
-    ResponseEntity<ApiResponseDTO<Page<RS>>> getAllPaginated(Pageable pageable);
+    ResponseEntity<ApiResponseDTO<Page<RS>>> getAllPaginated(Pageable pageable, Map<String,String> filters);
 
     ResponseEntity<ApiResponseDTO<Void>> delete(@PathVariable ID id);
 }

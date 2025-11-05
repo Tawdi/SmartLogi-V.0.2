@@ -1,6 +1,8 @@
 package com.smartlogi.smartlogidms.common.service;
 
+import com.smartlogi.smartlogidms.common.domain.entity.Id.UuidBaseEntity;
+
 import java.util.UUID;
 
-public interface UuidCrudService<RequestDTO, ResponseDTO> extends BaseCrudService<RequestDTO, ResponseDTO, UUID> {
+public interface UuidCrudService<T extends UuidBaseEntity,RequestDTO, ResponseDTO> extends BaseCrudService<T,RequestDTO, ResponseDTO, UUID> {
 }

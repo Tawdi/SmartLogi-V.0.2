@@ -7,11 +7,12 @@ import com.smartlogi.smartlogidms.common.mapper.BaseMapper;
 import com.smartlogi.smartlogidms.common.service.BaseCrudService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-public abstract class BaseCrudServiceImpl<T extends BaseEntity<ID>, RequestDTO, ResponseDTO, ID> implements BaseCrudService<RequestDTO, ResponseDTO, ID> {
+public abstract class BaseCrudServiceImpl<T extends BaseEntity<ID>, RequestDTO, ResponseDTO, ID> implements BaseCrudService<T,RequestDTO, ResponseDTO, ID> {
 
     protected final GenericRepository<T, ID> repository;
     protected final BaseMapper<T, RequestDTO, ResponseDTO> mapper;
@@ -61,6 +62,13 @@ public abstract class BaseCrudServiceImpl<T extends BaseEntity<ID>, RequestDTO, 
     @Transactional(readOnly = true)
     public Page<ResponseDTO> findAll(Pageable pageable) {
         Page<T> entityPage = repository.findAll(pageable);
+        return entityPage.map(mapper::toDto);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<ResponseDTO> findAll(Pageable pageable, Specification<T> spec) {
+        Page<T> entityPage =repository.findAll(spec, pageable);
         return entityPage.map(mapper::toDto);
     }
 

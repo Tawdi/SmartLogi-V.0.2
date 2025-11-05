@@ -1,4 +1,6 @@
 package com.smartlogi.smartlogidms.common.service;
 
-public interface LongCrudService<RequestDTO, ResponseDTO> extends BaseCrudService<RequestDTO, ResponseDTO, Long> {
+import com.smartlogi.smartlogidms.common.domain.entity.Id.LongBaseEntity;
+
+public interface LongCrudService<T extends LongBaseEntity,RequestDTO, ResponseDTO> extends BaseCrudService<T,RequestDTO, ResponseDTO, Long> {
 }

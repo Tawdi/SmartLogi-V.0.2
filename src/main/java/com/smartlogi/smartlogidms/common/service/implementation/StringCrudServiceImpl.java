@@ -8,7 +8,7 @@ import com.smartlogi.smartlogidms.common.service.StringCrudService;
 
 public abstract class StringCrudServiceImpl<T extends StringBaseEntity, RequestDTO, ResponseDTO>
         extends BaseCrudServiceImpl<T, RequestDTO, ResponseDTO, String>
-        implements StringCrudService<RequestDTO, ResponseDTO> {
+        implements StringCrudService<T,RequestDTO, ResponseDTO> {
 
     protected StringCrudServiceImpl(StringRepository<T> repository, BaseMapper<T, RequestDTO, ResponseDTO> mapper) {
         super(repository, mapper);
