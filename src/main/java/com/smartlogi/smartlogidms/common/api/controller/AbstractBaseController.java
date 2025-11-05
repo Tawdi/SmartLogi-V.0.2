@@ -5,31 +5,37 @@ import com.smartlogi.smartlogidms.common.api.dto.ValidationGroups;
 import com.smartlogi.smartlogidms.common.domain.entity.BaseEntity;
 import com.smartlogi.smartlogidms.common.service.BaseCrudService;
 import com.smartlogi.smartlogidms.common.mapper.BaseMapper;
+import com.smartlogi.smartlogidms.common.specification.FilterParser;
+import com.smartlogi.smartlogidms.common.specification.GenericSpecification;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.ParameterizedType;
 import java.util.List;
+import java.util.Map;
+
 //@Tag(name = "CRUD Operations", description = "Generic CRUD operations for all entities")
 public abstract class AbstractBaseController<T extends BaseEntity<ID>, ID, RQ, RS> implements BaseController<T, ID, RQ, RS> {
 
-    protected final BaseCrudService<RQ,RS, ID> service;
+    protected final BaseCrudService<T, RQ, RS, ID> service;
     protected final BaseMapper<T, RQ, RS> mapper;
 
-    protected AbstractBaseController(BaseCrudService<RQ,RS, ID> service, BaseMapper<T, RQ, RS> mapper) {
+    protected AbstractBaseController(BaseCrudService<T, RQ, RS, ID> service, BaseMapper<T, RQ, RS> mapper) {
         this.service = service;
         this.mapper = mapper;
     }
 
     @Override
-    @PostMapping({"","/"})
+    @PostMapping({"", "/"})
     @Operation(
             summary = "Create a new resource",
             description = "Creates a new resource with the provided data. All required fields must be provided."
@@ -58,7 +64,7 @@ public abstract class AbstractBaseController<T extends BaseEntity<ID>, ID, RQ, R
             @ApiResponse(responseCode = "400", description = "Invalid input data"),
             @ApiResponse(responseCode = "404", description = "Resource not found")
     })
-    public ResponseEntity<ApiResponseDTO<RS>> update(@PathVariable ID id, @Validated(ValidationGroups.Update.class)  @RequestBody RQ requestDTO) {
+    public ResponseEntity<ApiResponseDTO<RS>> update(@PathVariable ID id, @Validated(ValidationGroups.Update.class) @RequestBody RQ requestDTO) {
         RS responseDTO = service.update(id, requestDTO);
         return ResponseEntity.ok(ApiResponseDTO.success("Resource updated successfully", responseDTO));
     }
@@ -87,7 +93,7 @@ public abstract class AbstractBaseController<T extends BaseEntity<ID>, ID, RQ, R
     )
     @ApiResponse(responseCode = "200", description = "Resources retrieved successfully")
     public ResponseEntity<ApiResponseDTO<List<RS>>> getAll() {
-        List<RS> responseDTOs =  service.findAll();
+        List<RS> responseDTOs = service.findAll();
         return ResponseEntity.ok(ApiResponseDTO.success("Resources retrieved successfully", responseDTOs));
     }
 
@@ -99,11 +105,22 @@ public abstract class AbstractBaseController<T extends BaseEntity<ID>, ID, RQ, R
             description = "Retrieves resources with pagination support. Use page, size, and sort parameters for control."
     )
     @ApiResponse(responseCode = "200", description = "Paginated resources retrieved successfully")
-    public ResponseEntity<ApiResponseDTO<Page<RS>>> getAllPaginated(@ParameterObject Pageable pageable) {
-        Page<RS> responseDTOPage = service.findAll(pageable);
+    public ResponseEntity<ApiResponseDTO<Page<RS>>> getAllPaginated(
+            @ParameterObject Pageable pageable,
+            @RequestParam(required = false) Map<String, String> filters
+    ) {
+        Class<T> entityClass = getEntityClass();
+        GenericSpecification<T> spec = FilterParser.parse(filters,entityClass);
+
+        Page<RS> responseDTOPage = service.findAll(pageable, spec);
         return ResponseEntity.ok(ApiResponseDTO.success("Resources retrieved successfully", responseDTOPage));
     }
 
+    @SuppressWarnings("unchecked")
+    private Class<T> getEntityClass() {
+        ParameterizedType type = (ParameterizedType) getClass().getGenericSuperclass();
+        return (Class<T>) type.getActualTypeArguments()[0];
+    }
     @Override
     @DeleteMapping("/{id}")
     @Operation(
