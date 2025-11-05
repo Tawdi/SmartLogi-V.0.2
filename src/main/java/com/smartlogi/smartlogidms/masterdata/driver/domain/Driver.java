@@ -1,5 +1,6 @@
 package com.smartlogi.smartlogidms.masterdata.driver.domain;
 
+import com.smartlogi.smartlogidms.common.annotation.Searchable;
 import com.smartlogi.smartlogidms.masterdata.shared.domain.Personne;
 import com.smartlogi.smartlogidms.masterdata.zone.domain.Zone;
 import jakarta.persistence.*;
@@ -10,6 +11,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "livreur")
+@Searchable(fields = {"firstName","lastName","phoneNumber"})
 public class Driver extends Personne {
 
     @Column(length = 100)
