@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -107,7 +108,7 @@ public abstract class AbstractBaseController<T extends BaseEntity<ID>, ID, RQ, R
     @ApiResponse(responseCode = "200", description = "Paginated resources retrieved successfully")
     public ResponseEntity<ApiResponseDTO<Page<RS>>> getAllPaginated(
             @ParameterObject Pageable pageable,
-            @RequestParam(required = false) Map<String, String> filters
+            @RequestParam(required = false) MultiValueMap<String, String> filters
     ) {
         Class<T> entityClass = getEntityClass();
         GenericSpecification<T> spec = FilterParser.parse(filters,entityClass);

@@ -4,6 +4,7 @@ import com.smartlogi.smartlogidms.common.domain.entity.BaseEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
@@ -20,7 +21,7 @@ public interface BaseController<T extends BaseEntity<ID>, ID, RQ, RS> {
 
     ResponseEntity<ApiResponseDTO<List<RS>>> getAll();
 
-    ResponseEntity<ApiResponseDTO<Page<RS>>> getAllPaginated(Pageable pageable, Map<String,String> filters);
+    ResponseEntity<ApiResponseDTO<Page<RS>>> getAllPaginated(Pageable pageable, MultiValueMap<String,String> filters);
 
     ResponseEntity<ApiResponseDTO<Void>> delete(@PathVariable ID id);
 }
