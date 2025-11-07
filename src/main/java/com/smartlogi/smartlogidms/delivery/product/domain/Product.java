@@ -15,10 +15,7 @@ import lombok.Setter;
 public class Product extends StringBaseEntity {
 
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "colis_id",nullable = false)
-    @NotNull
-    private Colis colis;
+
     private String nom;
     private String  categorie;
     private Double poids;

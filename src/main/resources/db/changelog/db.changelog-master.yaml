@@ -22,3 +22,6 @@ databaseChangeLog:
       file:  db/changelog/2025/11/07-02-changelog-update-product-id.yaml
   - include:
        file: db/changelog/2025/11/07-02-changelog-update-product-id-2.yaml
+
+  - include:
+      file: db/changelog/2025/11/07-03-changelog-create-colis-produit.yaml

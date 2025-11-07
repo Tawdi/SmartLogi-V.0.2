@@ -21,7 +21,6 @@ public interface ColisMapper extends BaseMapper<Colis, ColisRequestDTO, ColisRes
     @Mapping(target = "statut", constant = "CREATED")
     @Mapping(target = "expediteur", ignore = true)
     @Mapping(target = "destinataire", ignore = true)
-    @Mapping(target = "products", source ="productList" )
     @Mapping(target = "zone", ignore = true)
     @Mapping(target = "livreur", ignore = true)
     @Mapping(target = "adresseLivraison.ville", source = "ville")

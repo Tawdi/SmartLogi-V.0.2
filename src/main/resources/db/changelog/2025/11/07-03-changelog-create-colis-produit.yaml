@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-colis-produit
+      author: human
+      changes:
+        - createTable:
+            tableName: colis_produit
+            columns:
+              - column: { name: colis_id, type: varchar(36), constraints: { primaryKey: true, nullable: false } }
+              - column: { name: product_id, type: varchar(36), constraints: { primaryKey: true, nullable: false } }
+              - column: { name: quantite, type: int, defaultValue: 1 }
+              - column: { name: prix_unitaire, type: double precision }
+              - column: { name: date_ajout, type: timestamp, defaultValueComputed: CURRENT_TIMESTAMP }
+        - addForeignKeyConstraint:
+            baseTableName: colis_produit
+            baseColumnNames: colis_id
+            referencedTableName: colis
+            referencedColumnNames: id
+            constraintName: fk_cp_colis
+        - addForeignKeyConstraint:
+            baseTableName: colis_produit
+            baseColumnNames: product_id
+            referencedTableName: products
+            referencedColumnNames: id
+            constraintName: fk_cp_product
+
+        - dropForeignKeyConstraint:
+            baseTableName: products
+            constraintName: FK_PRODUCTS_ON_COLIS
+        - dropColumn:
+            tableName: products
+            columnName: colis_id

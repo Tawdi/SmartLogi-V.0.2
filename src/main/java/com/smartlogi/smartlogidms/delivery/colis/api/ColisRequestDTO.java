@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -40,8 +41,7 @@ public class ColisRequestDTO implements BaseResquestDTO {
     @NotNull(groups = ValidationGroups.Create.class)
     private String zoneId;
 
-    @Valid
-    private List<@Valid ProductRequestDTO> productList;
+    private List<ProduitColisDTO> productList = new ArrayList<>();
 
     //    Adresse
     @NotBlank(groups = ValidationGroups.Create.class)
@@ -52,4 +52,11 @@ public class ColisRequestDTO implements BaseResquestDTO {
     @NotBlank(groups = ValidationGroups.Create.class)
     @Size(max = 20)
     private String codePostal;
+
+    @Getter @Setter
+    public static class ProduitColisDTO {
+        private String productId;
+        private Integer quantite = 1;
+        private Double prix;
+    }
 }

@@ -4,11 +4,13 @@ import com.smartlogi.smartlogidms.common.exception.ResourceNotFoundException;
 import com.smartlogi.smartlogidms.common.service.implementation.StringCrudServiceImpl;
 import com.smartlogi.smartlogidms.delivery.colis.api.*;
 import com.smartlogi.smartlogidms.delivery.colis.domain.Colis;
+import com.smartlogi.smartlogidms.delivery.colis.domain.ColisProduit;
 import com.smartlogi.smartlogidms.delivery.colis.domain.ColisRepository;
 import com.smartlogi.smartlogidms.delivery.historique.api.HistoriqueLivraisonMapper;
 import com.smartlogi.smartlogidms.delivery.historique.api.HistoriqueLivraisonResponseDTO;
 import com.smartlogi.smartlogidms.delivery.historique.domain.HistoriqueLivraison;
 import com.smartlogi.smartlogidms.delivery.historique.domain.HistoriqueLivraisonRepository;
+import com.smartlogi.smartlogidms.delivery.product.domain.Product;
 import com.smartlogi.smartlogidms.delivery.product.domain.ProductRrepository;
 import com.smartlogi.smartlogidms.masterdata.client.domain.ClientExpediteur;
 import com.smartlogi.smartlogidms.masterdata.client.domain.ClientExpediteurRepository;
@@ -67,13 +69,31 @@ public class ColisServiceImpl extends StringCrudServiceImpl<Colis, ColisRequestD
         entity.setDestinataire(loadDestinataire(requestDto.getDestinataireId()));
         entity.setZone(loadZone(requestDto.getZoneId()));
 
-        if (entity.getProducts() != null) {
-            entity.getProducts().forEach(p ->  p.setColis(entity));
+        entity.getColisProduits().clear();
+        Colis savedColis = repository.save(entity);
+
+        if (requestDto.getProductList() != null && !requestDto.getProductList().isEmpty()) {
+            savedColis.getColisProduits().clear();
+
+            requestDto.getProductList().forEach(item -> {
+                Product product = productRrepo.findById(item.getProductId())
+                        .orElseThrow(() -> new ResourceNotFoundException("Produit non trouvé: " + item.getProductId()));
+
+                ColisProduit cp = new ColisProduit();
+                cp.setColisId(savedColis.getId());
+                cp.setProductId(product.getId());
+                cp.setQuantite(item.getQuantite());
+                cp.setPrixUnitaire(item.getPrix());
+                cp.setColis(savedColis);
+                cp.setProduct(product);
+
+                savedColis.getColisProduits().add(cp);
+            });
         }
 
-        Colis savedEntity = repository.save(entity);
+        Colis finalSaved = repository.save(savedColis);
 
-        return mapper.toDto(savedEntity);
+        return mapper.toDto(finalSaved);
     }
 
 

@@ -14,7 +14,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "colis")
@@ -63,7 +65,19 @@ public class Colis extends StringBaseEntity {
             orphanRemoval = true,
             fetch = FetchType.LAZY
     )
-    private List<Product> products;
+    private Set<ColisProduit> colisProduits = new HashSet<>();
+
+
+    public void addProduit(Product product, int quantite, Double prixUnitaire) {
+        ColisProduit cp = new ColisProduit();
+        cp.setColisId(this.getId());
+        cp.setProductId(product.getId());
+        cp.setQuantite(quantite);
+        cp.setPrixUnitaire(prixUnitaire);
+        cp.setColis(this);
+        cp.setProduct(product);
+        this.colisProduits.add(cp);
+    }
 
     @Embedded
     private Adresse adresseLivraison;
