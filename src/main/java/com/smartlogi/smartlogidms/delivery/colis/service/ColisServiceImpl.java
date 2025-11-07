@@ -9,6 +9,7 @@ import com.smartlogi.smartlogidms.delivery.historique.api.HistoriqueLivraisonMap
 import com.smartlogi.smartlogidms.delivery.historique.api.HistoriqueLivraisonResponseDTO;
 import com.smartlogi.smartlogidms.delivery.historique.domain.HistoriqueLivraison;
 import com.smartlogi.smartlogidms.delivery.historique.domain.HistoriqueLivraisonRepository;
+import com.smartlogi.smartlogidms.delivery.product.domain.ProductRrepository;
 import com.smartlogi.smartlogidms.masterdata.client.domain.ClientExpediteur;
 import com.smartlogi.smartlogidms.masterdata.client.domain.ClientExpediteurRepository;
 import com.smartlogi.smartlogidms.masterdata.driver.domain.Driver;
@@ -34,6 +35,7 @@ public class ColisServiceImpl extends StringCrudServiceImpl<Colis, ColisRequestD
     private final RecipientRepository destinataireRepo;
     private final ZoneRepository zoneRepo;
     private final DriverRepository driverRepo;
+    private final ProductRrepository productRrepo;
 
     private final HistoriqueLivraisonRepository historyRepo;
     private final HistoriqueLivraisonMapper historyMapper;
@@ -42,6 +44,7 @@ public class ColisServiceImpl extends StringCrudServiceImpl<Colis, ColisRequestD
                             RecipientRepository destinataireRepo,
                             ClientExpediteurRepository expediteurRepo, ZoneRepository zoneRepo,
                             DriverRepository driverRepo,
+                            ProductRrepository productRrepo,
                             HistoriqueLivraisonRepository historyRepo, HistoriqueLivraisonMapper historyMapper) {
         super(colisRepository, colisMapper);
         this.colisRepository = colisRepository;
@@ -52,6 +55,7 @@ public class ColisServiceImpl extends StringCrudServiceImpl<Colis, ColisRequestD
         this.historyRepo = historyRepo;
         this.historyMapper = historyMapper;
         this.driverRepo = driverRepo;
+        this.productRrepo =productRrepo;
 
     }
 
@@ -62,7 +66,13 @@ public class ColisServiceImpl extends StringCrudServiceImpl<Colis, ColisRequestD
         entity.setExpediteur(loadExpediteur(requestDto.getExpediteurId()));
         entity.setDestinataire(loadDestinataire(requestDto.getDestinataireId()));
         entity.setZone(loadZone(requestDto.getZoneId()));
+
+        if (entity.getProducts() != null) {
+            entity.getProducts().forEach(p ->  p.setColis(entity));
+        }
+
         Colis savedEntity = repository.save(entity);
+
         return mapper.toDto(savedEntity);
     }
 

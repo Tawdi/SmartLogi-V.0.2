@@ -1,0 +1,60 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1762546894602-4
+      author: human
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_products
+                  name: id
+                  type: CHAR(36)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: deleted
+                  type: BOOLEAN
+              - column:
+                  constraints:
+                    nullable: false
+                  name: created_at
+                  type: DATETIME
+              - column:
+                  constraints:
+                    nullable: false
+                  name: updated_at
+                  type: DATETIME
+              - column:
+                  constraints:
+                    nullable: false
+                  name: colis_id
+                  type: CHAR(36)
+              - column:
+                  name: nom
+                  type: VARCHAR(255)
+              - column:
+                  name: categorie
+                  type: VARCHAR(255)
+              - column:
+                  name: poids
+                  type: DOUBLE
+              - column:
+                  name: prix
+                  type: DOUBLE
+            tableName: products
+  - changeSet:
+      id: 1762546894602-15
+      author: human
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: colis_id
+            baseTableName: products
+            constraintName: FK_PRODUCTS_ON_COLIS
+            referencedColumnNames: id
+            referencedTableName: colis
+

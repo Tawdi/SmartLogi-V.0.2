@@ -16,3 +16,9 @@ databaseChangeLog:
       file: db/changelog/2025/11/02-01-changelog-historique-livraison.yaml
   - include:
       file: db/changelog/2025/11/03-01-changelog-add-deleted-column-with-rollback.yaml
+  - include:
+      file: db/changelog/2025/11/07-01-changelog.yaml
+  - include:
+      file:  db/changelog/2025/11/07-02-changelog-update-product-id.yaml
+  - include:
+       file: db/changelog/2025/11/07-02-changelog-update-product-id-2.yaml
