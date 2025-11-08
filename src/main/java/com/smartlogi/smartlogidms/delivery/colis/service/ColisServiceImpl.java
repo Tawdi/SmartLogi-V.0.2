@@ -4,11 +4,14 @@ import com.smartlogi.smartlogidms.common.exception.ResourceNotFoundException;
 import com.smartlogi.smartlogidms.common.service.implementation.StringCrudServiceImpl;
 import com.smartlogi.smartlogidms.delivery.colis.api.*;
 import com.smartlogi.smartlogidms.delivery.colis.domain.Colis;
+import com.smartlogi.smartlogidms.delivery.colis.domain.ColisProduit;
 import com.smartlogi.smartlogidms.delivery.colis.domain.ColisRepository;
 import com.smartlogi.smartlogidms.delivery.historique.api.HistoriqueLivraisonMapper;
 import com.smartlogi.smartlogidms.delivery.historique.api.HistoriqueLivraisonResponseDTO;
 import com.smartlogi.smartlogidms.delivery.historique.domain.HistoriqueLivraison;
 import com.smartlogi.smartlogidms.delivery.historique.domain.HistoriqueLivraisonRepository;
+import com.smartlogi.smartlogidms.delivery.product.domain.Product;
+import com.smartlogi.smartlogidms.delivery.product.domain.ProductRrepository;
 import com.smartlogi.smartlogidms.masterdata.client.domain.ClientExpediteur;
 import com.smartlogi.smartlogidms.masterdata.client.domain.ClientExpediteurRepository;
 import com.smartlogi.smartlogidms.masterdata.driver.domain.Driver;
@@ -34,6 +37,7 @@ public class ColisServiceImpl extends StringCrudServiceImpl<Colis, ColisRequestD
     private final RecipientRepository destinataireRepo;
     private final ZoneRepository zoneRepo;
     private final DriverRepository driverRepo;
+    private final ProductRrepository productRrepo;
 
     private final HistoriqueLivraisonRepository historyRepo;
     private final HistoriqueLivraisonMapper historyMapper;
@@ -42,6 +46,7 @@ public class ColisServiceImpl extends StringCrudServiceImpl<Colis, ColisRequestD
                             RecipientRepository destinataireRepo,
                             ClientExpediteurRepository expediteurRepo, ZoneRepository zoneRepo,
                             DriverRepository driverRepo,
+                            ProductRrepository productRrepo,
                             HistoriqueLivraisonRepository historyRepo, HistoriqueLivraisonMapper historyMapper) {
         super(colisRepository, colisMapper);
         this.colisRepository = colisRepository;
@@ -52,6 +57,7 @@ public class ColisServiceImpl extends StringCrudServiceImpl<Colis, ColisRequestD
         this.historyRepo = historyRepo;
         this.historyMapper = historyMapper;
         this.driverRepo = driverRepo;
+        this.productRrepo =productRrepo;
 
     }
 
@@ -62,8 +68,32 @@ public class ColisServiceImpl extends StringCrudServiceImpl<Colis, ColisRequestD
         entity.setExpediteur(loadExpediteur(requestDto.getExpediteurId()));
         entity.setDestinataire(loadDestinataire(requestDto.getDestinataireId()));
         entity.setZone(loadZone(requestDto.getZoneId()));
-        Colis savedEntity = repository.save(entity);
-        return mapper.toDto(savedEntity);
+
+        entity.getColisProduits().clear();
+        Colis savedColis = repository.save(entity);
+
+        if (requestDto.getProductList() != null && !requestDto.getProductList().isEmpty()) {
+            savedColis.getColisProduits().clear();
+
+            requestDto.getProductList().forEach(item -> {
+                Product product = productRrepo.findById(item.getProductId())
+                        .orElseThrow(() -> new ResourceNotFoundException("Produit non trouvé: " + item.getProductId()));
+
+                ColisProduit cp = new ColisProduit();
+                cp.setColisId(savedColis.getId());
+                cp.setProductId(product.getId());
+                cp.setQuantite(item.getQuantite());
+                cp.setPrixUnitaire(item.getPrix());
+                cp.setColis(savedColis);
+                cp.setProduct(product);
+
+                savedColis.getColisProduits().add(cp);
+            });
+        }
+
+        Colis finalSaved = repository.save(savedColis);
+
+        return mapper.toDto(finalSaved);
     }
 
 

@@ -2,6 +2,7 @@ package com.smartlogi.smartlogidms.delivery.colis.api;
 
 import com.smartlogi.smartlogidms.common.api.dto.BaseResponseDTO;
 import com.smartlogi.smartlogidms.delivery.colis.domain.Colis;
+import com.smartlogi.smartlogidms.delivery.product.api.ProductResponseDTO;
 import com.smartlogi.smartlogidms.masterdata.client.api.ClientResponseDTO;
 import com.smartlogi.smartlogidms.masterdata.driver.api.DriverResponseDTO;
 import com.smartlogi.smartlogidms.masterdata.recipient.api.RecipientResponseDTO;
@@ -9,6 +10,8 @@ import com.smartlogi.smartlogidms.masterdata.shared.api.AdresseDTO;
 import com.smartlogi.smartlogidms.masterdata.zone.api.ZoneResponseDTO;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -22,6 +25,7 @@ public class ColisResponseDTO extends BaseResponseDTO<String> {
     private ClientResponseDTO expediteur;
     private DriverResponseDTO livreur;
     private RecipientResponseDTO destinataire;
+    private List<ProductResponseDTO> products;
     private ZoneResponseDTO zone;
     private AdresseDTO adresseLivraison;
 }

@@ -3,8 +3,13 @@ package com.smartlogi.smartlogidms.delivery.colis.api;
 import com.smartlogi.smartlogidms.common.api.dto.BaseResquestDTO;
 import com.smartlogi.smartlogidms.common.api.dto.ValidationGroups;
 import com.smartlogi.smartlogidms.delivery.colis.domain.Colis;
+import com.smartlogi.smartlogidms.delivery.product.api.ProductRequestDTO;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -36,6 +41,8 @@ public class ColisRequestDTO implements BaseResquestDTO {
     @NotNull(groups = ValidationGroups.Create.class)
     private String zoneId;
 
+    private List<ProduitColisDTO> productList = new ArrayList<>();
+
     //    Adresse
     @NotBlank(groups = ValidationGroups.Create.class)
     @Size(max = 100)
@@ -45,4 +52,11 @@ public class ColisRequestDTO implements BaseResquestDTO {
     @NotBlank(groups = ValidationGroups.Create.class)
     @Size(max = 20)
     private String codePostal;
+
+    @Getter @Setter
+    public static class ProduitColisDTO {
+        private String productId;
+        private Integer quantite = 1;
+        private Double prix;
+    }
 }
