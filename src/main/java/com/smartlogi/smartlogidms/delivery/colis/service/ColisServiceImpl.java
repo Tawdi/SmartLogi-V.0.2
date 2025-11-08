@@ -1,6 +1,7 @@
 package com.smartlogi.smartlogidms.delivery.colis.service;
 
 import com.smartlogi.smartlogidms.common.exception.ResourceNotFoundException;
+import com.smartlogi.smartlogidms.common.service.EmailService;
 import com.smartlogi.smartlogidms.common.service.implementation.StringCrudServiceImpl;
 import com.smartlogi.smartlogidms.delivery.colis.api.*;
 import com.smartlogi.smartlogidms.delivery.colis.domain.Colis;
@@ -20,11 +21,13 @@ import com.smartlogi.smartlogidms.masterdata.recipient.domain.Recipient;
 import com.smartlogi.smartlogidms.masterdata.recipient.domain.RecipientRepository;
 import com.smartlogi.smartlogidms.masterdata.zone.domain.Zone;
 import com.smartlogi.smartlogidms.masterdata.zone.domain.ZoneRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -39,13 +42,19 @@ public class ColisServiceImpl extends StringCrudServiceImpl<Colis, ColisRequestD
     private final DriverRepository driverRepo;
     private final ProductRrepository productRrepo;
 
+    private final EmailService emailService;
+
     private final HistoriqueLivraisonRepository historyRepo;
     private final HistoriqueLivraisonMapper historyMapper;
+
+    @Value("${app.base-url}")
+    private String baseUrl;
 
     public ColisServiceImpl(ColisRepository colisRepository, ColisMapper colisMapper,
                             RecipientRepository destinataireRepo,
                             ClientExpediteurRepository expediteurRepo, ZoneRepository zoneRepo,
                             DriverRepository driverRepo,
+                            EmailService emailService,
                             ProductRrepository productRrepo,
                             HistoriqueLivraisonRepository historyRepo, HistoriqueLivraisonMapper historyMapper) {
         super(colisRepository, colisMapper);
@@ -58,6 +67,7 @@ public class ColisServiceImpl extends StringCrudServiceImpl<Colis, ColisRequestD
         this.historyMapper = historyMapper;
         this.driverRepo = driverRepo;
         this.productRrepo = productRrepo;
+        this.emailService = emailService;
 
     }
 
@@ -92,7 +102,7 @@ public class ColisServiceImpl extends StringCrudServiceImpl<Colis, ColisRequestD
         }
 
         Colis finalSaved = repository.save(savedColis);
-
+        sendCreationEmail(finalSaved);
         return colisMapper.toDto(finalSaved);
     }
 
@@ -199,6 +209,7 @@ public class ColisServiceImpl extends StringCrudServiceImpl<Colis, ColisRequestD
                 requestDTO.getCommentaire().isEmpty() ? " Status Updated " : requestDTO.getCommentaire()); // will work with
         historyRepo.save(history);
 
+        sendStatusEmail(saved, current, newStatus, requestDTO.getUtilisateurId());
         return colisMapper.toDto(saved);
     }
 
@@ -304,5 +315,49 @@ public class ColisServiceImpl extends StringCrudServiceImpl<Colis, ColisRequestD
             dto.setPrixTotal(cp.getQuantite() * cp.getPrixUnitaire());
             return dto;
         });
+    }
+
+
+    private void sendCreationEmail(Colis colis) {
+        String toSender = colis.getExpediteur().getEmail();
+        String toRecipient = colis.getDestinataire().getEmail();
+        String subject = "Nouveau colis créé: " + colis.getReference();
+        String message = """
+                Bonjour,
+                
+                Votre colis %s a été créé avec succès.
+                Statut actuel: CREATED
+                Poids: %.1f kg
+                Priorité: %s
+                
+                Suivi: %s/api/colis/%s
+                
+                Cordialement,
+                SmartLogi
+                """.formatted(colis.getReference(), colis.getPoids(), colis.getPriorite(), baseUrl, colis.getId());
+
+        emailService.sendNotification(toSender, subject, message);
+        emailService.sendNotification(toRecipient, subject, message);
+    }
+
+    private void sendStatusEmail(Colis colis, Colis.ColisStatus oldStatus, Colis.ColisStatus newStatus, String userId) {
+        String toSender = colis.getExpediteur().getEmail();
+        String subject = "Mise à jour statut: " + colis.getReference();
+        String message = """
+                Bonjour,
+                
+                Votre colis %s a changé de statut:
+                • Ancien: %s
+                • Nouveau: %s
+                • Par: %s
+                • Date: %s
+                
+                Suivi: %s/api/colis/%s
+                
+                Cordialement,
+                SmartLogi
+                """.formatted(colis.getReference(), oldStatus, newStatus, userId, LocalDateTime.now(), baseUrl, colis.getId());
+
+        emailService.sendNotification(toSender, subject, message);
     }
 }

@@ -16,6 +16,18 @@ spring:
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-master.yaml
     enabled: true
+  mail:
+      host: sandbox.smtp.mailtrap.io
+      port: 2525
+      username: 830474a69ff1fd
+      password: 4898348e8874f5 # Use app password for Gmail
+      properties:
+        mail:
+          smtp:
+            auth: true
+            starttls:
+              enable: true
+      default-encoding: UTF-8
 
 logging:
   level:
@@ -28,3 +40,5 @@ logging:
 #    console: "%d{yyyy-MM-dd HH:mm:ss} %clr([%thread]){faint} %highlight(%-5level) %clr(%logger{36}){cyan} - %msg%n"
   file:
     name: logs/myapp.log
+app:
+  base-url: http://localhost:8080
