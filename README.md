@@ -55,7 +55,7 @@ StringCrudServiceImpl<Colis, ColisRequestDTO, ColisResponseDTO>
 
 ## Dynamic Search & Filter (JPA Specifications)
 
-```http
+```bash
 ?filter=statut:eq:IN_TRANSIT&poids:gt:5&reference:like:Casablanca
 ?search=Laptop
 ```
