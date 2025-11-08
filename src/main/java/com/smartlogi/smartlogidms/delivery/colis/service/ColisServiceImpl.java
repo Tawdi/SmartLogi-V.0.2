@@ -57,7 +57,7 @@ public class ColisServiceImpl extends StringCrudServiceImpl<Colis, ColisRequestD
         this.historyRepo = historyRepo;
         this.historyMapper = historyMapper;
         this.driverRepo = driverRepo;
-        this.productRrepo =productRrepo;
+        this.productRrepo = productRrepo;
 
     }
 
@@ -93,7 +93,7 @@ public class ColisServiceImpl extends StringCrudServiceImpl<Colis, ColisRequestD
 
         Colis finalSaved = repository.save(savedColis);
 
-        return mapper.toDto(finalSaved);
+        return colisMapper.toDto(finalSaved);
     }
 
 
@@ -148,7 +148,7 @@ public class ColisServiceImpl extends StringCrudServiceImpl<Colis, ColisRequestD
 
         Colis existingEntity = loadColis(id);
 
-        mapper.updateEntityFromDto(requestDTO, existingEntity);
+        colisMapper.updateEntityFromDto(requestDTO, existingEntity);
         if (requestDTO.getExpediteurId() != null) {
             existingEntity.setExpediteur(loadExpediteur(requestDTO.getExpediteurId()));
         }
@@ -159,7 +159,7 @@ public class ColisServiceImpl extends StringCrudServiceImpl<Colis, ColisRequestD
             existingEntity.setZone(loadZone(requestDTO.getZoneId()));
         }
         Colis savedEntity = repository.save(existingEntity);
-        return mapper.toDto(savedEntity);
+        return colisMapper.toDto(savedEntity);
     }
 
 
@@ -286,5 +286,23 @@ public class ColisServiceImpl extends StringCrudServiceImpl<Colis, ColisRequestD
             case DELIVERED -> "none (final state)";
             default -> "unknown";
         };
+    }
+
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<ColisProductResponseDTO> getProductsByColisId(String colisId, Pageable pageable) {
+        Page<ColisProduit> page = colisRepository.findColisProduitsByColisId(colisId, pageable);
+        return page.map(cp -> {
+            ColisProductResponseDTO dto = new ColisProductResponseDTO();
+            dto.setProductId(cp.getProduct().getId());
+            dto.setNom(cp.getProduct().getNom());
+            dto.setCategorie(cp.getProduct().getCategorie());
+            dto.setPoids(cp.getProduct().getPoids());
+            dto.setQuantite(cp.getQuantite());
+            dto.setPrixUnitaire(cp.getPrixUnitaire());
+            dto.setPrixTotal(cp.getQuantite() * cp.getPrixUnitaire());
+            return dto;
+        });
     }
 }

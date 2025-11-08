@@ -8,8 +8,11 @@ import com.smartlogi.smartlogidms.delivery.historique.api.HistoriqueLivraisonRes
 import io.swagger.v3.oas.annotations.*;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -114,5 +117,14 @@ public class ColisController extends StringBaseController<Colis, ColisRequestDTO
     public ResponseEntity<ApiResponseDTO<List<SyntheseDTO<Colis.Priorite>>>> syntheseByPriorite() {
         List<SyntheseDTO<Colis.Priorite>> data = colisService.getSyntheseByPriorite();
         return ResponseEntity.ok(ApiResponseDTO.success("Synthèse par priorité", data));
+    }
+
+    @GetMapping("/{id}/products")
+    public ResponseEntity<Page<ColisProductResponseDTO>> getProducts(
+            @PathVariable String id,
+            @ParameterObject @PageableDefault(size = 10, sort = "product.nom", direction = Sort.Direction.ASC) Pageable pageable) {
+
+        Page<ColisProductResponseDTO> result = colisService.getProductsByColisId(id, pageable);
+        return ResponseEntity.ok(result);
     }
 }

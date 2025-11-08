@@ -50,4 +50,9 @@ public interface ColisRepository extends StringRepository<Colis> {
     @Query("SELECT new com.smartlogi.smartlogidms.delivery.colis.api.SyntheseDTO(c.priorite, COUNT(c), SUM(c.poids)) " +
             "FROM Colis c GROUP BY c.priorite")
     List<SyntheseDTO<Colis.Priorite>> countByPriorite();
+
+
+    @Query("SELECT cp FROM ColisProduit cp WHERE cp.colisId = :colisId")
+    Page<ColisProduit> findColisProduitsByColisId(@Param("colisId") String colisId, Pageable pageable);
+
 }

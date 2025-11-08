@@ -30,4 +30,8 @@ public interface ColisService extends StringCrudService<Colis,ColisRequestDTO, C
     List<SyntheseDTO<String>> getSyntheseByZone();
     List<SyntheseDTO<Colis.ColisStatus>> getSyntheseByStatut();
     List<SyntheseDTO<Colis.Priorite>> getSyntheseByPriorite();
+
+
+
+    Page<ColisProductResponseDTO> getProductsByColisId(String colisId, Pageable pageable);
 }
