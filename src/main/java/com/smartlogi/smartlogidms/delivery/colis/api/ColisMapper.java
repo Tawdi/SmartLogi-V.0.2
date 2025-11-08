@@ -30,6 +30,7 @@ public interface ColisMapper extends BaseMapper<Colis, ColisRequestDTO, ColisRes
 
 
     @Override
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)

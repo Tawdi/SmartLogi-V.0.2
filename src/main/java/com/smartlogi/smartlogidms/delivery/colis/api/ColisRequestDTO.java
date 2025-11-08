@@ -30,7 +30,7 @@ public class ColisRequestDTO implements BaseResquestDTO {
     private String description;
 
     @NotNull(groups = ValidationGroups.Create.class)
-    private Colis.Priorite priorite = Colis.Priorite.MEDIUM;
+    private Colis.Priorite priorite ;
 
     @NotNull(groups = ValidationGroups.Create.class)
     private String expediteurId;
