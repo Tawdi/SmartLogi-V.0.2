@@ -2,10 +2,7 @@ package com.smartlogi.smartlogidms.delivery.colis.service;
 
 import com.smartlogi.smartlogidms.common.exception.ResourceNotFoundException;
 import com.smartlogi.smartlogidms.common.service.EmailService;
-import com.smartlogi.smartlogidms.delivery.colis.api.ColisMapper;
-import com.smartlogi.smartlogidms.delivery.colis.api.ColisRequestDTO;
-import com.smartlogi.smartlogidms.delivery.colis.api.ColisResponseDTO;
-import com.smartlogi.smartlogidms.delivery.colis.api.UpdateStatusRequest;
+import com.smartlogi.smartlogidms.delivery.colis.api.*;
 import com.smartlogi.smartlogidms.delivery.colis.domain.Colis;
 import com.smartlogi.smartlogidms.delivery.colis.domain.ColisProduit;
 import com.smartlogi.smartlogidms.delivery.colis.domain.ColisRepository;
@@ -16,6 +13,7 @@ import com.smartlogi.smartlogidms.delivery.product.domain.Product;
 import com.smartlogi.smartlogidms.delivery.product.domain.ProductRrepository;
 import com.smartlogi.smartlogidms.masterdata.client.domain.ClientExpediteur;
 import com.smartlogi.smartlogidms.masterdata.client.domain.ClientExpediteurRepository;
+import com.smartlogi.smartlogidms.masterdata.driver.api.DriverResponseDTO;
 import com.smartlogi.smartlogidms.masterdata.driver.domain.Driver;
 import com.smartlogi.smartlogidms.masterdata.driver.domain.DriverRepository;
 import com.smartlogi.smartlogidms.masterdata.recipient.domain.Recipient;
@@ -222,4 +220,69 @@ public class ColisServiceTest {
                 .hasMessageContaining("IN_TRANSIT → CREATED");
     }
 
+    @Test
+    void shouldAssignDriverWhenNoneAssigned() {
+        // === GIVEN ===
+        Colis colis = new Colis();
+        colis.setId("C1");
+        colis.setStatut(Colis.ColisStatus.IN_STOCK);
+        colis.setLivreur(null); // aucun livreur
+
+         driver = new Driver();
+        driver.setId("DRV1");
+
+        AssignerLivreurRequestDTO request = new AssignerLivreurRequestDTO("DRV1");
+
+        // === MOCKS ===
+        when(colisRepository.findById("C1")).thenReturn(Optional.of(colis));
+        when(driverRepo.findById("DRV1")).thenReturn(Optional.of(driver));
+        when(colisRepository.save(any())).thenAnswer(i -> i.getArgument(0));
+
+        ColisResponseDTO responseDTO = new ColisResponseDTO();
+        DriverResponseDTO driverResponseDTO = new DriverResponseDTO();
+        driverResponseDTO.setId("DRV1");
+        responseDTO.setLivreur( driverResponseDTO);
+        when(colisMapper.toDto(any())).thenReturn(responseDTO);
+
+        ColisResponseDTO result = colisService.assignerLivreur("C1", request);
+
+        verify(historyRepo).save(argThat(h ->
+                h.getCommentaire().contains("Assigned to driver ID=DRV1")
+        ));
+        verify(colisRepository).save(colis);
+        assertThat(result.getLivreur().getId()).isEqualTo("DRV1");
+    }
+
+    @Test
+    void shouldReassignDriverWhenAlreadyAssigned() {
+        // === GIVEN ===
+        Driver oldDriver = new Driver(); oldDriver.setId("OLD1");
+        Driver newDriver = new Driver(); newDriver.setId("NEW1");
+
+        Colis colis = new Colis();
+        colis.setId("C2");
+        colis.setLivreur(oldDriver);
+
+        AssignerLivreurRequestDTO request = new AssignerLivreurRequestDTO("NEW1");
+
+        // === MOCKS ===
+        when(colisRepository.findById("C2")).thenReturn(Optional.of(colis));
+        when(driverRepo.findById("NEW1")).thenReturn(Optional.of(newDriver));
+        when(colisRepository.save(any())).thenAnswer(i -> i.getArgument(0));
+
+        ColisResponseDTO dto = new ColisResponseDTO();
+        DriverResponseDTO driverResponseDTO = new DriverResponseDTO();
+        driverResponseDTO.setId("NEW1");
+        dto.setLivreur( driverResponseDTO);
+        when(colisMapper.toDto(any())).thenReturn(dto);
+
+        // === WHEN ===
+        ColisResponseDTO result = colisService.assignerLivreur("C2", request);
+
+        // === THEN ===
+        verify(historyRepo).save(argThat(h ->
+                h.getCommentaire().contains("Reassigned from driver ID=OLD1 to driver ID=NEW1")
+        ));
+        assertThat(result.getLivreur().getId()).isEqualTo("NEW1");
+    }
 }
