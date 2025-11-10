@@ -54,6 +54,7 @@ public class ColisRequestDTO implements BaseResquestDTO {
     private String codePostal;
 
     @Getter @Setter
+    @AllArgsConstructor
     public static class ProduitColisDTO {
         private String productId;
         private Integer quantite = 1;
