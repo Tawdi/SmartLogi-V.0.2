@@ -5,10 +5,12 @@ import com.smartlogi.smartlogidms.common.service.EmailService;
 import com.smartlogi.smartlogidms.delivery.colis.api.ColisMapper;
 import com.smartlogi.smartlogidms.delivery.colis.api.ColisRequestDTO;
 import com.smartlogi.smartlogidms.delivery.colis.api.ColisResponseDTO;
+import com.smartlogi.smartlogidms.delivery.colis.api.UpdateStatusRequest;
 import com.smartlogi.smartlogidms.delivery.colis.domain.Colis;
 import com.smartlogi.smartlogidms.delivery.colis.domain.ColisProduit;
 import com.smartlogi.smartlogidms.delivery.colis.domain.ColisRepository;
 import com.smartlogi.smartlogidms.delivery.historique.api.HistoriqueLivraisonMapper;
+import com.smartlogi.smartlogidms.delivery.historique.domain.HistoriqueLivraison;
 import com.smartlogi.smartlogidms.delivery.historique.domain.HistoriqueLivraisonRepository;
 import com.smartlogi.smartlogidms.delivery.product.domain.Product;
 import com.smartlogi.smartlogidms.delivery.product.domain.ProductRrepository;
@@ -167,5 +169,57 @@ public class ColisServiceTest {
                 .hasMessage("Produit non trouvé: UNKNOWN");
     }
 
+    @Test
+    void shouldUpdateStatusWithValidTransition() {
+        // Given
+        ClientExpediteur expediteur = new ClientExpediteur();
+        expediteur.setId("EXP1");
+        expediteur.setEmail("exp@test.com");
+
+        Colis colis = new Colis();
+        colis.setId("C1");
+        colis.setStatut(Colis.ColisStatus.CREATED);
+        colis.setExpediteur(expediteur);
+
+        UpdateStatusRequest request = new UpdateStatusRequest();
+        request.setStatut(Colis.ColisStatus.COLLECTED);
+        request.setUtilisateurId("USER1");
+        request.setCommentaire("Ramassage effectué");
+
+        when(colisRepository.findById("C1")).thenReturn(Optional.of(colis));
+        when(colisRepository.save(any())).thenAnswer(i -> i.getArgument(0));
+        ColisResponseDTO responseDTO = new ColisResponseDTO();
+        responseDTO.setStatut(Colis.ColisStatus.COLLECTED);
+        when(colisMapper.toDto(any(Colis.class))).thenReturn(responseDTO);
+        // When
+        ColisResponseDTO result = colisService.updateStatus("C1", request);
+
+        // Then
+        verify(historyRepo).save(any(HistoriqueLivraison.class));
+        verify(emailService).sendNotification(anyString(), anyString(), anyString());
+
+        assertThat(result.getStatut()).isEqualTo(Colis.ColisStatus.COLLECTED);
+    }
+
+
+    @Test
+    void shouldThrowOnInvalidStatusTransition() {
+        // === GIVEN ===
+        Colis colis = new Colis();
+        colis.setId("C1");
+        colis.setStatut(Colis.ColisStatus.IN_TRANSIT);
+
+        UpdateStatusRequest request = new UpdateStatusRequest();
+        request.setStatut(Colis.ColisStatus.CREATED); // ← Transition invalide
+
+        // === MOCK ===
+        when(colisRepository.findById("C1")).thenReturn(Optional.of(colis));
+
+        // === WHEN & THEN ===
+        assertThatThrownBy(() -> colisService.updateStatus("C1", request))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessageContaining("Invalid status transition")
+                .hasMessageContaining("IN_TRANSIT → CREATED");
+    }
 
 }
