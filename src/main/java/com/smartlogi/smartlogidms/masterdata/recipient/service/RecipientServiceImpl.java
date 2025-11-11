@@ -25,7 +25,6 @@ public class RecipientServiceImpl extends StringCrudServiceImpl<Recipient, Recip
         this.mapper = recipientMapper;
     }
 
-    //TODO
     @Override
     public RecipientResponseDTO findByEmail(String email) {
         Recipient entity = repository.findByEmail(email)
