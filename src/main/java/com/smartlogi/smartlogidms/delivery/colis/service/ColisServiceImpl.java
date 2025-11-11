@@ -183,6 +183,11 @@ public class ColisServiceImpl extends StringCrudServiceImpl<Colis, ColisRequestD
 
         Colis.ColisStatus current = colis.getStatut();
 
+        if(current == null){
+            throw new NullPointerException(
+                    "Invalid status transition (cuerrent status is missing)"
+            );
+        }
 
         boolean isValidTransition = switch (current) {
             case CREATED -> newStatus == Colis.ColisStatus.COLLECTED;
@@ -190,7 +195,7 @@ public class ColisServiceImpl extends StringCrudServiceImpl<Colis, ColisRequestD
             case IN_STOCK -> newStatus == Colis.ColisStatus.IN_TRANSIT;
             case IN_TRANSIT -> newStatus == Colis.ColisStatus.DELIVERED;
             case DELIVERED -> false; // No further changes
-            default -> false;
+//            default -> false;
         };
 
         if (!isValidTransition) {
@@ -295,7 +300,7 @@ public class ColisServiceImpl extends StringCrudServiceImpl<Colis, ColisRequestD
             case IN_STOCK -> "IN_TRANSIT";
             case IN_TRANSIT -> "DELIVERED";
             case DELIVERED -> "none (final state)";
-            default -> "unknown";
+//            default -> "unknown";
         };
     }
 
