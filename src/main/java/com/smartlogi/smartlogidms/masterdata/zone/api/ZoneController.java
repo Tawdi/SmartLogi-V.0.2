@@ -23,10 +23,10 @@ public class ZoneController extends StringBaseController<Zone, ZoneRequestDTO, Z
         this.zoneService = zoneService;
         this.zoneMapper = zoneMapper;
     }
-
-    @PutMapping("/{id}/a")
-    public ResponseEntity<ApiResponseDTO<ZoneResponseDTO>> update(@PathVariable String id, @Validated(ValidationGroups.Update.class)  @RequestBody ZoneRequestDTO requestDTO) {
-        ZoneResponseDTO responseDTO = service.update(id, requestDTO);
-        return ResponseEntity.ok(ApiResponseDTO.success("Resource updated successfully", responseDTO));
-    }
+//
+//    @PutMapping("/{id}/a")
+//    public ResponseEntity<ApiResponseDTO<ZoneResponseDTO>> update(@PathVariable String id, @Validated(ValidationGroups.Update.class)  @RequestBody ZoneRequestDTO requestDTO) {
+//        ZoneResponseDTO responseDTO = service.update(id, requestDTO);
+//        return ResponseEntity.ok(ApiResponseDTO.success("Resource updated successfully", responseDTO));
+//    }
 }

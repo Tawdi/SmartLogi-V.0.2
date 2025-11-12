@@ -13,14 +13,14 @@ import lombok.ToString;
 @ToString(callSuper = true)
 public class RecipientRequestDTO extends PersonneRequestDTO {
 
-    @Size(max = 255, message = "La rue ne doit pas dépasser 255 caractères")
+    @Size(groups = {ValidationGroups.Create.class ,ValidationGroups.Update.class} ,max = 255, message = "La rue ne doit pas dépasser 255 caractères")
     private String rue;
 
     @NotBlank(groups = ValidationGroups.Create.class,message = "La ville est obligatoire")
-    @Size(max = 100, message = "La ville ne doit pas dépasser 100 caractères")
+    @Size( groups = {ValidationGroups.Create.class ,ValidationGroups.Update.class}, max = 100, message = "La ville ne doit pas dépasser 100 caractères")
     private String ville;
 
     @NotBlank(groups = ValidationGroups.Create.class,message = "Le code postal est obligatoire")
-    @Size(max = 20, message = "Le code postal ne doit pas dépasser 20 caractères")
+    @Size(groups = {ValidationGroups.Create.class ,ValidationGroups.Update.class} , max = 20, message = "Le code postal ne doit pas dépasser 20 caractères")
     private String codePostal;
 }
