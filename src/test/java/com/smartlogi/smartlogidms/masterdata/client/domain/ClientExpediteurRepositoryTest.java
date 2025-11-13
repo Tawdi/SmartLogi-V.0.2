@@ -351,7 +351,7 @@ class ClientExpediteurRepositoryTest {
 
         // Then
         assertThat(result.getContent()).isEmpty();
-        assertThat(result.getTotalElements()).isEqualTo(0);
+        assertThat(result.getTotalElements()).isZero();
     }
 
     @Test

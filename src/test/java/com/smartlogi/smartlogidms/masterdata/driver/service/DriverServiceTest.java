@@ -450,7 +450,7 @@ class DriverServiceTest {
 
         // Then
         assertThat(result).isEmpty();
-        assertThat(result.getTotalElements()).isEqualTo(0);
+        assertThat(result.getTotalElements()).isZero();
         verify(repository).searchDrivers(keyword, pageable);
     }
 
@@ -468,7 +468,7 @@ class DriverServiceTest {
 
         // Then
         assertThat(result).isEmpty();
-        assertThat(result.getTotalElements()).isEqualTo(0);
+        assertThat(result.getTotalElements()).isZero();
         verify(repository).findByZoneAssigneeId(zoneId, pageable);
     }
 

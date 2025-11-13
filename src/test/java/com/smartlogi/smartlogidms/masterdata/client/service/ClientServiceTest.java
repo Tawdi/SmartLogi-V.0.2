@@ -386,7 +386,7 @@ class ClientServiceTest {
 
         // Then
         assertThat(result).isEmpty();
-        assertThat(result.getTotalElements()).isEqualTo(0);
+        assertThat(result.getTotalElements()).isZero();
         verify(repository).searchClients(keyword, pageable);
     }
 
