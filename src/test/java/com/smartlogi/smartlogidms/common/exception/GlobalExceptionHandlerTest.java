@@ -21,7 +21,8 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class GlobalExceptionHandlerTest {
@@ -185,7 +186,7 @@ class GlobalExceptionHandlerTest {
         String requestPath = "/api/nonexistent";
         String method = "GET";
 
-        NoResourceFoundException ex = new NoResourceFoundException(HttpMethod.GET,requestPath);
+        NoResourceFoundException ex = new NoResourceFoundException(HttpMethod.GET, requestPath);
 
         when(request.getRequestURI()).thenReturn(requestPath);
         when(request.getMethod()).thenReturn(method);

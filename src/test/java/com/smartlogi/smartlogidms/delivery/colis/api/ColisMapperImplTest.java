@@ -47,7 +47,7 @@ class ColisMapperImplTest {
 
         response = mapper.toDto(colis);
         assertNull(nullResp);
-        assertEquals(colis.getReference(),response.getReference());
+        assertEquals(colis.getReference(), response.getReference());
     }
 
     @Test
@@ -86,7 +86,7 @@ class ColisMapperImplTest {
 
         mapper.updateEntityFromDto(request, colis);
 
-        assertEquals(request.getReference(),colis.getReference());
+        assertEquals(request.getReference(), colis.getReference());
 
     }
 }

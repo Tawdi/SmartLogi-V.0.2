@@ -2,7 +2,6 @@ package com.smartlogi.smartlogidms.masterdata.recipient.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.smartlogi.smartlogidms.common.api.dto.ApiResponseDTO;
-import com.smartlogi.smartlogidms.common.api.dto.ValidationGroups;
 import com.smartlogi.smartlogidms.common.exception.GlobalExceptionHandler;
 import com.smartlogi.smartlogidms.common.exception.ResourceNotFoundException;
 import com.smartlogi.smartlogidms.masterdata.recipient.domain.Recipient;
@@ -34,7 +33,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
 class RecipientControllerTest {

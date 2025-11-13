@@ -9,7 +9,7 @@ class LongBaseEntityTest {
 
 
     @Test
-    void ShouldInstance(){
+    void ShouldInstance() {
 
         LongBaseEntity longBaseEntity = new LongBaseEntity();
 

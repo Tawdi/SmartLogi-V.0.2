@@ -7,13 +7,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 class HardDeletebleEntityTest {
 
 
-
     @Test
-    void ShouldInstance(){
+    void ShouldInstance() {
 
         HardDeletableEntity<Long> entity = new HardDeletableEntity<>() {
 
-            Long id ;
+            Long id;
+
             @Override
             public Long getId() {
                 return id;
@@ -21,7 +21,7 @@ class HardDeletebleEntityTest {
 
             @Override
             public void setId(Long id) {
-                this.id =  id ;
+                this.id = id;
             }
         };
 

@@ -9,7 +9,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class UuidBaseEntityTest {
 
     @Test
-    void ShouldInstance(){
+    void ShouldInstance() {
 
         UuidBaseEntity uuidBaseEntity = new UuidBaseEntity();
 

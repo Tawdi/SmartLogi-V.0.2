@@ -53,6 +53,7 @@ class FilterParserTest {
         return map;
     }
 
-    @Searchable(fields = {"name", "description"})
-    static class TestEntity {}
+    @Searchable(fields = {"name", "description" })
+    static class TestEntity {
+    }
 }
