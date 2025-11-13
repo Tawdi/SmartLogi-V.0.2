@@ -1,7 +1,7 @@
 package com.smartlogi.smartlogidms.common.domain.entity;
 
-import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.Column;
+import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -33,5 +33,6 @@ public abstract sealed class BaseEntity<I> permits HardDeletableEntity, SoftDele
     private Instant updatedAt;
 
     public abstract I getId();
+
     public abstract void setId(I id);
 }
