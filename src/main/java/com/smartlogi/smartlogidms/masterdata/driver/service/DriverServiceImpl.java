@@ -19,36 +19,36 @@ import java.util.Optional;
 @Service
 public class DriverServiceImpl extends StringCrudServiceImpl<Driver, DriverRequestDTO, DriverResponseDTO> implements DriverService {
 
-    private final DriverRepository repository;
+    private final DriverRepository driverRepository;
     private final ZoneRepository zoneRepository;
-    private final DriverMapper mapper;
+    private final DriverMapper driverMapper;
 
     public DriverServiceImpl(DriverRepository driverRepository, ZoneRepository zoneRepo, DriverMapper driverMapper) {
         super(driverRepository, driverMapper);
-        this.repository = driverRepository;
-        this.mapper = driverMapper;
+        this.driverRepository = driverRepository;
+        this.driverMapper = driverMapper;
         this.zoneRepository = zoneRepo;
     }
 
     @Override
     @Transactional(readOnly = true)
     public Optional<DriverResponseDTO> findByEmail(String email) {
-        return repository.findByEmail(email)
-                .map(mapper::toDto);
+        return driverRepository.findByEmail(email)
+                .map(driverMapper::toDto);
     }
 
     @Override
     @Transactional(readOnly = true)
     public Page<DriverResponseDTO> searchDrivers(String keyword, Pageable pageable) {
-        return repository.searchDrivers(keyword, pageable)
-                .map(mapper::toDto);
+        return driverRepository.searchDrivers(keyword, pageable)
+                .map(driverMapper::toDto);
     }
 
     @Override
     @Transactional(readOnly = true)
     public Page<DriverResponseDTO> findDriversByZone(String zoneId, Pageable pageable) {
-        return repository.findByZoneAssigneeId(zoneId, pageable)
-                .map(mapper::toDto);
+        return driverRepository.findByZoneAssigneeId(zoneId, pageable)
+                .map(driverMapper::toDto);
     }
 
     @Override
@@ -63,6 +63,6 @@ public class DriverServiceImpl extends StringCrudServiceImpl<Driver, DriverReque
 
         Driver updatedDriver = repository.save(driver);
 
-        return mapper.toDto(updatedDriver);
+        return driverMapper.toDto(updatedDriver);
     }
 }

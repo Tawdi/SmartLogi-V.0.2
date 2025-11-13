@@ -9,7 +9,6 @@ import com.smartlogi.smartlogidms.common.specification.FilterParser;
 import com.smartlogi.smartlogidms.common.specification.GenericSpecification;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -17,29 +17,29 @@ import java.util.Optional;
 @Service
 public class ClientServiceImpl extends StringCrudServiceImpl<ClientExpediteur, ClientRequestDTO, ClientResponseDTO> implements ClientService {
 
-    private final ClientExpediteurRepository repository;
-    private final ClientMapper mapper;
+    private final ClientExpediteurRepository clientExpediteurRepo;
+    private final ClientMapper clientMapper;
 
     public ClientServiceImpl(ClientExpediteurRepository clientExpediteurRepository, ClientMapper clientMapper) {
         super(clientExpediteurRepository, clientMapper);
-        this.repository = clientExpediteurRepository;
-        this.mapper = clientMapper;
+        this.clientExpediteurRepo = clientExpediteurRepository;
+        this.clientMapper = clientMapper;
     }
 
 
     @Override
     @Transactional(readOnly = true)
     public ClientResponseDTO findByEmail(String email) {
-        ClientExpediteur entity = repository.findByEmail(email)
+        ClientExpediteur entity = clientExpediteurRepo.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("Resource not found with email: " + email));
-        return mapper.toDto(entity);
+        return clientMapper.toDto(entity);
     }
 
 
     @Override
     @Transactional(readOnly = true)
     public Page<ClientResponseDTO> searchClients(String keyword, Pageable pageable) {
-        return repository.searchClients(keyword, pageable)
-                .map(mapper::toDto);
+        return clientExpediteurRepo.searchClients(keyword, pageable)
+                .map(clientMapper::toDto);
     }
 }
