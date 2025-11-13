@@ -1,6 +1,5 @@
 package com.smartlogi.smartlogidms.common.domain.entity.id;
 
-import com.smartlogi.smartlogidms.common.domain.entity.Id.UuidBaseEntity;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;

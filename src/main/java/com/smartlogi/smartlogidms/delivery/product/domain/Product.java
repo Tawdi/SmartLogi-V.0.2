@@ -1,11 +1,8 @@
 package com.smartlogi.smartlogidms.delivery.product.domain;
 
 import com.smartlogi.smartlogidms.common.annotation.Searchable;
-import com.smartlogi.smartlogidms.common.domain.entity.Id.LongBaseEntity;
-import com.smartlogi.smartlogidms.common.domain.entity.Id.StringBaseEntity;
-import com.smartlogi.smartlogidms.delivery.colis.domain.Colis;
+import com.smartlogi.smartlogidms.common.domain.entity.id.StringBaseEntity;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 

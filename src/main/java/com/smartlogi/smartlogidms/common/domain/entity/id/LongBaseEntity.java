@@ -1,6 +1,5 @@
-package com.smartlogi.smartlogidms.common.domain.entity.Id;
+package com.smartlogi.smartlogidms.common.domain.entity.id;
 
-import com.smartlogi.smartlogidms.common.domain.entity.BaseEntity;
 import com.smartlogi.smartlogidms.common.domain.entity.HardDeletableEntity;
 import jakarta.persistence.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;

@@ -194,8 +194,7 @@ public class ColisServiceImpl extends StringCrudServiceImpl<Colis, ColisRequestD
             case COLLECTED -> newStatus == Colis.ColisStatus.IN_STOCK;
             case IN_STOCK -> newStatus == Colis.ColisStatus.IN_TRANSIT;
             case IN_TRANSIT -> newStatus == Colis.ColisStatus.DELIVERED;
-            case DELIVERED -> false; // No further changes
-//            default -> false;
+            case DELIVERED -> false;
         };
 
         if (!isValidTransition) {
@@ -300,7 +299,6 @@ public class ColisServiceImpl extends StringCrudServiceImpl<Colis, ColisRequestD
             case IN_STOCK -> "IN_TRANSIT";
             case IN_TRANSIT -> "DELIVERED";
             case DELIVERED -> "none (final state)";
-//            default -> "unknown";
         };
     }
 

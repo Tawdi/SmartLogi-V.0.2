@@ -13,7 +13,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
@@ -22,9 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
-import java.util.Map;
 
-//@Tag(name = "CRUD Operations", description = "Generic CRUD operations for all entities")
 public abstract class AbstractBaseController<T extends BaseEntity<ID>, ID, RQ, RS> implements BaseController<T, ID, RQ, RS> {
 
     protected final BaseCrudService<T, RQ, RS, ID> service;
@@ -41,11 +38,11 @@ public abstract class AbstractBaseController<T extends BaseEntity<ID>, ID, RQ, R
             summary = "Create a new resource",
             description = "Creates a new resource with the provided data. All required fields must be provided."
     )
-    @ApiResponses({
-            @ApiResponse(responseCode = "201", description = "Resource created successfully"),
-            @ApiResponse(responseCode = "400", description = "Invalid input data"),
-            @ApiResponse(responseCode = "409", description = "Resource already exists")
-    })
+
+    @ApiResponse(responseCode = "201", description = "Resource created successfully")
+    @ApiResponse(responseCode = "400", description = "Invalid input data")
+    @ApiResponse(responseCode = "409", description = "Resource already exists")
+
     public ResponseEntity<ApiResponseDTO<RS>> create(@Validated(ValidationGroups.Create.class) @RequestBody RQ requestDTO) {
 
         RS responseDTO = service.save(requestDTO);
@@ -60,11 +57,10 @@ public abstract class AbstractBaseController<T extends BaseEntity<ID>, ID, RQ, R
             summary = "Update an existing resource",
             description = "Updates an existing resource with the provided data. Only provided fields will be updated."
     )
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Resource updated successfully"),
-            @ApiResponse(responseCode = "400", description = "Invalid input data"),
-            @ApiResponse(responseCode = "404", description = "Resource not found")
-    })
+    @ApiResponse(responseCode = "200", description = "Resource updated successfully")
+    @ApiResponse(responseCode = "400", description = "Invalid input data")
+    @ApiResponse(responseCode = "404", description = "Resource not found")
+
     public ResponseEntity<ApiResponseDTO<RS>> update(@PathVariable ID id, @Validated(ValidationGroups.Update.class) @RequestBody RQ requestDTO) {
         RS responseDTO = service.update(id, requestDTO);
         return ResponseEntity.ok(ApiResponseDTO.success("Resource updated successfully", responseDTO));
@@ -76,10 +72,10 @@ public abstract class AbstractBaseController<T extends BaseEntity<ID>, ID, RQ, R
             summary = "Get resource by ID",
             description = "Retrieves a specific resource by its unique identifier."
     )
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Resource retrieved successfully"),
-            @ApiResponse(responseCode = "404", description = "Resource not found")
-    })
+
+    @ApiResponse(responseCode = "200", description = "Resource retrieved successfully")
+    @ApiResponse(responseCode = "404", description = "Resource not found")
+
     public ResponseEntity<ApiResponseDTO<RS>> getById(@PathVariable ID id) {
         RS responseDTO = service.findById(id);
         return ResponseEntity.ok(ApiResponseDTO.success("Resource retrieved successfully", responseDTO));
@@ -128,10 +124,9 @@ public abstract class AbstractBaseController<T extends BaseEntity<ID>, ID, RQ, R
             summary = "Delete a resource",
             description = "Deletes a specific resource by its unique identifier."
     )
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Resource deleted successfully"),
-            @ApiResponse(responseCode = "404", description = "Resource not found")
-    })
+    @ApiResponse(responseCode = "200", description = "Resource deleted successfully")
+    @ApiResponse(responseCode = "404", description = "Resource not found")
+
     public ResponseEntity<ApiResponseDTO<Void>> delete(@PathVariable ID id) {
         service.deleteById(id);
         return ResponseEntity.ok(ApiResponseDTO.success("Resource deleted successfully", null));

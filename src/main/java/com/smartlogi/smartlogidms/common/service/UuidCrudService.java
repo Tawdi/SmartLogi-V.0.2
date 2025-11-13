@@ -1,6 +1,6 @@
 package com.smartlogi.smartlogidms.common.service;
 
-import com.smartlogi.smartlogidms.common.domain.entity.Id.UuidBaseEntity;
+import com.smartlogi.smartlogidms.common.domain.entity.id.UuidBaseEntity;
 
 import java.util.UUID;
 

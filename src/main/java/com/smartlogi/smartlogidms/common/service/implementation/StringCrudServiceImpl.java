@@ -1,7 +1,7 @@
 package com.smartlogi.smartlogidms.common.service.implementation;
 
 
-import com.smartlogi.smartlogidms.common.domain.entity.Id.StringBaseEntity;
+import com.smartlogi.smartlogidms.common.domain.entity.id.StringBaseEntity;
 import com.smartlogi.smartlogidms.common.domain.repository.StringRepository;
 import com.smartlogi.smartlogidms.common.mapper.BaseMapper;
 import com.smartlogi.smartlogidms.common.service.StringCrudService;

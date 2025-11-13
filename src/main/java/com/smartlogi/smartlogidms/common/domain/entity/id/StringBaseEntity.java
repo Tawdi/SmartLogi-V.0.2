@@ -1,6 +1,5 @@
-package com.smartlogi.smartlogidms.common.domain.entity.Id;
+package com.smartlogi.smartlogidms.common.domain.entity.id;
 
-import com.smartlogi.smartlogidms.common.domain.entity.BaseEntity;
 import com.smartlogi.smartlogidms.common.domain.entity.SoftDeletableEntity;
 import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;

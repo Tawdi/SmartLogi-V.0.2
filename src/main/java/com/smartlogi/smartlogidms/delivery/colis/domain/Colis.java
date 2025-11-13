@@ -2,7 +2,7 @@ package com.smartlogi.smartlogidms.delivery.colis.domain;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.smartlogi.smartlogidms.common.annotation.Searchable;
-import com.smartlogi.smartlogidms.common.domain.entity.Id.StringBaseEntity;
+import com.smartlogi.smartlogidms.common.domain.entity.id.StringBaseEntity;
 import com.smartlogi.smartlogidms.delivery.product.domain.Product;
 import com.smartlogi.smartlogidms.masterdata.client.domain.ClientExpediteur;
 import com.smartlogi.smartlogidms.masterdata.driver.domain.Driver;
@@ -15,7 +15,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
