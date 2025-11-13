@@ -2,11 +2,13 @@ package com.smartlogi.smartlogidms.delivery.product.api;
 
 import com.smartlogi.smartlogidms.common.mapper.BaseMapper;
 import com.smartlogi.smartlogidms.delivery.product.domain.Product;
-import org.mapstruct.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 
 @Mapper(componentModel = "spring")
-public interface ProductMapper extends BaseMapper<Product, ProductRequestDTO, ProductResponseDTO>  {
+public interface ProductMapper extends BaseMapper<Product, ProductRequestDTO, ProductResponseDTO> {
 
     @Override
     @Mapping(target = "id", ignore = true)

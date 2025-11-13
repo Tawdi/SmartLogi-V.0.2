@@ -1,6 +1,7 @@
 package com.smartlogi.smartlogidms.common.domain.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.Column;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

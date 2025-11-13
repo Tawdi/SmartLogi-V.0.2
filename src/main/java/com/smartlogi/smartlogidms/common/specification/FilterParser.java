@@ -81,9 +81,15 @@ public class FilterParser {
 
     private static Object parseValue(String value) {
         if (value == null || value.isBlank()) return value;
-        try { return Double.valueOf(value); } catch (NumberFormatException e) { /* ignore */ }
-        try { return LocalDateTime.parse(value); } catch (DateTimeParseException e) { /* ignore */ }
-        try { return LocalDate.parse(value); } catch (DateTimeParseException e) { /* ignore */ }
+        try {
+            return Double.valueOf(value);
+        } catch (NumberFormatException e) { /* ignore */ }
+        try {
+            return LocalDateTime.parse(value);
+        } catch (DateTimeParseException e) { /* ignore */ }
+        try {
+            return LocalDate.parse(value);
+        } catch (DateTimeParseException e) { /* ignore */ }
 
         return value; // String
     }

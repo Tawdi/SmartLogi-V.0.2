@@ -2,7 +2,11 @@ package com.smartlogi.smartlogidms.masterdata.client.api;
 
 import com.smartlogi.smartlogidms.common.mapper.BaseMapper;
 import com.smartlogi.smartlogidms.masterdata.client.domain.ClientExpediteur;
-import org.mapstruct.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.BeanMapping;
 
 @Mapper
 public interface ClientMapper extends BaseMapper<ClientExpediteur, ClientRequestDTO, ClientResponseDTO> {

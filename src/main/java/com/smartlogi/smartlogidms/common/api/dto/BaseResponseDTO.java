@@ -9,7 +9,7 @@ import java.time.Instant;
 @Getter
 @Setter
 @ToString
-public abstract class BaseResponseDTO<I>  {
+public abstract class BaseResponseDTO<I> {
 
     private I id;
     private Instant createdAt;

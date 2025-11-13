@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ProductServiceImpl extends StringCrudServiceImpl<Product, ProductRequestDTO, ProductResponseDTO> implements ProductService {
 
-    public ProductServiceImpl(ProductRrepository productRrepo,ProductMapper productMapper){
-        super(productRrepo,productMapper);
+    public ProductServiceImpl(ProductRrepository productRrepo, ProductMapper productMapper) {
+        super(productRrepo, productMapper);
     }
 }

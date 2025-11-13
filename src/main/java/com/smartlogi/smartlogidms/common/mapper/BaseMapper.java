@@ -1,8 +1,8 @@
 package com.smartlogi.smartlogidms.common.mapper;
 
-import java.util.List;
+import org.mapstruct.MappingTarget;
 
-import org.mapstruct.*;
+import java.util.List;
 
 /**
  * Generic Mapper interface for converting between Entity, RequestDTO, and ResponseDTO.

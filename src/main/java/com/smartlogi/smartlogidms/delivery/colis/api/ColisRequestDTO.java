@@ -3,9 +3,10 @@ package com.smartlogi.smartlogidms.delivery.colis.api;
 import com.smartlogi.smartlogidms.common.api.dto.BaseResquestDTO;
 import com.smartlogi.smartlogidms.common.api.dto.ValidationGroups;
 import com.smartlogi.smartlogidms.delivery.colis.domain.Colis;
-import com.smartlogi.smartlogidms.delivery.product.api.ProductRequestDTO;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ public class ColisRequestDTO implements BaseResquestDTO {
     private String description;
 
     @NotNull(groups = ValidationGroups.Create.class)
-    private Colis.Priorite priorite ;
+    private Colis.Priorite priorite;
 
     @NotNull(groups = ValidationGroups.Create.class)
     private String expediteurId;
@@ -53,7 +54,8 @@ public class ColisRequestDTO implements BaseResquestDTO {
     @Size(max = 20)
     private String codePostal;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     @AllArgsConstructor
     public static class ProduitColisDTO {
         private String productId;

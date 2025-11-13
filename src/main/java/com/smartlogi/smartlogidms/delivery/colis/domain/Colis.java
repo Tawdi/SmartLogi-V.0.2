@@ -22,7 +22,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@Searchable(fields = {"reference", "description"})
+@Searchable(fields = {"reference", "description" })
 public class Colis extends StringBaseEntity {
 
     @Column(nullable = false, unique = true, length = 50)

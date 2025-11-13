@@ -10,7 +10,7 @@ import java.util.List;
  *
  * @param <R>  Request DTO type
  * @param <R2> Request DTO type
- * @param <I>          ID type
+ * @param <I>  ID type
  */
 public interface BaseCrudService<T, R, R2, I> {
 

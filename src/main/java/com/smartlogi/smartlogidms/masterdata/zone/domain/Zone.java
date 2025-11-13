@@ -10,7 +10,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Searchable(fields = {"name","codePostal"})
+@Searchable(fields = {"name", "codePostal" })
 public class Zone extends StringBaseEntity {
 
     @Column(nullable = false, length = 50)

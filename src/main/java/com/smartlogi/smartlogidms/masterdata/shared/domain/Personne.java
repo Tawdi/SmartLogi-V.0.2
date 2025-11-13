@@ -1,7 +1,10 @@
 package com.smartlogi.smartlogidms.masterdata.shared.domain;
 
 import com.smartlogi.smartlogidms.common.domain.entity.id.StringBaseEntity;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,7 +24,7 @@ public class Personne extends StringBaseEntity {
     @Column(length = 100, unique = false, nullable = true)
     private String email;
 
-    @Column(length = 20, nullable = false,name = "phone_number")
+    @Column(length = 20, nullable = false, name = "phone_number")
     private String phoneNumber;
 
     @Enumerated(EnumType.STRING)

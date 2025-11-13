@@ -3,8 +3,8 @@ package com.smartlogi.smartlogidms.common.api.controller;
 import com.smartlogi.smartlogidms.common.api.dto.ApiResponseDTO;
 import com.smartlogi.smartlogidms.common.api.dto.ValidationGroups;
 import com.smartlogi.smartlogidms.common.domain.entity.BaseEntity;
-import com.smartlogi.smartlogidms.common.service.BaseCrudService;
 import com.smartlogi.smartlogidms.common.mapper.BaseMapper;
+import com.smartlogi.smartlogidms.common.service.BaseCrudService;
 import com.smartlogi.smartlogidms.common.specification.FilterParser;
 import com.smartlogi.smartlogidms.common.specification.GenericSpecification;
 import io.swagger.v3.oas.annotations.Operation;
@@ -21,18 +21,18 @@ import org.springframework.web.bind.annotation.*;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
-public abstract class AbstractBaseController<T extends BaseEntity<I>, I,R1, R2> implements BaseController<T, I,R1, R2> {
+public abstract class AbstractBaseController<T extends BaseEntity<I>, I, R1, R2> implements BaseController<T, I, R1, R2> {
 
     protected final BaseCrudService<T, R1, R2, I> service;
     protected final BaseMapper<T, R1, R2> mapper;
 
-    protected AbstractBaseController(BaseCrudService<T, R1, R2, I> service, BaseMapper<T,R1, R2> mapper) {
+    protected AbstractBaseController(BaseCrudService<T, R1, R2, I> service, BaseMapper<T, R1, R2> mapper) {
         this.service = service;
         this.mapper = mapper;
     }
 
     @Override
-    @PostMapping({"", "/"})
+    @PostMapping({"", "/" })
     @Operation(
             summary = "Create a new resource",
             description = "Creates a new resource with the provided data. All required fields must be provided."
@@ -106,7 +106,7 @@ public abstract class AbstractBaseController<T extends BaseEntity<I>, I,R1, R2> 
             @RequestParam(required = false) MultiValueMap<String, String> filters
     ) {
         Class<T> entityClass = getEntityClass();
-        GenericSpecification<T> spec = FilterParser.parse(filters,entityClass);
+        GenericSpecification<T> spec = FilterParser.parse(filters, entityClass);
 
         Page<R2> responseDTOPage = service.findAll(pageable, spec);
         return ResponseEntity.ok(ApiResponseDTO.success("Resources retrieved successfully", responseDTOPage));
@@ -117,6 +117,7 @@ public abstract class AbstractBaseController<T extends BaseEntity<I>, I,R1, R2> 
         ParameterizedType type = (ParameterizedType) getClass().getGenericSuperclass();
         return (Class<T>) type.getActualTypeArguments()[0];
     }
+
     @Override
     @DeleteMapping("/{id}")
     @Operation(

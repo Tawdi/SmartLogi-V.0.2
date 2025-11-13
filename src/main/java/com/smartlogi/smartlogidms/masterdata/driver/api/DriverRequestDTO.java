@@ -12,6 +12,6 @@ import lombok.ToString;
 @ToString(callSuper = true)
 public class DriverRequestDTO extends PersonneRequestDTO {
 
-    @Size(groups = {ValidationGroups.Create.class ,ValidationGroups.Update.class},max = 100)
+    @Size(groups = {ValidationGroups.Create.class, ValidationGroups.Update.class}, max = 100)
     private String vehicule;
 }

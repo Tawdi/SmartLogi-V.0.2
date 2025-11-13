@@ -1,8 +1,8 @@
 package com.smartlogi.smartlogidms.common.api.controller;
 
 import com.smartlogi.smartlogidms.common.domain.entity.id.StringBaseEntity;
-import com.smartlogi.smartlogidms.common.service.StringCrudService;
 import com.smartlogi.smartlogidms.common.mapper.BaseMapper;
+import com.smartlogi.smartlogidms.common.service.StringCrudService;
 
 public abstract class StringBaseController<T extends StringBaseEntity, R1, R2> extends AbstractBaseController<T, String, R1, R2> {
 

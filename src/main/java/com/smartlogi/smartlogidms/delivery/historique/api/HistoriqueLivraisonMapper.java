@@ -1,7 +1,8 @@
 package com.smartlogi.smartlogidms.delivery.historique.api;
 
 import com.smartlogi.smartlogidms.delivery.historique.domain.HistoriqueLivraison;
-import org.mapstruct.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface HistoriqueLivraisonMapper {

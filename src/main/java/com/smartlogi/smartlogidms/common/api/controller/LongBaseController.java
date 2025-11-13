@@ -1,8 +1,8 @@
 package com.smartlogi.smartlogidms.common.api.controller;
 
 import com.smartlogi.smartlogidms.common.domain.entity.id.LongBaseEntity;
-import com.smartlogi.smartlogidms.common.service.LongCrudService;
 import com.smartlogi.smartlogidms.common.mapper.BaseMapper;
+import com.smartlogi.smartlogidms.common.service.LongCrudService;
 
 public abstract class LongBaseController<T extends LongBaseEntity, R1, R2> extends AbstractBaseController<T, Long, R1, R2> {
 

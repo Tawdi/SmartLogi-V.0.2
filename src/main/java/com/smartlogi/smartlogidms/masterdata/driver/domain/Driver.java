@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "livreur")
-@Searchable(fields = {"firstName","lastName","phoneNumber"})
+@Searchable(fields = {"firstName", "lastName", "phoneNumber" })
 public class Driver extends Personne {
 
     @Column(length = 100)
@@ -21,7 +21,7 @@ public class Driver extends Personne {
     @JoinColumn(name = "zone_assignee_id", referencedColumnName = "id")
     private Zone zoneAssignee;
 
-    public Driver(){
+    public Driver() {
         this.setRole(PersonneRole.DRIVER);
     }
 

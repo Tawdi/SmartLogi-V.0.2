@@ -183,7 +183,7 @@ public class ColisServiceImpl extends StringCrudServiceImpl<Colis, ColisRequestD
 
         Colis.ColisStatus current = colis.getStatut();
 
-        if(current == null){
+        if (current == null) {
             throw new NullPointerException(
                     "Invalid status transition (cuerrent status is missing)"
             );
