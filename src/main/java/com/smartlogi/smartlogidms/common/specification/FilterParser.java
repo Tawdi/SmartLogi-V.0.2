@@ -7,11 +7,12 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.List;
-import java.util.Set;
 
 public class FilterParser {
 
-    private static final Set<String> PAGEABLE_PARAMS = Set.of("page", "size", "sort");
+    private FilterParser() {
+        throw new IllegalStateException("Utility class");
+    }
 
     public static <T> GenericSpecification<T> parse(MultiValueMap<String, String> filters, Class<T> entityClass) {
         GenericSpecification<T> spec = new GenericSpecification<>();

@@ -20,7 +20,7 @@ import java.time.Instant;
 @Setter
 @NoArgsConstructor
 @MappedSuperclass
-public sealed abstract class BaseEntity<ID> permits HardDeletableEntity, SoftDeletableEntity {
+public abstract sealed class BaseEntity<I> permits HardDeletableEntity, SoftDeletableEntity {
 
 
     @CreatedDate
@@ -31,6 +31,6 @@ public sealed abstract class BaseEntity<ID> permits HardDeletableEntity, SoftDel
     @Column(nullable = false)
     private Instant updatedAt;
 
-    public abstract ID getId();
-    public abstract void setId(ID id);
+    public abstract I getId();
+    public abstract void setId(I id);
 }

@@ -12,13 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Recipients", description = "Recipients management APIs")
 public class RecipientController extends StringBaseController<Recipient, RecipientRequestDTO, RecipientResponseDTO> {
 
-    private final RecipientService recipientService;
-    private final RecipientMapper recipientMapper;
 
     public RecipientController(RecipientService recipientService, RecipientMapper recipientMapper) {
         super(recipientService, recipientMapper);
-        this.recipientService = recipientService;
-        this.recipientMapper = recipientMapper;
+
     }
 
 

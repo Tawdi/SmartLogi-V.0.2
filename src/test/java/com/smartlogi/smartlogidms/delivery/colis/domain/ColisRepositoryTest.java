@@ -200,9 +200,9 @@ class ColisRepositoryTest {
     @Test
     void shouldFindColisByExpediteurId() {
         // Given
-        Colis colis1 = repository.save(createColis("REF001", 1.0, "Desc1", Colis.ColisStatus.CREATED, Colis.Priorite.LOW, expediteur1, destinataire1, null, zone1));
-        Colis colis2 = repository.save(createColis("REF002", 2.0, "Desc2", Colis.ColisStatus.IN_TRANSIT, Colis.Priorite.MEDIUM, expediteur2, destinataire2, livreur1, zone2));
-        Colis colis3 = repository.save(createColis("REF003", 3.0, "Desc3", Colis.ColisStatus.DELIVERED, Colis.Priorite.HIGH, expediteur1, destinataire2, livreur2, zone1));
+        repository.save(createColis("REF001", 1.0, "Desc1", Colis.ColisStatus.CREATED, Colis.Priorite.LOW, expediteur1, destinataire1, null, zone1));
+        repository.save(createColis("REF002", 2.0, "Desc2", Colis.ColisStatus.IN_TRANSIT, Colis.Priorite.MEDIUM, expediteur2, destinataire2, livreur1, zone2));
+        repository.save(createColis("REF003", 3.0, "Desc3", Colis.ColisStatus.DELIVERED, Colis.Priorite.HIGH, expediteur1, destinataire2, livreur2, zone1));
         Pageable pageable = PageRequest.of(0, 10);
 
         // When

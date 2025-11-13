@@ -271,9 +271,9 @@ class DriverRepositoryTest {
     @Test
     void shouldFindDriversByZoneAssigneeId() {
         // Given
-        Driver savedDriver1 = repository.save(driver1); // Zone1
-        Driver savedDriver2 = repository.save(driver2); // Zone1
-        Driver savedDriver3 = repository.save(driver3); // Zone2
+        repository.save(driver1);
+        repository.save(driver2);
+        repository.save(driver3);
         Pageable pageable = PageRequest.of(0, 10);
 
         // When
@@ -582,7 +582,7 @@ class DriverRepositoryTest {
 
         savedDriver.setVehicule("Final Vehicle");
         savedDriver.setZoneAssignee(zone2);
-        Driver finalDriver = repository.save(savedDriver);
+        repository.save(savedDriver);
 
         // Then
         Optional<Driver> found = repository.findById(driverId);

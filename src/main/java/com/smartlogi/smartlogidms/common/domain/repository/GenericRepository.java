@@ -7,8 +7,8 @@ import org.springframework.data.repository.NoRepositoryBean;
 
 
 @NoRepositoryBean
-public interface GenericRepository<T extends BaseEntity<ID>,ID>
-        extends JpaRepository<T, ID> , JpaSpecificationExecutor<T> {
+public interface GenericRepository<T extends BaseEntity<I>,I>
+        extends JpaRepository<T, I> , JpaSpecificationExecutor<T> {
 
 
 }

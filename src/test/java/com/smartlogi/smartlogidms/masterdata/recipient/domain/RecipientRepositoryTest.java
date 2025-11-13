@@ -368,7 +368,7 @@ class RecipientRepositoryTest {
         repository.save(savedRecipient);
 
         savedRecipient.setAdresse(new Adresse("Final City", "Final Street", "99999"));
-        Recipient finalRecipient = repository.save(savedRecipient);
+        repository.save(savedRecipient);
 
         // Then
         Optional<Recipient> found = repository.findById(recipientId);

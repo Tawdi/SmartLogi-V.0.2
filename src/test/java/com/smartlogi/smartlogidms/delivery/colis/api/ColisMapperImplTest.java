@@ -2,25 +2,19 @@ package com.smartlogi.smartlogidms.delivery.colis.api;
 
 import com.smartlogi.smartlogidms.delivery.colis.domain.Colis;
 import com.smartlogi.smartlogidms.masterdata.client.api.ClientMapper;
-import com.smartlogi.smartlogidms.masterdata.client.domain.ClientExpediteur;
 import com.smartlogi.smartlogidms.masterdata.recipient.api.RecipientMapper;
-import com.smartlogi.smartlogidms.masterdata.recipient.domain.Recipient;
 import com.smartlogi.smartlogidms.masterdata.shared.api.AdresseMapper;
 import com.smartlogi.smartlogidms.masterdata.shared.domain.Adresse;
 import com.smartlogi.smartlogidms.masterdata.zone.api.ZoneMapper;
-import com.smartlogi.smartlogidms.masterdata.zone.domain.Zone;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 @SpringBootTest
-public class ColisMapperImplTest {
+class ColisMapperImplTest {
 
     @Autowired
     private ClientMapper clientMapper;
@@ -32,34 +26,32 @@ public class ColisMapperImplTest {
     private AdresseMapper adresseMapper;
 
     @Autowired
-    private  ColisMapper mapper ;
-
-    @BeforeEach
-    void setup(){
-    }
+    private ColisMapper mapper;
 
     private Colis colis = new Colis();
     private ColisRequestDTO request;
     private ColisResponseDTO response;
 
     @Test
-    public void testToDTO() {
+    void testToDTO() {
         colis = new Colis();
         colis.setId("COL-1");
-        colis.setAdresseLivraison(new Adresse("safi","sa3Ada 123 ",null));
+        colis.setAdresseLivraison(new Adresse("safi", "sa3Ada 123 ", null));
         colis.setReference("AZERT-23456789");
         colis.setPoids(2.3);
         colis.setDescription("djaja ");
-        colis.setPriorite(Colis.Priorite.MEDIUM );
-        colis.setStatut( Colis.ColisStatus.CREATED );
+        colis.setPriorite(Colis.Priorite.MEDIUM);
+        colis.setStatut(Colis.ColisStatus.CREATED);
 
         ColisResponseDTO nullResp = mapper.toDto(null);
 
         response = mapper.toDto(colis);
+        assertNull(nullResp);
+        assertEquals(colis.getReference(),response.getReference());
     }
 
     @Test
-    public void testToEntity() {
+    void testToEntity() {
         request = new ColisRequestDTO();
         request.setZoneId("ZONE-234");
         request.setExpediteurId("EXP-2345");
@@ -67,16 +59,19 @@ public class ColisMapperImplTest {
         request.setReference("AZERT-23456789");
         request.setPoids(2.3);
         request.setDescription("djaja ");
-        request.setPriorite(Colis.Priorite.MEDIUM );
+        request.setPriorite(Colis.Priorite.MEDIUM);
 
         Colis nullColis = mapper.toEntity(null);
+        assertNull(nullColis);
 
-        Colis colis = mapper.toEntity(request);
+        Colis colisTest = mapper.toEntity(request);
+        assertEquals(request.getPoids(), colisTest.getPoids());
+
     }
 
 
     @Test
-    public void testUpdateEntityFromDto() {
+    void testUpdateEntityFromDto() {
         request = new ColisRequestDTO();
         request.setZoneId("ZONE-234");
         request.setExpediteurId(null);
@@ -84,11 +79,14 @@ public class ColisMapperImplTest {
         request.setReference("AZERT-23456789");
         request.setPoids(2.3);
         request.setDescription("djaja ");
-        request.setPriorite(Colis.Priorite.MEDIUM );
+        request.setPriorite(Colis.Priorite.MEDIUM);
 
-        mapper.updateEntityFromDto(null,colis);
+        mapper.updateEntityFromDto(null, colis);
 
-        mapper.updateEntityFromDto(request,colis);
+
+        mapper.updateEntityFromDto(request, colis);
+
+        assertEquals(request.getReference(),colis.getReference());
 
     }
 }

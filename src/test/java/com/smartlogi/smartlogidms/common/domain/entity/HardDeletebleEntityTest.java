@@ -4,12 +4,12 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class HardDeletebleEntityTest {
+class HardDeletebleEntityTest {
 
 
 
     @Test
-    public void ShouldInstance(){
+    void ShouldInstance(){
 
         HardDeletableEntity<Long> entity = new HardDeletableEntity<>() {
 

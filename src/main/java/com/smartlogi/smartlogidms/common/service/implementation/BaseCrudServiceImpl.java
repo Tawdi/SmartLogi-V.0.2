@@ -12,19 +12,19 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-public abstract class BaseCrudServiceImpl<T extends BaseEntity<ID>, RequestDTO, ResponseDTO, ID> implements BaseCrudService<T,RequestDTO, ResponseDTO, ID> {
+public abstract class BaseCrudServiceImpl<T extends BaseEntity<I>, R1, R2, I> implements BaseCrudService<T, R1, R2, I> {
 
-    protected final GenericRepository<T, ID> repository;
-    protected final BaseMapper<T, RequestDTO, ResponseDTO> mapper;
+    protected final GenericRepository<T, I> repository;
+    protected final BaseMapper<T, R1, R2> mapper;
 
-    protected BaseCrudServiceImpl(GenericRepository<T, ID> repository, BaseMapper<T, RequestDTO, ResponseDTO> mapper) {
+    protected BaseCrudServiceImpl(GenericRepository<T, I> repository, BaseMapper<T, R1, R2> mapper) {
         this.repository = repository;
         this.mapper = mapper;
     }
 
     @Override
     @Transactional
-    public ResponseDTO save(RequestDTO requestDto) {
+    public R2 save(R1 requestDto) {
         T entity = mapper.toEntity(requestDto);
         T savedEntity = repository.save(entity);
         return mapper.toDto(savedEntity);
@@ -32,7 +32,7 @@ public abstract class BaseCrudServiceImpl<T extends BaseEntity<ID>, RequestDTO, 
 
     @Override
     @Transactional
-    public ResponseDTO update(ID id, RequestDTO requestDTO) {
+    public R2 update(I id, R1 requestDTO) {
 
         T existingEntity = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Resource not found with id: " + id));
@@ -45,7 +45,7 @@ public abstract class BaseCrudServiceImpl<T extends BaseEntity<ID>, RequestDTO, 
 
     @Override
     @Transactional(readOnly = true)
-    public ResponseDTO findById(ID id) {
+    public R2 findById(I id) {
         T entity = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Resource not found with id: " + id));
         return mapper.toDto(entity);
@@ -53,28 +53,28 @@ public abstract class BaseCrudServiceImpl<T extends BaseEntity<ID>, RequestDTO, 
 
     @Override
     @Transactional(readOnly = true)
-    public List<ResponseDTO> findAll() {
+    public List<R2> findAll() {
         List<T> entities = repository.findAll();
         return mapper.entitiesToResponseDtos(entities);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Page<ResponseDTO> findAll(Pageable pageable) {
+    public Page<R2> findAll(Pageable pageable) {
         Page<T> entityPage = repository.findAll(pageable);
         return entityPage.map(mapper::toDto);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Page<ResponseDTO> findAll(Pageable pageable, Specification<T> spec) {
-        Page<T> entityPage =repository.findAll(spec, pageable);
+    public Page<R2> findAll(Pageable pageable, Specification<T> spec) {
+        Page<T> entityPage = repository.findAll(spec, pageable);
         return entityPage.map(mapper::toDto);
     }
 
     @Override
     @Transactional
-    public void deleteById(ID id) {
+    public void deleteById(I id) {
         if (!repository.existsById(id)) {
             throw new ResourceNotFoundException("Resource not found with id: " + id);
         }
@@ -83,7 +83,7 @@ public abstract class BaseCrudServiceImpl<T extends BaseEntity<ID>, RequestDTO, 
 
     @Override
     @Transactional(readOnly = true)
-    public boolean existsById(ID id) {
+    public boolean existsById(I id) {
         return repository.existsById(id);
     }
 

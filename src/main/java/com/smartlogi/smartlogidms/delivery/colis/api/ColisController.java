@@ -24,12 +24,10 @@ import java.util.List;
 public class ColisController extends StringBaseController<Colis, ColisRequestDTO, ColisResponseDTO> {
 
     private final ColisService colisService;
-    private final ColisMapper colisMapper;
 
     public ColisController(ColisService colisService, ColisMapper colisMapper) {
         super(colisService, colisMapper);
         this.colisService = colisService;
-        this.colisMapper = colisMapper;
     }
 
     @GetMapping("/client/{expediteurId}")

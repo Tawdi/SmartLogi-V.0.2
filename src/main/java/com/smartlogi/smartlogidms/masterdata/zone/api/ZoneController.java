@@ -11,12 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Zones", description = "Zones management APIs")
 public class ZoneController extends StringBaseController<Zone, ZoneRequestDTO, ZoneResponseDTO> {
 
-    private final ZoneService zoneService;
-    private final ZoneMapper zoneMapper;
-
     public ZoneController(ZoneService zoneService, ZoneMapper zoneMapper) {
         super(zoneService, zoneMapper);
-        this.zoneService = zoneService;
-        this.zoneMapper = zoneMapper;
     }
 }

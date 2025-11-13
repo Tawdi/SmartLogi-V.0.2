@@ -2,7 +2,6 @@ package com.smartlogi.smartlogidms.masterdata.zone.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.smartlogi.smartlogidms.common.api.dto.ApiResponseDTO;
-import com.smartlogi.smartlogidms.common.api.dto.ValidationGroups;
 import com.smartlogi.smartlogidms.common.exception.GlobalExceptionHandler;
 import com.smartlogi.smartlogidms.common.exception.ResourceNotFoundException;
 import com.smartlogi.smartlogidms.masterdata.zone.domain.Zone;

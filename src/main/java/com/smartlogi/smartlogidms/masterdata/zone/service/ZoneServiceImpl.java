@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 public class ZoneServiceImpl extends StringCrudServiceImpl<Zone, ZoneRequestDTO, ZoneResponseDTO> implements ZoneService {
 
 
-
     public ZoneServiceImpl(ZoneRepository zoneRepository, ZoneMapper zoneMapper) {
         super(zoneRepository, zoneMapper);
 

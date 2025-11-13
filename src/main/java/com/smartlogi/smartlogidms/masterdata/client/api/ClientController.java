@@ -16,12 +16,10 @@ import org.springframework.web.bind.annotation.*;
 public class ClientController extends StringBaseController<ClientExpediteur, ClientRequestDTO, ClientResponseDTO> {
 
     private final ClientService clientService;
-    private final ClientMapper clientMapper;
 
     public ClientController(ClientService clientService, ClientMapper clientMapper) {
         super(clientService, clientMapper);
         this.clientService = clientService;
-        this.clientMapper = clientMapper;
     }
 
     @GetMapping("/search")

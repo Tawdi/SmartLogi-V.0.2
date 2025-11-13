@@ -1,9 +1,7 @@
 package com.smartlogi.smartlogidms.masterdata.zone.api;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.smartlogi.smartlogidms.common.api.dto.ApiResponseDTO;
+
 import com.smartlogi.smartlogidms.common.exception.GlobalExceptionHandler;
-import com.smartlogi.smartlogidms.masterdata.zone.domain.Zone;
 import com.smartlogi.smartlogidms.masterdata.zone.service.ZoneService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,14 +14,12 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -42,7 +38,6 @@ class ZoneControllerSpecificationTest {
     @InjectMocks
     private ZoneController zoneController;
 
-    private ObjectMapper objectMapper;
 
     @BeforeEach
     void setUp() {
@@ -51,7 +46,6 @@ class ZoneControllerSpecificationTest {
                 .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
                 .build();
 
-        objectMapper = new ObjectMapper();
     }
 
     @Test

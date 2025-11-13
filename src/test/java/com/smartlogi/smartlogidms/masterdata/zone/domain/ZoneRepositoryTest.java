@@ -302,7 +302,7 @@ class ZoneRepositoryTest {
         repository.save(savedZone);
 
         savedZone.setName("Final Name");
-        Zone finalZone = repository.save(savedZone);
+        repository.save(savedZone);
 
         // Then
         Optional<Zone> found = repository.findById(zoneId);

@@ -9,9 +9,9 @@ import java.time.Instant;
 @Getter
 @Setter
 @ToString
-public abstract class BaseResponseDTO<ID>  {
+public abstract class BaseResponseDTO<I>  {
 
-    private ID id;
+    private I id;
     private Instant createdAt;
     private Instant updatedAt;
 }

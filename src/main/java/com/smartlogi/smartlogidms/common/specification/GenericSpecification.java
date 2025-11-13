@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GenericSpecification<T> implements Specification<T> {
-    private final List<SearchCriteria> criteriaList;
+    private final transient  List<SearchCriteria> criteriaList;
 
     public GenericSpecification() {
         this.criteriaList = new ArrayList<>();

@@ -496,7 +496,7 @@ class ClientExpediteurRepositoryTest {
         repository.save(savedClient);
 
         savedClient.setAdresse(new Adresse("Final City", "Final Street", "99999"));
-        ClientExpediteur finalClient = repository.save(savedClient);
+        repository.save(savedClient);
 
         // Then
         Optional<ClientExpediteur> found = repository.findById(clientId);

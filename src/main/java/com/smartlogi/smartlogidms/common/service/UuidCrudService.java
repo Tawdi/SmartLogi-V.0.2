@@ -4,5 +4,5 @@ import com.smartlogi.smartlogidms.common.domain.entity.id.UuidBaseEntity;
 
 import java.util.UUID;
 
-public interface UuidCrudService<T extends UuidBaseEntity,RequestDTO, ResponseDTO> extends BaseCrudService<T,RequestDTO, ResponseDTO, UUID> {
+public interface UuidCrudService<T extends UuidBaseEntity, R1, R2> extends BaseCrudService<T, R1, R2, UUID> {
 }

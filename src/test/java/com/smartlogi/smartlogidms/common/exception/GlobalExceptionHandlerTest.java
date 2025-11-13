@@ -19,8 +19,6 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -67,7 +65,6 @@ class GlobalExceptionHandlerTest {
         // Create real FieldError objects
         FieldError fieldError1 = new FieldError("product", "name", "Name is required");
         FieldError fieldError2 = new FieldError("product", "price", "Price must be positive");
-        List<FieldError> fieldErrors = Arrays.asList(fieldError1, fieldError2);
 
         // Create a mock BindingResult
         BindingResult bindingResult = mock(BindingResult.class);
@@ -167,7 +164,6 @@ class GlobalExceptionHandlerTest {
     @Test
     void handleIllegalState_ShouldReturn400ForBusinessRuleViolation() {
         // Given
-        String requestPath = "/api/orders/123/cancel";
         String errorMessage = "Order cannot be cancelled in current status";
         IllegalStateException ex = new IllegalStateException(errorMessage);
 

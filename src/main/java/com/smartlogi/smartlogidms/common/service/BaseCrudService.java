@@ -8,25 +8,25 @@ import java.util.List;
 
 /**
  *
- * @param <RequestDTO>  Request DTO type
- * @param <ResponseDTO> Request DTO type
- * @param <ID>          ID type
+ * @param <R>  Request DTO type
+ * @param <R2> Request DTO type
+ * @param <I>          ID type
  */
-public interface BaseCrudService<T, RequestDTO, ResponseDTO, ID> {
+public interface BaseCrudService<T, R, R2, I> {
 
-    ResponseDTO save(RequestDTO entity);
+    R2 save(R entity);
 
-    ResponseDTO update(ID id, RequestDTO requestDTO);
+    R2 update(I id, R requestDTO);
 
-    ResponseDTO findById(ID id);
+    R2 findById(I id);
 
-    List<ResponseDTO> findAll();
+    List<R2> findAll();
 
-    Page<ResponseDTO> findAll(Pageable pageable);
+    Page<R2> findAll(Pageable pageable);
 
-    Page<ResponseDTO> findAll(Pageable pageable, Specification<T> spec);
+    Page<R2> findAll(Pageable pageable, Specification<T> spec);
 
-    void deleteById(ID id);
+    void deleteById(I id);
 
-    boolean existsById(ID id);
+    boolean existsById(I id);
 }

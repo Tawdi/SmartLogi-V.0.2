@@ -6,10 +6,10 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class UuidBaseEntityTest {
+class UuidBaseEntityTest {
 
     @Test
-    public void ShouldInstance(){
+    void ShouldInstance(){
 
         UuidBaseEntity uuidBaseEntity = new UuidBaseEntity();
 

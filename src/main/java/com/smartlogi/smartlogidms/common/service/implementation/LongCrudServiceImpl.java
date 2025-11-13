@@ -5,11 +5,11 @@ import com.smartlogi.smartlogidms.common.domain.repository.LongRepository;
 import com.smartlogi.smartlogidms.common.mapper.BaseMapper;
 import com.smartlogi.smartlogidms.common.service.LongCrudService;
 
-public class LongCrudServiceImpl<T extends LongBaseEntity, RequestDTO, ResponseDTO>
-        extends BaseCrudServiceImpl<T, RequestDTO, ResponseDTO, Long>
-        implements LongCrudService<T,RequestDTO, ResponseDTO> {
+public class LongCrudServiceImpl<T extends LongBaseEntity, R1, R2>
+        extends BaseCrudServiceImpl<T, R1, R2, Long>
+        implements LongCrudService<T, R1, R2> {
 
-    protected LongCrudServiceImpl(LongRepository<T> repository, BaseMapper<T, RequestDTO, ResponseDTO> mapper) {
+    protected LongCrudServiceImpl(LongRepository<T> repository, BaseMapper<T, R1, R2> mapper) {
         super(repository, mapper);
     }
 

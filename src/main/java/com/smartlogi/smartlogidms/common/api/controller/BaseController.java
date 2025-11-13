@@ -11,17 +11,17 @@ import jakarta.validation.Valid;
 import java.util.List;
 
 
-public interface BaseController<T extends BaseEntity<ID>, ID, RQ, RS> {
+public interface BaseController<T extends BaseEntity<I>, I,R1, R2> {
 
-    ResponseEntity<ApiResponseDTO<RS>> create(@Valid @RequestBody RQ requestDTO);
+    ResponseEntity<ApiResponseDTO<R2>> create(@Valid @RequestBody R1 requestDTO);
 
-    ResponseEntity<ApiResponseDTO<RS>> update(@PathVariable ID id, @Valid @RequestBody RQ requestDTO);
+    ResponseEntity<ApiResponseDTO<R2>> update(@PathVariable I id, @Valid @RequestBody R1 requestDTO);
 
-    ResponseEntity<ApiResponseDTO<RS>> getById(@PathVariable ID id);
+    ResponseEntity<ApiResponseDTO<R2>> getById(@PathVariable I id);
 
-    ResponseEntity<ApiResponseDTO<List<RS>>> getAll();
+    ResponseEntity<ApiResponseDTO<List<R2>>> getAll();
 
-    ResponseEntity<ApiResponseDTO<Page<RS>>> getAllPaginated(Pageable pageable, MultiValueMap<String,String> filters);
+    ResponseEntity<ApiResponseDTO<Page<R2>>> getAllPaginated(Pageable pageable, MultiValueMap<String,String> filters);
 
-    ResponseEntity<ApiResponseDTO<Void>> delete(@PathVariable ID id);
+    ResponseEntity<ApiResponseDTO<Void>> delete(@PathVariable I id);
 }

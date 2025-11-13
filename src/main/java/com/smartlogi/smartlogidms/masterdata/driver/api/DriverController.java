@@ -13,12 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Drivers", description = "Drivers management APIs")
 public class DriverController extends StringBaseController<Driver, DriverRequestDTO, DriverResponseDTO> {
 
-    private final DriverService driverService;
-    private final DriverMapper driverMapper;
 
     protected DriverController(DriverService driverService, DriverMapper driverMapper) {
         super(driverService, driverMapper);
-        this.driverService = driverService;
-        this.driverMapper = driverMapper;
     }
 }

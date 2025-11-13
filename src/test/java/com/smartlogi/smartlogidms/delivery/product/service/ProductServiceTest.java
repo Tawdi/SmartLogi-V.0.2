@@ -28,7 +28,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class ProductServiceTest {
+class ProductServiceTest {
 
     @Mock
     private ProductRrepository repository;
@@ -41,7 +41,7 @@ public class ProductServiceTest {
     private ProductResponseDTO response;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         mapper = new ProductMapperImpl();
         service = new ProductServiceImpl(repository, mapper);
 

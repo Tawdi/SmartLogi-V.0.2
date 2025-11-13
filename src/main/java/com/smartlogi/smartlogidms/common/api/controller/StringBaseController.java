@@ -4,9 +4,9 @@ import com.smartlogi.smartlogidms.common.domain.entity.id.StringBaseEntity;
 import com.smartlogi.smartlogidms.common.service.StringCrudService;
 import com.smartlogi.smartlogidms.common.mapper.BaseMapper;
 
-public abstract class StringBaseController<T extends StringBaseEntity, RQ, RS> extends AbstractBaseController<T, String, RQ, RS> {
+public abstract class StringBaseController<T extends StringBaseEntity, R1, R2> extends AbstractBaseController<T, String, R1, R2> {
 
-    protected StringBaseController(StringCrudService<T,RQ, RS> service, BaseMapper<T, RQ, RS> mapper) {
+    protected StringBaseController(StringCrudService<T, R1, R2> service, BaseMapper<T, R1, R2> mapper) {
         super(service, mapper);
     }
 }
