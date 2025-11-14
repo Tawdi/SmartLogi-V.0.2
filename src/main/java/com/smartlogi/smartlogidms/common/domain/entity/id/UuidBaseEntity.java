@@ -1,7 +1,11 @@
 package com.smartlogi.smartlogidms.common.domain.entity.id;
 
 import com.smartlogi.smartlogidms.common.domain.entity.SoftDeletableEntity;
-import jakarta.persistence.*;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Column;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.MappedSuperclass;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;

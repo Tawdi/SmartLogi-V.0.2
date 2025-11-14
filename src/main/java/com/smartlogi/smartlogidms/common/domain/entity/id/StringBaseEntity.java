@@ -1,8 +1,11 @@
 package com.smartlogi.smartlogidms.common.domain.entity.id;
 
 import com.smartlogi.smartlogidms.common.domain.entity.SoftDeletableEntity;
-import jakarta.persistence.*;
-import org.hibernate.annotations.GenericGenerator;
+import jakarta.persistence.Id;
+import jakarta.persistence.Column;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.MappedSuperclass;
+import org.hibernate.annotations.UuidGenerator;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @MappedSuperclass
@@ -10,8 +13,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public class StringBaseEntity extends SoftDeletableEntity<String> {
 
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @UuidGenerator
     @Column(columnDefinition = "CHAR(36)")
     private String id;
 

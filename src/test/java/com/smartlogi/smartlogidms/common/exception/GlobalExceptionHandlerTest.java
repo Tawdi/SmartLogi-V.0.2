@@ -7,10 +7,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpInputMessage;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.mock.http.MockHttpInputMessage;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -148,9 +150,11 @@ class GlobalExceptionHandlerTest {
     @Test
     void handleJsonError_ShouldReturn400ForInvalidJSON() {
         // Given
-        // Use a real exception
-        HttpMessageNotReadableException ex = new HttpMessageNotReadableException("Invalid JSON");
-
+        HttpInputMessage inputMessage = new MockHttpInputMessage(new byte[0]);
+        HttpMessageNotReadableException ex = new HttpMessageNotReadableException(
+                "Invalid JSON",
+                inputMessage
+        );
         // When
         ResponseEntity<ApiResponseDTO<Void>> response =
                 exceptionHandler.handleJsonError(ex);
