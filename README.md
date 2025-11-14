@@ -118,6 +118,8 @@ mvn sonar:sonar
 ## Test Reports
 - 
 - **JaCoCo Report**: target/site/jacoco/index.html
+  ![ JaCoCo Report ](docs/jacoco.png)
+
 - **Surefire Reports**: target/surefire-reports/
 - **SonarQube Dashboard** : image below
 
