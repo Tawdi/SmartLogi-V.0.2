@@ -85,6 +85,45 @@ StringCrudServiceImpl<Colis, ColisRequestDTO, ColisResponseDTO>
 - **AOP Logging** • **Jakarta Validation**
 
 ---
+### Test Framework
+- **JUnit 5** - Unit testing
+- **Mockito** - Mocking dependencies
+- **Spring Boot Test** - Integration testing
+- **JaCoCo** - Code coverage analysis
+- **SonarQube** - Code quality gate
+
+### Test Coverage
+- **Unit Tests**: All service layers, controllers, domain logic
+- **Integration Tests**: REST endpoints, database interactions
+- **Exception Handling**: Comprehensive error scenario testing
+
+### Coverage Goals
+- **Target**: >90% code coverage
+- **Current**: 83%
+- **Quality Gate**: SonarQube passing with zero issues
+
+### Running Tests
+```bash
+# Run all tests
+mvn clean test
+
+# Run with coverage report
+mvn clean test jacoco:report
+
+# Run SonarQube analysis
+mvn sonar:sonar
+````
+---
+
+## Test Reports
+- 
+- **JaCoCo Report**: target/site/jacoco/index.html
+- **Surefire Reports**: target/surefire-reports/
+- **SonarQube Dashboard** : image below
+
+![SonarQube Dashboard (project report)](docs/sonar_0.png)
+![SonarQube Dashboard (project report)](docs/sonar_1.png)
+---
 
 ## Setup
 
