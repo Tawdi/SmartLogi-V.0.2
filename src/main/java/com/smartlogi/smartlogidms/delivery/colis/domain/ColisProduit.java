@@ -9,7 +9,8 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "colis_produit")
-@Getter @Setter
+@Getter
+@Setter
 @IdClass(ColisProduitId.class)
 public class ColisProduit {
 

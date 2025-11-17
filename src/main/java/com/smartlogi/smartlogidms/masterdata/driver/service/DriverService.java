@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.Optional;
 
-public interface DriverService extends StringCrudService<Driver,DriverRequestDTO, DriverResponseDTO> {
+public interface DriverService extends StringCrudService<Driver, DriverRequestDTO, DriverResponseDTO> {
 
     Optional<DriverResponseDTO> findByEmail(String email);
 

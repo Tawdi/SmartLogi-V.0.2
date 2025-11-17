@@ -8,7 +8,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/clients")
@@ -16,16 +19,14 @@ import org.springframework.web.bind.annotation.*;
 public class ClientController extends StringBaseController<ClientExpediteur, ClientRequestDTO, ClientResponseDTO> {
 
     private final ClientService clientService;
-    private final ClientMapper clientMapper;
 
     public ClientController(ClientService clientService, ClientMapper clientMapper) {
         super(clientService, clientMapper);
         this.clientService = clientService;
-        this.clientMapper = clientMapper;
     }
 
     @GetMapping("/search")
-    public ResponseEntity<ApiResponseDTO<Page<ClientResponseDTO>>> search(@RequestParam(required = false ,defaultValue = "", name="q") String keyword, Pageable pageable) {
+    public ResponseEntity<ApiResponseDTO<Page<ClientResponseDTO>>> search(@RequestParam(required = false, defaultValue = "", name = "q") String keyword, Pageable pageable) {
         return ResponseEntity
                 .ok(ApiResponseDTO
                         .success("Selected Clients retrieved successfully", clientService.searchClients(keyword, pageable)));

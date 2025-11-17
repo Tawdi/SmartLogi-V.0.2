@@ -2,10 +2,15 @@ package com.smartlogi.smartlogidms.masterdata.recipient.api;
 
 import com.smartlogi.smartlogidms.common.mapper.BaseMapper;
 import com.smartlogi.smartlogidms.masterdata.recipient.domain.Recipient;
-import org.mapstruct.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.BeanMapping;
+
 
 @Mapper
-public interface RecipientMapper extends BaseMapper<Recipient,RecipientRequestDTO,RecipientResponseDTO> {
+public interface RecipientMapper extends BaseMapper<Recipient, RecipientRequestDTO, RecipientResponseDTO> {
 
     @Override
     @Mapping(target = "id", ignore = true)

@@ -6,5 +6,5 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface Searchable {
-    String[] fields(); // e.g., {"firstName", "lastName", "email"}
+    String[] fields();
 }

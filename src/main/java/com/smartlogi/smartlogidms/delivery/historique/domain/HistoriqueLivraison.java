@@ -1,6 +1,6 @@
 package com.smartlogi.smartlogidms.delivery.historique.domain;
 
-import com.smartlogi.smartlogidms.common.domain.entity.Id.StringBaseEntity;
+import com.smartlogi.smartlogidms.common.domain.entity.id.StringBaseEntity;
 import com.smartlogi.smartlogidms.delivery.colis.domain.Colis;
 import jakarta.persistence.*;
 import lombok.Getter;

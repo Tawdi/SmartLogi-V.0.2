@@ -1,9 +1,7 @@
 // common/service/EmailService.java
 package com.smartlogi.smartlogidms.common.service;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -16,7 +14,7 @@ public class EmailService {
     private final JavaMailSender mailSender;
 
 
-    public EmailService(JavaMailSender mailSender){
+    public EmailService(JavaMailSender mailSender) {
         this.mailSender = mailSender;
     }
 

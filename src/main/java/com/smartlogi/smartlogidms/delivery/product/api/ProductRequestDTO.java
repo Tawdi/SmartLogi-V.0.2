@@ -13,7 +13,7 @@ public class ProductRequestDTO implements BaseResquestDTO {
     @NotBlank
     private String nom;
     @NotBlank
-    private String  categorie;
+    private String categorie;
     @NotBlank
     private Double poids;
     @NotBlank

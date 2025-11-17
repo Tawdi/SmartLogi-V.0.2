@@ -1,7 +1,7 @@
 package com.smartlogi.smartlogidms.masterdata.zone.domain;
 
 import com.smartlogi.smartlogidms.common.annotation.Searchable;
-import com.smartlogi.smartlogidms.common.domain.entity.Id.StringBaseEntity;
+import com.smartlogi.smartlogidms.common.domain.entity.id.StringBaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import lombok.Getter;
@@ -10,7 +10,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Searchable(fields = {"name","codePostal"})
+@Searchable(fields = {"name", "codePostal" })
 public class Zone extends StringBaseEntity {
 
     @Column(nullable = false, length = 50)

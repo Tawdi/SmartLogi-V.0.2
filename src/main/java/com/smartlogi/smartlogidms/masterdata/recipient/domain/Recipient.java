@@ -3,7 +3,9 @@ package com.smartlogi.smartlogidms.masterdata.recipient.domain;
 import com.smartlogi.smartlogidms.common.annotation.Searchable;
 import com.smartlogi.smartlogidms.masterdata.shared.domain.Adresse;
 import com.smartlogi.smartlogidms.masterdata.shared.domain.Personne;
-import jakarta.persistence.*;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,7 +13,7 @@ import lombok.Setter;
 @Table(name = "recipient")
 @Getter
 @Setter
-@Searchable(fields = {"firstName","lastName","phoneNumber","email"})
+@Searchable(fields = {"firstName", "lastName", "phoneNumber", "email" })
 public class Recipient extends Personne {
 
 
@@ -23,10 +25,9 @@ public class Recipient extends Personne {
         this.adresse = adresse;
     }
 
-    public Recipient(){
+    public Recipient() {
         this.setRole(PersonneRole.CLIENT);
     }
-
 
 
 }

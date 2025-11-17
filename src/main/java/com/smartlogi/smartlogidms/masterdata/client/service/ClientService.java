@@ -7,8 +7,6 @@ import com.smartlogi.smartlogidms.masterdata.client.domain.ClientExpediteur;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.Optional;
-
 public interface ClientService extends StringCrudService<ClientExpediteur, ClientRequestDTO, ClientResponseDTO> {
 
     ClientResponseDTO findByEmail(String email);

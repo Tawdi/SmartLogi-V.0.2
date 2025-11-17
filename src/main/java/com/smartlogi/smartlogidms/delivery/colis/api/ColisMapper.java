@@ -6,7 +6,12 @@ import com.smartlogi.smartlogidms.masterdata.client.api.ClientMapper;
 import com.smartlogi.smartlogidms.masterdata.recipient.api.RecipientMapper;
 import com.smartlogi.smartlogidms.masterdata.shared.api.AdresseMapper;
 import com.smartlogi.smartlogidms.masterdata.zone.api.ZoneMapper;
-import org.mapstruct.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.BeanMapping;
+
 
 @Mapper(componentModel = "spring", uses = {ClientMapper.class, RecipientMapper.class, ZoneMapper.class, AdresseMapper.class,})
 public interface ColisMapper extends BaseMapper<Colis, ColisRequestDTO, ColisResponseDTO> {

@@ -8,7 +8,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString(callSuper = true)
-public class PersonneResponseDTO<ID> extends BaseResponseDTO<ID> {
+public class PersonneResponseDTO<I> extends BaseResponseDTO<I> {
 
     protected String firstName;
     protected String lastName;

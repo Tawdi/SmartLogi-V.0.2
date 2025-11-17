@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
-public interface ColisService extends StringCrudService<Colis,ColisRequestDTO, ColisResponseDTO> {
+public interface ColisService extends StringCrudService<Colis, ColisRequestDTO, ColisResponseDTO> {
 
     Page<ColisResponseDTO> findByExpediteurId(String expediteurId, Colis.ColisStatus status, Pageable pageable);
 
@@ -28,9 +28,10 @@ public interface ColisService extends StringCrudService<Colis,ColisRequestDTO, C
 
     // Synthese
     List<SyntheseDTO<String>> getSyntheseByZone();
-    List<SyntheseDTO<Colis.ColisStatus>> getSyntheseByStatut();
-    List<SyntheseDTO<Colis.Priorite>> getSyntheseByPriorite();
 
+    List<SyntheseDTO<Colis.ColisStatus>> getSyntheseByStatut();
+
+    List<SyntheseDTO<Colis.Priorite>> getSyntheseByPriorite();
 
 
     Page<ColisProductResponseDTO> getProductsByColisId(String colisId, Pageable pageable);

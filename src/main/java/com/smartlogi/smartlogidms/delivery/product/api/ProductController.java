@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/products")
-public class ProductController extends StringBaseController<Product,ProductRequestDTO,ProductResponseDTO> {
+public class ProductController extends StringBaseController<Product, ProductRequestDTO, ProductResponseDTO> {
 
-    public ProductController(ProductService productService ,ProductMapper productMapper){
-        super(productService,productMapper);
+    public ProductController(ProductService productService, ProductMapper productMapper) {
+        super(productService, productMapper);
     }
 }

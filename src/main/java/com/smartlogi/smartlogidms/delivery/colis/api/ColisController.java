@@ -5,7 +5,8 @@ import com.smartlogi.smartlogidms.common.api.dto.ApiResponseDTO;
 import com.smartlogi.smartlogidms.delivery.colis.domain.Colis;
 import com.smartlogi.smartlogidms.delivery.colis.service.ColisService;
 import com.smartlogi.smartlogidms.delivery.historique.api.HistoriqueLivraisonResponseDTO;
-import io.swagger.v3.oas.annotations.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springdoc.core.annotations.ParameterObject;
@@ -24,12 +25,10 @@ import java.util.List;
 public class ColisController extends StringBaseController<Colis, ColisRequestDTO, ColisResponseDTO> {
 
     private final ColisService colisService;
-    private final ColisMapper colisMapper;
 
     public ColisController(ColisService colisService, ColisMapper colisMapper) {
         super(colisService, colisMapper);
         this.colisService = colisService;
-        this.colisMapper = colisMapper;
     }
 
     @GetMapping("/client/{expediteurId}")
