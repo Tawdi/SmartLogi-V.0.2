@@ -1,7 +1,6 @@
 package com.smartlogi.smartlogidms.masterdata.recipient.domain;
 
 import com.smartlogi.smartlogidms.masterdata.shared.domain.Adresse;
-import com.smartlogi.smartlogidms.masterdata.shared.domain.Personne.PersonneRole;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,7 +76,6 @@ class RecipientRepositoryTest {
         assertThat(saved.getLastName()).isEqualTo("Brown");
         assertThat(saved.getEmail()).isEqualTo("alice.brown@example.com");
         assertThat(saved.getPhoneNumber()).isEqualTo("+5566778899");
-        assertThat(saved.getRole()).isEqualTo(PersonneRole.CLIENT);
         assertThat(saved.getAdresse()).isNotNull();
         assertThat(saved.getAdresse().getVille()).isEqualTo("Toulouse");
         assertThat(saved.getAdresse().getRue()).isEqualTo("321 Elm St");
@@ -391,21 +389,6 @@ class RecipientRepositoryTest {
         assertThat(saved).isNotNull();
         assertThat(saved.getEmail()).isNull();
         assertThat(saved.getFirstName()).isEqualTo("No");
-    }
-
-    @Test
-    void shouldMaintainClientRoleAutomatically() {
-        // Given
-        Recipient newRecipient = createRecipient(
-                "Test", "User", "test@example.com", "+1234567890",
-                new Adresse("Test City", "Test Street", "12345")
-        );
-
-        // When
-        Recipient saved = repository.save(newRecipient);
-
-        // Then - Role should always be CLIENT for Recipient
-        assertThat(saved.getRole()).isEqualTo(PersonneRole.CLIENT);
     }
 
     // Helper method to create valid Recipient instances

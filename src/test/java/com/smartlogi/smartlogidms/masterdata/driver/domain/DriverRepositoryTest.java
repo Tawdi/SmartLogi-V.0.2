@@ -1,6 +1,5 @@
 package com.smartlogi.smartlogidms.masterdata.driver.domain;
 
-import com.smartlogi.smartlogidms.masterdata.shared.domain.Personne.PersonneRole;
 import com.smartlogi.smartlogidms.masterdata.zone.domain.Zone;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -89,7 +88,6 @@ class DriverRepositoryTest {
         assertThat(saved.getEmail()).isEqualTo("luc.moreau@example.com");
         assertThat(saved.getPhoneNumber()).isEqualTo("+33445566778");
         assertThat(saved.getVehicule()).isEqualTo("Ford Transit");
-        assertThat(saved.getRole()).isEqualTo(PersonneRole.DRIVER);
         assertThat(saved.getZoneAssignee()).isNotNull();
         assertThat(saved.getZoneAssignee().getId()).isEqualTo(zone2.getId());
         assertThat(saved.getCreatedAt()).isNotNull();
@@ -520,20 +518,6 @@ class DriverRepositoryTest {
         assertThat(saved.getFirstName()).isEqualTo("No");
     }
 
-    @Test
-    void shouldMaintainDriverRoleAutomatically() {
-        // Given
-        Driver newDriver = createDriver(
-                "Test", "Driver", "test@example.com", "+1234567890",
-                "Test Vehicle", zone1
-        );
-
-        // When
-        Driver saved = repository.save(newDriver);
-
-        // Then - Role should always be DRIVER
-        assertThat(saved.getRole()).isEqualTo(PersonneRole.DRIVER);
-    }
 
     @Test
     void shouldUpdateDriverVehiculeOnly() {

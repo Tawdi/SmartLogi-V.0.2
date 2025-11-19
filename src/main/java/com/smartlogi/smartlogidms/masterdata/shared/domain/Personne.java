@@ -25,27 +25,17 @@ public class Personne extends StringBaseEntity {
     @Column(length = 20, nullable = false, name = "phone_number")
     private String phoneNumber;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 20)
-    private PersonneRole role;
-
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "user_account_id", unique = true)
     private UserAccount userAccount;
 
-    public Personne(String firstName, String lastName, String email, String phoneNumber, PersonneRole role) {
+    public Personne(String firstName, String lastName, String email, String phoneNumber) {
 
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        this.role = role; // do i stell need this ?
     }
 
-    public enum PersonneRole { // do i stell need this ?
-        CLIENT,
-        DRIVER,
-        MANAGER
-    }
 
 }

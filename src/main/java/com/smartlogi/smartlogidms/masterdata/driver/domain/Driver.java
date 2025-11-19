@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "livreur")
-@Searchable(fields = {"firstName", "lastName", "phoneNumber" })
+@Searchable(fields = {"firstName", "lastName", "phoneNumber"})
 public class Driver extends Personne {
 
     @Column(length = 100)
@@ -22,12 +22,11 @@ public class Driver extends Personne {
     private Zone zoneAssignee;
 
     public Driver() {
-        this.setRole(PersonneRole.DRIVER);
     }
 
 
     public Driver(String firstName, String lastName, String email, String phoneNumber, String vehicule) {
-        super(firstName, lastName, email, phoneNumber, PersonneRole.DRIVER);
+        super(firstName, lastName, email, phoneNumber);
         this.vehicule = vehicule;
     }
 }

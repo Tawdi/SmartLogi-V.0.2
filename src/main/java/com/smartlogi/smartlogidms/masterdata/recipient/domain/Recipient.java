@@ -13,7 +13,7 @@ import lombok.Setter;
 @Table(name = "recipient")
 @Getter
 @Setter
-@Searchable(fields = {"firstName", "lastName", "phoneNumber", "email" })
+@Searchable(fields = {"firstName", "lastName", "phoneNumber", "email"})
 public class Recipient extends Personne {
 
 
@@ -21,12 +21,11 @@ public class Recipient extends Personne {
     private Adresse adresse;
 
     public Recipient(String firstName, String lastName, String email, String phoneNumber, Adresse adresse) {
-        super(firstName, lastName, email, phoneNumber, PersonneRole.CLIENT);
+        super(firstName, lastName, email, phoneNumber);
         this.adresse = adresse;
     }
 
     public Recipient() {
-        this.setRole(PersonneRole.CLIENT);
     }
 
 

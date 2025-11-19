@@ -15,7 +15,7 @@ public interface ClientMapper extends BaseMapper<ClientExpediteur, ClientRequest
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
-    @Mapping(target = "role", ignore = true)
+    @Mapping(target = "userAccount",ignore = true)
     @Mapping(target = "adresse.rue", source = "rue")
     @Mapping(target = "adresse.ville", source = "ville")
     @Mapping(target = "adresse.codePostal", source = "codePostal")
@@ -33,10 +33,10 @@ public interface ClientMapper extends BaseMapper<ClientExpediteur, ClientRequest
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
-    @Mapping(target = "role", ignore = true)
     @Mapping(target = "adresse.rue", source = "rue")
     @Mapping(target = "adresse.ville", source = "ville")
     @Mapping(target = "adresse.codePostal", source = "codePostal")
+    @Mapping(target = "userAccount",ignore = true)
     void updateEntityFromDto(ClientRequestDTO dto, @MappingTarget ClientExpediteur entity);
 
 }

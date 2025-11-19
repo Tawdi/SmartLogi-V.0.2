@@ -1,5 +1,6 @@
 package com.smartlogi.smartlogidms.common.domain.entity.id;
 
+import com.smartlogi.smartlogidms.common.domain.entity.HardDeletableEntity;
 import com.smartlogi.smartlogidms.common.domain.entity.SoftDeletableEntity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Column;
@@ -10,7 +11,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public class StringBaseEntity extends SoftDeletableEntity<String> {
+public class StringBaseEntity extends HardDeletableEntity<String> {
 
     @Id
     @UuidGenerator
