@@ -2,16 +2,16 @@ package com.smartlogi.smartlogidms.masterdata.client.api;
 
 import com.smartlogi.smartlogidms.common.api.controller.StringBaseController;
 import com.smartlogi.smartlogidms.common.api.dto.ApiResponseDTO;
+import com.smartlogi.smartlogidms.common.api.dto.ValidationGroups;
 import com.smartlogi.smartlogidms.masterdata.client.domain.ClientExpediteur;
 import com.smartlogi.smartlogidms.masterdata.client.service.ClientService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/clients")
@@ -30,6 +30,10 @@ public class ClientController extends StringBaseController<ClientExpediteur, Cli
         return ResponseEntity
                 .ok(ApiResponseDTO
                         .success("Selected Clients retrieved successfully", clientService.searchClients(keyword, pageable)));
+    }
+    @PostMapping("/register")
+    public ResponseEntity<ApiResponseDTO<ClientResponseDTO>>  register( @Validated(ValidationGroups.Create.class) @RequestBody RegisterClientRequestDTO requestDTO){
+        return ResponseEntity.ok(ApiResponseDTO.success("Registered successfully",clientService.register(requestDTO)));
     }
 
 }

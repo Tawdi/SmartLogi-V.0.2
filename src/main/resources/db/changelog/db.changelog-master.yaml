@@ -30,3 +30,5 @@ databaseChangeLog:
       file: db/changelog/2025/11/17-01-changelog-drop-role.yaml
   - include:
       file: db/changelog/2025/11/17-02-changelog-useracount.yaml
+  - include:
+      file: db/changelog/2025/11/20-01-changelog-add-user_account_id-to-senders.yaml

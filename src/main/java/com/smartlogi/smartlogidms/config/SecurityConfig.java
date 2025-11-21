@@ -31,11 +31,13 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(
-                                "/api/auth/**"
-//                                ,"/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html"
-                        ).permitAll()
-                        .anyRequest().authenticated()
+                                .requestMatchers(
+                                        "/api/auth/**"
+//                                ,"/api/**"
+                                        , "/api/clients/register"
+                                        , "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html"
+                                ).permitAll()
+                                .anyRequest().authenticated()
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
@@ -54,11 +56,12 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder(12);
     }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
+
 }
