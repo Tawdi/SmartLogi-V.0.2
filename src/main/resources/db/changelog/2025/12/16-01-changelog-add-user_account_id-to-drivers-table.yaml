@@ -1,0 +1,33 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1763047574489-1
+      author: human
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addColumn:
+            tableName: livreur
+            columns:
+              - column:
+                  name: user_account_id
+                  type: BIGINT
+  - changeSet:
+      id: 1763047574489-2
+      author: human
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addUniqueConstraint:
+            columnNames: user_account_id
+            constraintName: uc_livreur_user_account
+            tableName: livreur
+  - changeSet:
+      id: 1763047574489-3
+      author: human
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: user_account_id
+            baseTableName: livreur
+            constraintName: FK_LIVREUR_ON_USER_ACCOUNT
+            referencedColumnNames: id
+            referencedTableName: user_accounts
+
