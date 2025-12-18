@@ -1,4 +1,4 @@
-package io.github.tawdi.security.user.domain;
+package io.github.tawdi.security.permission.domain;
 
 import jakarta.persistence.*;
 import lombok.*;

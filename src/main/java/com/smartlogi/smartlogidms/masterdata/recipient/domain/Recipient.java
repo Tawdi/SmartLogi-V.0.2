@@ -19,9 +19,9 @@ public class Recipient extends Personne {
     @Embedded
     private Adresse adresse;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "user_account_id", unique = true)
-    private UserAccount userAccount;
+//    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+//    @JoinColumn(name = "user_account_id", unique = true)
+//    private UserAccount userAccount;
 
     public Recipient(String firstName, String lastName, String email, String phoneNumber, Adresse adresse) {
         super(firstName, lastName, email, phoneNumber);

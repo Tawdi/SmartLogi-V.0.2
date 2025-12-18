@@ -1,5 +1,6 @@
 package io.github.tawdi.security.user.domain;
 
+import io.github.tawdi.security.permission.domain.Role;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -7,8 +8,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "user_accounts")
@@ -29,21 +30,31 @@ public class UserAccount implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
-    @Column(name = "role")
-    private Set<String> roles = Set.of();
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "role_id")
+    private Role role;
 
     private boolean enabled = true;
 
-    public boolean hasRole(String role) {
-        return roles != null && roles.contains(role);
+    public boolean hasRole(String roleName) {
+        return role != null && role.getName().equals(roleName);
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles.stream()
-                .map(role -> new SimpleGrantedAuthority("ROLE_" + role)).collect(Collectors.toSet());
+        Set<GrantedAuthority> authorities = new HashSet<>();
+
+        if (role != null) {
+            // Ajouter le rôle
+            authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName()));
+
+            // Ajouter toutes les permissions du rôle
+            role.getPermissions().forEach(permission -> {
+                authorities.add(new SimpleGrantedAuthority(permission.getCode()));
+            });
+        }
+
+        return authorities;
     }
 
     @Override

@@ -14,11 +14,11 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EntityScan(basePackages = {
         "com.smartlogi.smartlogidms.delivery",
         "com.smartlogi.smartlogidms.masterdata",
-        "io.github.tawdi.security.user.domain"
+        "io.github.tawdi.security"
 })
 @EnableJpaRepositories(basePackages = {
         "com.smartlogi.smartlogidms",
-        "io.github.tawdi.security.user.repository"
+        "io.github.tawdi.security"
 })
 @ComponentScan(basePackages = {
         "com.smartlogi.smartlogidms",

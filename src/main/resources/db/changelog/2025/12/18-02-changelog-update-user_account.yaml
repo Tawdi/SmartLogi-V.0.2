@@ -1,0 +1,24 @@
+databaseChangeLog:
+  # 1. Ajouter la colonne role_id à user_accounts
+  - changeSet:
+      id: user-migration-1
+      author: smartlogi
+      changes:
+        - addColumn:
+            tableName: user_accounts
+            columns:
+              - column:
+                  name: role_id
+                  type: BIGINT
+                  constraints:
+                    nullable: true
+
+        - addForeignKeyConstraint:
+            baseTableName: user_accounts
+            baseColumnNames: role_id
+            referencedTableName: roles
+            referencedColumnNames: id
+            constraintName: fk_user_accounts_role
+            deferrable: false
+            initiallyDeferred: false
+            validate: true

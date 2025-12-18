@@ -9,6 +9,7 @@ import com.smartlogi.smartlogidms.masterdata.client.api.RegisterClientRequestDTO
 import com.smartlogi.smartlogidms.masterdata.client.domain.ClientExpediteur;
 import com.smartlogi.smartlogidms.masterdata.client.domain.ClientExpediteurRepository;
 import com.smartlogi.smartlogidms.security.RoleUtils;
+import io.github.tawdi.security.permission.repository.RoleRepository;
 import io.github.tawdi.security.user.domain.UserAccount;
 import io.github.tawdi.security.user.repository.UserAccountRepository;
 import org.springframework.data.domain.Page;
@@ -25,14 +26,16 @@ public class ClientServiceImpl extends StringCrudServiceImpl<ClientExpediteur, C
     private final ClientExpediteurRepository clientExpediteurRepo;
     private final ClientMapper clientMapper;
     private final UserAccountRepository userAccountRepository;
+    private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public ClientServiceImpl(ClientExpediteurRepository clientExpediteurRepository, ClientMapper clientMapper, UserAccountRepository userAccountRepository, PasswordEncoder passwordEncoder) {
+    public ClientServiceImpl(ClientExpediteurRepository clientExpediteurRepository, ClientMapper clientMapper, UserAccountRepository userAccountRepository,RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
         super(clientExpediteurRepository, clientMapper);
         this.clientExpediteurRepo = clientExpediteurRepository;
         this.clientMapper = clientMapper;
         this.userAccountRepository =userAccountRepository;
         this.passwordEncoder = passwordEncoder;
+        this.roleRepository =roleRepository;
     }
 
 
@@ -60,7 +63,7 @@ public class ClientServiceImpl extends StringCrudServiceImpl<ClientExpediteur, C
         UserAccount user = UserAccount.builder()
                 .username(dto.getUsername())
                 .password(passwordEncoder.encode(dto.getPassword()))
-                .roles(Set.of(RoleUtils.CLIENT))
+                .role(roleRepository.findByName("CLIENT").orElseThrow(()-> new ResourceNotFoundException("Role Not Found")))
                 .enabled(true)
                 .build();
         userAccountRepository.save(user);

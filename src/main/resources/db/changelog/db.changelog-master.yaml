@@ -36,3 +36,7 @@ databaseChangeLog:
       file: db/changelog/2025/12/16-01-changelog-add-user_account_id-to-drivers-table.yaml
   - include:
       file: db/changelog/2025/12/18-01-changelog-create-role-and-permission-tables.yaml
+  - include:
+      file: db/changelog/2025/12/18-02-changelog-update-user_account.yaml
+  - include:
+      file: db/changelog/2025/12/18-03-changelog-insert-roles.yaml
