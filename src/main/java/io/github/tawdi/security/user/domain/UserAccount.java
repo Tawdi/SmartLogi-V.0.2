@@ -36,9 +36,6 @@ public class UserAccount implements UserDetails {
 
     private boolean enabled = true;
 
-    public boolean hasRole(String roleName) {
-        return role != null && role.getName().equals(roleName);
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

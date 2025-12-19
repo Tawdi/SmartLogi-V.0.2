@@ -1,8 +1,5 @@
 package io.github.tawdi.security.permission.api;
 
-
-import io.github.tawdi.security.permission.domain.Permission;
-import io.github.tawdi.security.permission.domain.Role;
 import io.github.tawdi.security.permission.service.PermissionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

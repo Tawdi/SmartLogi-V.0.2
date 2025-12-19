@@ -7,6 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -154,6 +156,28 @@ public class GlobalExceptionHandler {
         response.setPath(request.getRequestURI());
 
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
+    /* --------------------------------------------------------------------- *
+     *  8. Spring Security: Access Denied (403 Forbidden)
+     * --------------------------------------------------------------------- */
+    @ExceptionHandler({
+            AccessDeniedException.class,
+            AuthorizationDeniedException.class
+    })
+    public ResponseEntity<ApiResponseDTO<String>> handleAccessDenied(
+            Exception ex,
+            HttpServletRequest request) {
+
+        logger.warn("Access denied for user to endpoint: {} {}",
+                request.getMethod(), request.getRequestURI());
+        logger.debug("Access denied details: {}", ex.getMessage());
+
+        ApiResponseDTO<String> response = ApiResponseDTO.error(
+                "You don't have permission to access this resource");
+        response.setPath(request.getRequestURI());
+
+        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
     }
 
     /* --------------------------------------------------------------------- *
