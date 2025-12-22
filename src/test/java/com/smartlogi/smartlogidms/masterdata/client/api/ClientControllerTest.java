@@ -7,7 +7,7 @@ import com.smartlogi.smartlogidms.common.exception.ResourceNotFoundException;
 import com.smartlogi.smartlogidms.masterdata.client.domain.ClientExpediteur;
 import com.smartlogi.smartlogidms.masterdata.client.service.ClientService;
 import com.smartlogi.smartlogidms.masterdata.shared.domain.Adresse;
-import com.smartlogi.smartlogidms.masterdata.shared.domain.Personne.PersonneRole;
+//import com.smartlogi.smartlogidms.masterdata.shared.domain.Personne.PersonneRole;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -94,7 +94,6 @@ class ClientControllerTest {
         clientEntity.setLastName("Corp");
         clientEntity.setEmail("contact@company.com");
         clientEntity.setPhoneNumber("+33123456789");
-        clientEntity.setRole(PersonneRole.CLIENT);
         clientEntity.setAdresse(new Adresse("Paris", "123 Business Ave", "75001"));
     }
 

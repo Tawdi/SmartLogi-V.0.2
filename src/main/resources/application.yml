@@ -42,3 +42,8 @@ logging:
     name: logs/myapp.log
 app:
   base-url: http://localhost:8080
+
+tawdi:
+  jwt:
+    secret: "dfghjkLKJHGFDHjlkjhGFHJK09876545678LKJFGHjKJVBNdfghjjhg"
+    expiration-ms: 3600000 # 1 day

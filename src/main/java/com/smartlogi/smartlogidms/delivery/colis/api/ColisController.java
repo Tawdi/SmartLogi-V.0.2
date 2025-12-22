@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,6 +34,7 @@ public class ColisController extends StringBaseController<Colis, ColisRequestDTO
 
     @GetMapping("/client/{expediteurId}")
     @Operation(summary = "Get parcels for a client (expediteur)", description = "Filter by status (optional); null = all, DELIVERED = delivered, other = in progress")
+    @PreAuthorize("hasAnyRole('MANAGER','ADMIN')")
     public ResponseEntity<ApiResponseDTO<Page<ColisResponseDTO>>> getParcelsByClient(
             @PathVariable String expediteurId,
             @Parameter(description = "Status filter (CREATED, DELIVERED, etc.; null for all)") @RequestParam(required = false) Colis.ColisStatus status,
@@ -44,6 +46,7 @@ public class ColisController extends StringBaseController<Colis, ColisRequestDTO
 
     @GetMapping("/driver/{livreurId}")
     @Operation(summary = "Get parcels for a driver (livreur)", description = "Filter by status (optional); null = all, DELIVERED = delivered, other = in progress")
+    @PreAuthorize("hasAnyRole('MANAGER','ADMIN')")
     public ResponseEntity<ApiResponseDTO<Page<ColisResponseDTO>>> getParcelsByDriver(
             @PathVariable String livreurId,
             @Parameter(description = "Status filter (CREATED, DELIVERED, etc.; null for all)") @RequestParam(required = false) Colis.ColisStatus status,
@@ -56,6 +59,7 @@ public class ColisController extends StringBaseController<Colis, ColisRequestDTO
 
     @GetMapping("/destinataire/{destinataireId}")
     @Operation(summary = "Get parcels for a destinataire", description = "Filter by status (optional)")
+    @PreAuthorize("hasAnyRole('MANAGER','ADMIN')")
     public ResponseEntity<ApiResponseDTO<Page<ColisResponseDTO>>> getParcelsByDestinataire(
             @PathVariable String destinataireId,
             @Parameter(description = "Status filter (null for all)") @RequestParam(required = false) Colis.ColisStatus status,
@@ -67,6 +71,7 @@ public class ColisController extends StringBaseController<Colis, ColisRequestDTO
 
     @PutMapping("/{id}/status")
     @Operation(summary = "Update parcel status (livreur only)")
+    @PreAuthorize("hasAuthority('PACKAGE:UPDATE_STATUS')")
     public ResponseEntity<ApiResponseDTO<ColisResponseDTO>> updateStatus(
             @PathVariable String id,
             @RequestBody @Valid UpdateStatusRequest request) {
@@ -77,6 +82,7 @@ public class ColisController extends StringBaseController<Colis, ColisRequestDTO
 
     @GetMapping("/{id}/history")
     @Operation(summary = "Get history for a parcel")
+    @PreAuthorize("hasAuthority('PACKAGE:READ')")
     public ResponseEntity<ApiResponseDTO<Page<HistoriqueLivraisonResponseDTO>>> getHistory(
             @PathVariable String id,
             Pageable pageable) {
@@ -88,6 +94,7 @@ public class ColisController extends StringBaseController<Colis, ColisRequestDTO
 
     @PutMapping("/{id}/assign")
     @Operation(summary = "Assign a driver to a package", description = "Manager only")
+    @PreAuthorize("hasAnyRole('MANAGER','ADMIN')")
     public ResponseEntity<ApiResponseDTO<ColisResponseDTO>> assignerLivreur(
             @PathVariable String id,
             @Valid @RequestBody AssignerLivreurRequestDTO request
@@ -99,6 +106,7 @@ public class ColisController extends StringBaseController<Colis, ColisRequestDTO
 
     @GetMapping("/synthese/zone")
     @Operation(summary = "Synthèse par zone", description = "Nombre et poids total de colis par zone")
+    @PreAuthorize("hasAuthority('PACKAGE:READ_STATS')")
     public ResponseEntity<ApiResponseDTO<List<SyntheseDTO<String>>>> syntheseByZone() {
         List<SyntheseDTO<String>> data = colisService.getSyntheseByZone();
         return ResponseEntity.ok(ApiResponseDTO.success("Synthèse par zone", data));
@@ -106,6 +114,7 @@ public class ColisController extends StringBaseController<Colis, ColisRequestDTO
 
     @GetMapping("/synthese/statut")
     @Operation(summary = "Synthèse par statut")
+    @PreAuthorize("hasAuthority('PACKAGE:READ_STATS')")
     public ResponseEntity<ApiResponseDTO<List<SyntheseDTO<Colis.ColisStatus>>>> syntheseByStatut() {
         List<SyntheseDTO<Colis.ColisStatus>> data = colisService.getSyntheseByStatut();
         return ResponseEntity.ok(ApiResponseDTO.success("Synthèse par statut", data));
@@ -113,12 +122,14 @@ public class ColisController extends StringBaseController<Colis, ColisRequestDTO
 
     @GetMapping("/synthese/priorite")
     @Operation(summary = "Synthèse par priorité")
+    @PreAuthorize("hasAuthority('PACKAGE:READ_STATS')")
     public ResponseEntity<ApiResponseDTO<List<SyntheseDTO<Colis.Priorite>>>> syntheseByPriorite() {
         List<SyntheseDTO<Colis.Priorite>> data = colisService.getSyntheseByPriorite();
         return ResponseEntity.ok(ApiResponseDTO.success("Synthèse par priorité", data));
     }
 
     @GetMapping("/{id}/products")
+    @PreAuthorize("hasAuthority('PACKAGE:READ')")
     public ResponseEntity<Page<ColisProductResponseDTO>> getProducts(
             @PathVariable String id,
             @ParameterObject @PageableDefault(size = 10, sort = "product.nom", direction = Sort.Direction.ASC) Pageable pageable) {

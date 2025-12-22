@@ -1,0 +1,29 @@
+services:
+  app:
+    build: .                  # Builds from your existing Dockerfile
+    image: smartlogi:0.1
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/smartlogidms  # Change to your DB name
+      - SPRING_DATASOURCE_USERNAME=postgres                           # Your username
+      - SPRING_DATASOURCE_PASSWORD=your_password                      # Your password
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update                          # Or validate/create
+    depends_on:
+      - db
+    restart: on-failure
+
+  db:
+    image: postgres:17-alpine     # Latest stable, small image
+    environment:
+      - POSTGRES_DB=smartlogidms    # Same as above
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=your_password
+    ports:
+      - "5433:5432"                 # Optional: for local access (e.g., DBeaver)
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  postgres_data:

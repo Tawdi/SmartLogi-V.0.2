@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.MultiValueMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
+@PreAuthorize("isAuthenticated()")
 public abstract class AbstractBaseController<T extends BaseEntity<I>, I, R1, R2> implements BaseController<T, I, R1, R2> {
 
     protected final BaseCrudService<T, R1, R2, I> service;
@@ -41,7 +43,7 @@ public abstract class AbstractBaseController<T extends BaseEntity<I>, I, R1, R2>
     @ApiResponse(responseCode = "201", description = "Resource created successfully")
     @ApiResponse(responseCode = "400", description = "Invalid input data")
     @ApiResponse(responseCode = "409", description = "Resource already exists")
-
+    @PreAuthorize("hasAnyRole('MANAGER','ADMIN')")
     public ResponseEntity<ApiResponseDTO<R2>> create(@Validated(ValidationGroups.Create.class) @RequestBody R1 requestDTO) {
 
         R2 responseDTO = service.save(requestDTO);
@@ -59,7 +61,7 @@ public abstract class AbstractBaseController<T extends BaseEntity<I>, I, R1, R2>
     @ApiResponse(responseCode = "200", description = "Resource updated successfully")
     @ApiResponse(responseCode = "400", description = "Invalid input data")
     @ApiResponse(responseCode = "404", description = "Resource not found")
-
+    @PreAuthorize("hasAnyRole('MANAGER','ADMIN')")
     public ResponseEntity<ApiResponseDTO<R2>> update(@PathVariable I id, @Validated(ValidationGroups.Update.class) @RequestBody R1 requestDTO) {
         R2 responseDTO = service.update(id, requestDTO);
         return ResponseEntity.ok(ApiResponseDTO.success("Resource updated successfully", responseDTO));
@@ -74,7 +76,7 @@ public abstract class AbstractBaseController<T extends BaseEntity<I>, I, R1, R2>
 
     @ApiResponse(responseCode = "200", description = "Resource retrieved successfully")
     @ApiResponse(responseCode = "404", description = "Resource not found")
-
+    @PreAuthorize("hasAnyRole('MANAGER','ADMIN')")
     public ResponseEntity<ApiResponseDTO<R2>> getById(@PathVariable I id) {
         R2 responseDTO = service.findById(id);
         return ResponseEntity.ok(ApiResponseDTO.success("Resource retrieved successfully", responseDTO));
@@ -88,6 +90,7 @@ public abstract class AbstractBaseController<T extends BaseEntity<I>, I, R1, R2>
             description = "Retrieves all resources of this type. Use with caution for large datasets."
     )
     @ApiResponse(responseCode = "200", description = "Resources retrieved successfully")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponseDTO<List<R2>>> getAll() {
         List<R2> responseDTOs = service.findAll();
         return ResponseEntity.ok(ApiResponseDTO.success("Resources retrieved successfully", responseDTOs));
@@ -101,6 +104,7 @@ public abstract class AbstractBaseController<T extends BaseEntity<I>, I, R1, R2>
             description = "Retrieves resources with pagination support. Use page, size, and sort parameters for control."
     )
     @ApiResponse(responseCode = "200", description = "Paginated resources retrieved successfully")
+    @PreAuthorize("hasAnyRole('MANAGER','ADMIN')")
     public ResponseEntity<ApiResponseDTO<Page<R2>>> getAllPaginated(
             @ParameterObject Pageable pageable,
             @RequestParam(required = false) MultiValueMap<String, String> filters
@@ -126,7 +130,7 @@ public abstract class AbstractBaseController<T extends BaseEntity<I>, I, R1, R2>
     )
     @ApiResponse(responseCode = "200", description = "Resource deleted successfully")
     @ApiResponse(responseCode = "404", description = "Resource not found")
-
+    @PreAuthorize("hasAnyRole('MANAGER','ADMIN')")
     public ResponseEntity<ApiResponseDTO<Void>> delete(@PathVariable I id) {
         service.deleteById(id);
         return ResponseEntity.ok(ApiResponseDTO.success("Resource deleted successfully", null));

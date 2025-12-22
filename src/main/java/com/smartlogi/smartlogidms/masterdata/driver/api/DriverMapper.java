@@ -22,8 +22,8 @@ public interface DriverMapper extends BaseMapper<Driver, DriverRequestDTO, Drive
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
-    @Mapping(target = "role", ignore = true)
     @Mapping(target = "zoneAssignee", ignore = true)
+    @Mapping(target = "userAccount",ignore = true)
     Driver toEntity(DriverRequestDTO requestDto);
 
     @Override
@@ -31,8 +31,8 @@ public interface DriverMapper extends BaseMapper<Driver, DriverRequestDTO, Drive
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
-    @Mapping(target = "role", ignore = true)
     @Mapping(target = "zoneAssignee", ignore = true)
+    @Mapping(target = "userAccount",ignore = true)
     void updateEntityFromDto(DriverRequestDTO dto, @MappingTarget Driver entity);
 
 }

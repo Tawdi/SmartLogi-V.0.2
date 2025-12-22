@@ -1,10 +1,8 @@
 package com.smartlogi.smartlogidms.masterdata.shared.domain;
 
 import com.smartlogi.smartlogidms.common.domain.entity.id.StringBaseEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.MappedSuperclass;
+import io.github.tawdi.security.user.domain.UserAccount;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -27,24 +25,13 @@ public class Personne extends StringBaseEntity {
     @Column(length = 20, nullable = false, name = "phone_number")
     private String phoneNumber;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 20)
-    private PersonneRole role;
-
-
-    public Personne(String firstName, String lastName, String email, String phoneNumber, PersonneRole role) {
+    public Personne(String firstName, String lastName, String email, String phoneNumber) {
 
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        this.role = role;
     }
 
-    public enum PersonneRole {
-        CLIENT,
-        DRIVER,
-        MANAGER
-    }
 
 }

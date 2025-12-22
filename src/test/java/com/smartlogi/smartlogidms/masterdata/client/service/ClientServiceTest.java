@@ -44,7 +44,7 @@ class ClientServiceTest {
 
     @BeforeEach
     void setUp() {
-        clientService = new ClientServiceImpl(repository, mapper);
+        clientService = new ClientServiceImpl(repository, mapper,null,null,null);
 
         // Setup test data
         clientEntity = new ClientExpediteur();

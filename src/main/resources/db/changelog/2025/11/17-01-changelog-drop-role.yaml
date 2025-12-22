@@ -1,0 +1,16 @@
+databaseChangeLog:
+  - changeSet:
+      id: 17619911113456-01
+      author: human
+      changes:
+        - dropColumn:
+            tableName: senders
+            columnName: role
+
+        - dropColumn:
+            tableName: recipient
+            columnName: role
+
+        - dropColumn:
+            tableName: livreur
+            columnName: role

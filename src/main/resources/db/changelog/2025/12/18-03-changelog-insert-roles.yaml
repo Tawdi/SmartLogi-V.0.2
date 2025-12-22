@@ -1,0 +1,435 @@
+databaseChangeLog:
+  # 5. Insérer les rôles par défaut
+  - changeSet:
+      id: user-migration-5
+      author: smartlogi
+      changes:
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 1
+              - column:
+                  name: name
+                  value: MANAGER
+              - column:
+                  name: description
+                  value: Gestionnaire logistique
+
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 2
+              - column:
+                  name: name
+                  value: DELIVERY
+              - column:
+                  name: description
+                  value: Livreur
+
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 3
+              - column:
+                  name: name
+                  value: CLIENT
+              - column:
+                  name: description
+                  value: Client expéditeur
+
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 4
+              - column:
+                  name: name
+                  value: ADMIN
+              - column:
+                  name: description
+                  value: Administrateur système
+
+  # 6. Insérer les permissions par défaut
+  - changeSet:
+      id: user-migration-6
+      author: smartlogi
+      changes:
+        - insert:
+            tableName: permissions
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 1
+              - column:
+                  name: code
+                  value: PACKAGE:READ
+              - column:
+                  name: description
+                  value: Lire les colis
+              - column:
+                  name: resource_type
+                  value: PACKAGE
+              - column:
+                  name: action_type
+                  value: READ
+
+        - insert:
+            tableName: permissions
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 2
+              - column:
+                  name: code
+                  value: PACKAGE:CREATE
+              - column:
+                  name: description
+                  value: Créer un colis
+              - column:
+                  name: resource_type
+                  value: PACKAGE
+              - column:
+                  name: action_type
+                  value: CREATE
+
+        - insert:
+            tableName: permissions
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 3
+              - column:
+                  name: code
+                  value: PACKAGE:UPDATE_STATUS
+              - column:
+                  name: description
+                  value: Mettre à jour le statut d'un colis
+              - column:
+                  name: resource_type
+                  value: PACKAGE
+              - column:
+                  name: action_type
+                  value: UPDATE
+
+        - insert:
+            tableName: permissions
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 4
+              - column:
+                  name: code
+                  value: DRIVER:READ
+              - column:
+                  name: description
+                  value: Lire les livreurs
+              - column:
+                  name: resource_type
+                  value: DRIVER
+              - column:
+                  name: action_type
+                  value: READ
+
+        - insert:
+            tableName: permissions
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 5
+              - column:
+                  name: code
+                  value: DRIVER:MANAGE
+              - column:
+                  name: description
+                  value: Gérer les livreurs
+              - column:
+                  name: resource_type
+                  value: DRIVER
+              - column:
+                  name: action_type
+                  value: MANAGE
+
+        - insert:
+            tableName: permissions
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 6
+              - column:
+                  name: code
+                  value: ZONE:MANAGE
+              - column:
+                  name: description
+                  value: Gérer les zones
+              - column:
+                  name: resource_type
+                  value: ZONE
+              - column:
+                  name: action_type
+                  value: MANAGE
+
+        - insert:
+            tableName: permissions
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 7
+              - column:
+                  name: code
+                  value: STATS:READ
+              - column:
+                  name: description
+                  value: Voir les statistiques
+              - column:
+                  name: resource_type
+                  value: STATS
+              - column:
+                  name: action_type
+                  value: READ
+
+        - insert:
+            tableName: permissions
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 8
+              - column:
+                  name: code
+                  value: ADMIN:DASHBOARD
+              - column:
+                  name: description
+                  value: Accès au tableau de bord admin
+              - column:
+                  name: resource_type
+                  value: ADMIN
+              - column:
+                  name: action_type
+                  value: READ
+
+  # 7. Assigner les permissions aux rôles
+  - changeSet:
+      id: user-migration-7
+      author: smartlogi
+      changes:
+        # MANAGER: toutes les permissions sauf ADMIN
+        - insert:
+            tableName: role_permissions
+            columns:
+              - column:
+                  name: role_id
+                  valueNumeric: 1
+              - column:
+                  name: permission_id
+                  valueNumeric: 1
+        - insert:
+            tableName: role_permissions
+            columns:
+              - column:
+                  name: role_id
+                  valueNumeric: 1
+              - column:
+                  name: permission_id
+                  valueNumeric: 2
+        - insert:
+            tableName: role_permissions
+            columns:
+              - column:
+                  name: role_id
+                  valueNumeric: 1
+              - column:
+                  name: permission_id
+                  valueNumeric: 3
+        - insert:
+            tableName: role_permissions
+            columns:
+              - column:
+                  name: role_id
+                  valueNumeric: 1
+              - column:
+                  name: permission_id
+                  valueNumeric: 4
+        - insert:
+            tableName: role_permissions
+            columns:
+              - column:
+                  name: role_id
+                  valueNumeric: 1
+              - column:
+                  name: permission_id
+                  valueNumeric: 5
+        - insert:
+            tableName: role_permissions
+            columns:
+              - column:
+                  name: role_id
+                  valueNumeric: 1
+              - column:
+                  name: permission_id
+                  valueNumeric: 6
+        - insert:
+            tableName: role_permissions
+            columns:
+              - column:
+                  name: role_id
+                  valueNumeric: 1
+              - column:
+                  name: permission_id
+                  valueNumeric: 7
+
+        # DELIVERY: seulement lecture et mise à jour statut
+        - insert:
+            tableName: role_permissions
+            columns:
+              - column:
+                  name: role_id
+                  valueNumeric: 2
+              - column:
+                  name: permission_id
+                  valueNumeric: 1
+        - insert:
+            tableName: role_permissions
+            columns:
+              - column:
+                  name: role_id
+                  valueNumeric: 2
+              - column:
+                  name: permission_id
+                  valueNumeric: 3
+
+        # CLIENT: création et lecture de ses colis
+        - insert:
+            tableName: role_permissions
+            columns:
+              - column:
+                  name: role_id
+                  valueNumeric: 3
+              - column:
+                  name: permission_id
+                  valueNumeric: 1
+        - insert:
+            tableName: role_permissions
+            columns:
+              - column:
+                  name: role_id
+                  valueNumeric: 3
+              - column:
+                  name: permission_id
+                  valueNumeric: 2
+
+        # ADMIN: toutes les permissions
+        - insert:
+            tableName: role_permissions
+            columns:
+              - column:
+                  name: role_id
+                  valueNumeric: 4
+              - column:
+                  name: permission_id
+                  valueNumeric: 1
+        - insert:
+            tableName: role_permissions
+            columns:
+              - column:
+                  name: role_id
+                  valueNumeric: 4
+              - column:
+                  name: permission_id
+                  valueNumeric: 2
+        - insert:
+            tableName: role_permissions
+            columns:
+              - column:
+                  name: role_id
+                  valueNumeric: 4
+              - column:
+                  name: permission_id
+                  valueNumeric: 3
+        - insert:
+            tableName: role_permissions
+            columns:
+              - column:
+                  name: role_id
+                  valueNumeric: 4
+              - column:
+                  name: permission_id
+                  valueNumeric: 4
+        - insert:
+            tableName: role_permissions
+            columns:
+              - column:
+                  name: role_id
+                  valueNumeric: 4
+              - column:
+                  name: permission_id
+                  valueNumeric: 5
+        - insert:
+            tableName: role_permissions
+            columns:
+              - column:
+                  name: role_id
+                  valueNumeric: 4
+              - column:
+                  name: permission_id
+                  valueNumeric: 6
+        - insert:
+            tableName: role_permissions
+            columns:
+              - column:
+                  name: role_id
+                  valueNumeric: 4
+              - column:
+                  name: permission_id
+                  valueNumeric: 7
+        - insert:
+            tableName: role_permissions
+            columns:
+              - column:
+                  name: role_id
+                  valueNumeric: 4
+              - column:
+                  name: permission_id
+                  valueNumeric: 8
+
+  - changeSet:
+      id: user-migration-9
+      author: smartlogi
+      changes:
+        # D'abord supprimer la contrainte de clé étrangère
+        - dropForeignKeyConstraint:
+            baseTableName: user_roles
+            constraintName: fk_user_roles_on_user_account
+
+        # Puis supprimer la table
+        - dropTable:
+            tableName: user_roles
+            cascadeConstraints: true
+
+  - changeSet:
+      id: user-migration-10
+      author: smartlogi
+      changes:
+        - addNotNullConstraint:
+            tableName: user_accounts
+            columnName: role_id
+            defaultNullValue: 1  # Par défaut, assigner le rôle MANAGER si non défini
+            validate: true
+
+  # 11. Ajouter un index sur role_id pour les performances
+  - changeSet:
+      id: user-migration-11
+      author: smartlogi
+      changes:
+        - createIndex:
+            tableName: user_accounts
+            indexName: idx_user_accounts_role_id
+            columns:
+              - column:
+                  name: role_id
+            unique: false

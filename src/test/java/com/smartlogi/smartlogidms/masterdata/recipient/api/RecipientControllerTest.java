@@ -7,7 +7,6 @@ import com.smartlogi.smartlogidms.common.exception.ResourceNotFoundException;
 import com.smartlogi.smartlogidms.masterdata.recipient.domain.Recipient;
 import com.smartlogi.smartlogidms.masterdata.recipient.service.RecipientService;
 import com.smartlogi.smartlogidms.masterdata.shared.domain.Adresse;
-import com.smartlogi.smartlogidms.masterdata.shared.domain.Personne.PersonneRole;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -94,7 +93,6 @@ class RecipientControllerTest {
         recipientEntity.setLastName("Doe");
         recipientEntity.setEmail("john.doe@example.com");
         recipientEntity.setPhoneNumber("+33123456789");
-        recipientEntity.setRole(PersonneRole.CLIENT);
         recipientEntity.setAdresse(new Adresse("Paris", "123 Main Street", "75001"));
     }
 

@@ -1,0 +1,23 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-admin-0
+      author: admin
+      changes:
+       - insert:
+           tableName: user_accounts
+           columns:
+             - column:
+                 name: id
+                 valueNumeric: 2
+             - column:
+                 name: username
+                 value: manager
+             - column:
+                 name: password
+                 value: "$2a$12$OYCUBocoB6dReQxbNqsArus0ZulArf5Xj29jXBKwcJADgiJWf29oO"
+             - column:
+                 name: role_id
+                 valueNumeric: 1
+             - column:
+                 name: enabled
+                 valueBoolean: true
