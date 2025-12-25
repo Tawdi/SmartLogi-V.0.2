@@ -1,4 +1,21 @@
 spring:
+  config:
+    import: optional:file:.env[.properties]
+  # Security - OAuth
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+            scope: profile,email
+        provider:
+          google:
+            authorization-uri: https://accounts.google.com/o/oauth2/auth
+            token-uri: https://oauth2.googleapis.com/token
+            user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
+            user-name-attribute: sub
   # database connection
   datasource:
     url: jdbc:postgresql://localhost:5432/smartlogi_dms
@@ -17,17 +34,17 @@ spring:
     change-log: classpath:/db/changelog/db.changelog-master.yaml
     enabled: true
   mail:
-      host: sandbox.smtp.mailtrap.io
-      port: 2525
-      username: 830474a69ff1fd
-      password: 4898348e8874f5 # Use app password for Gmail
-      properties:
-        mail:
-          smtp:
-            auth: true
-            starttls:
-              enable: true
-      default-encoding: UTF-8
+    host: sandbox.smtp.mailtrap.io
+    port: 2525
+    username: 830474a69ff1fd
+    password: 4898348e8874f5 # Use app password for Gmail
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+    default-encoding: UTF-8
 
 logging:
   level:
@@ -36,8 +53,8 @@ logging:
 
   pattern:
     file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
-#    console: "%d{yyyy-MM-dd HH:mm:ss} %clr([%thread]){faint} %clr(%-5level){%style{INFO=blue,WARN=yellow,ERROR=red}} %clr(%logger{36}){cyan} - %msg%n"
-#    console: "%d{yyyy-MM-dd HH:mm:ss} %clr([%thread]){faint} %highlight(%-5level) %clr(%logger{36}){cyan} - %msg%n"
+  #    console: "%d{yyyy-MM-dd HH:mm:ss} %clr([%thread]){faint} %clr(%-5level){%style{INFO=blue,WARN=yellow,ERROR=red}} %clr(%logger{36}){cyan} - %msg%n"
+  #    console: "%d{yyyy-MM-dd HH:mm:ss} %clr([%thread]){faint} %highlight(%-5level) %clr(%logger{36}){cyan} - %msg%n"
   file:
     name: logs/myapp.log
 app:
@@ -46,4 +63,4 @@ app:
 tawdi:
   jwt:
     secret: "dfghjkLKJHGFDHjlkjhGFHJK09876545678LKJFGHjKJVBNdfghjjhg"
-    expiration-ms: 3600000 # 1 day
+    expiration-ms: 3600000

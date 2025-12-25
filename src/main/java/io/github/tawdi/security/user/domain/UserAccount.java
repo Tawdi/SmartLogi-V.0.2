@@ -30,12 +30,34 @@ public class UserAccount implements UserDetails {
     @Column(nullable = false)
     private String password;
 
+    @Column(unique = true)
+    private String email;
+
+    @Column(name = "oauth2_provider")
+    private String oauth2Provider; //google
+
+    @Column(name = "oauth2_id")
+    private String oauth2Id;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id")
     private Role role;
 
     private boolean enabled = true;
 
+    public static UserAccount createOAuth2User(String email, String name,
+                                               String provider, String providerId,
+                                               Role role) {
+        return UserAccount.builder()
+                .username(email)
+                .email(email)
+                .password("smartLogi")
+                .role(role)
+                .enabled(true)
+                .oauth2Provider(provider)
+                .oauth2Id(providerId)
+                .build();
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
