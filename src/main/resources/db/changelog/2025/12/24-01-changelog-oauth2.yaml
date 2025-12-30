@@ -1,0 +1,38 @@
+databaseChangeLog:
+
+  # 2. Modifications minimales pour OAuth2
+  - changeSet:
+      id: oauth2-simple-migration
+      author: smartlogi
+      changes:
+
+        # 2. Ajouter colonne email
+        - addColumn:
+            tableName: user_accounts
+            columns:
+              - column:
+                  name: email
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: true
+                    unique: true
+
+        # 3. Ajouter colonne oauth2_provider
+        - addColumn:
+            tableName: user_accounts
+            columns:
+              - column:
+                  name: oauth2_provider
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: true
+
+        # 4. Ajouter colonne oauth2_id
+        - addColumn:
+            tableName: user_accounts
+            columns:
+              - column:
+                  name: oauth2_id
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: true

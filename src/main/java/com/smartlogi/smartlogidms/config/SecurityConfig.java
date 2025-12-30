@@ -1,6 +1,7 @@
 package com.smartlogi.smartlogidms.config;
 
 import io.github.tawdi.security.jwt.JwtAuthenticationFilter;
+import io.github.tawdi.security.oauth2.OAuth2AuthenticationSuccessHandler;
 import io.github.tawdi.security.user.service.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -32,6 +33,7 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final UserDetailsServiceImpl userDetailsService;
+    private final OAuth2AuthenticationSuccessHandler oAuth2SuccessHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -39,14 +41,18 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                                 .requestMatchers(
-                                        "/api/auth/**"
+
+                                        "/", "/api/auth/**"
 //                                ,"/api/**"
                                         , "/api/clients/register"
                                         , "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html"
+                                        , "/login/oauth2/**", "/oauth2/**"
                                 ).permitAll()
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .oauth2Login(auth ->
+                        auth.successHandler(oAuth2SuccessHandler))
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
@@ -89,6 +95,7 @@ public class SecurityConfig {
         provider.setPasswordEncoder(passwordEncoder());
         return provider;
     }
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
