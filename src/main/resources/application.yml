@@ -66,5 +66,5 @@ app:
 
 tawdi:
   jwt:
-    secret: "dfghjkLKJHGFDHjlkjhGFHJK09876545678LKJFGHjKJVBNdfghjjhg"
-    expiration-ms: 3600000
+    secret: "${JWT_SECRET}"
+    expiration-ms: ${JWT_EXPIRATION_MS}

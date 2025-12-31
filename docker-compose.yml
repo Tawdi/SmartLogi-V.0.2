@@ -4,6 +4,10 @@ services:
     image: smartlogi:0.1
     ports:
       - "8080:8080"
+
+    env_file:
+      - .env
+
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/smartlogidms  # Change to your DB name
       - SPRING_DATASOURCE_USERNAME=postgres                           # Your username
