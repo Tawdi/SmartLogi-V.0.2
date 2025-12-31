@@ -9,7 +9,7 @@ pipeline {
 
     environment {
         // À adapter avec ton nom Docker Hub et ton repo
-        IMAGE_NAME = 'smartlogi'   // change par ton username Docker Hub
+        IMAGE_NAME = 'tawdi/smartlogi'   // change par ton username Docker Hub
         IMAGE_TAG  = "0.1"
         DOCKER_CREDS = 'docker-hub-credentials'  // ID des credentials dans Jenkins
     }
