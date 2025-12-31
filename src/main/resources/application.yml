@@ -7,12 +7,12 @@ spring:
       client:
         registration:
           google:
-            client-id: ${GOOGLE_CLIENT_ID}
-            client-secret: ${GOOGLE_CLIENT_SECRET}
+            client-id: ${GOOGLE_CLIENT_ID:hoho}
+            client-secret: ${GOOGLE_CLIENT_SECRET:hoho}
             scope: profile,email
           facebook:
-            client-id: ${FACEBOOK_CLIENT_ID}
-            client-secret: ${FACEBOOK_CLIENT_SECRET}
+            client-id: ${FACEBOOK_CLIENT_ID:hoho}
+            client-secret: ${FACEBOOK_CLIENT_SECRET:hoho}
             scope: email,public_profile
         provider:
           google:
