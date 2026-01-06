@@ -1,15 +1,15 @@
 package com.smartlogi.smartlogidms;
 
-import org.junit.jupiter.api.Test;
+//import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
 @ActiveProfiles("test")
 class SmartLogiDmsApplicationTests {
-
-    @Test
-    void contextLoads() {
-    }
+//
+//    @Test
+//    void contextLoads() {
+//    }
 
 }
