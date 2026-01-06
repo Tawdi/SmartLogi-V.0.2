@@ -1,17 +1,15 @@
 pipeline {
     agent any
 
-    // Définir les outils globaux configurés dans Jenkins (Manage Jenkins > Tools)
     tools {
-        maven 'Maven3'    // Nom exact que tu as donné dans les Tools
-        jdk   'JDK-JNK'     // Nom exact de ton JDK (Java 21 recommandé pour Spring Boot 3+)
+        maven 'Maven3'      // Doit correspondre au nom dans Manage Jenkins > Global Tool Configuration
+        jdk   'JDK-JNK'     // Idem pour le JDK
     }
 
     environment {
-        // À adapter avec ton nom Docker Hub et ton repo
-        IMAGE_NAME = 'tawdi/smartlogi'   // change par ton username Docker Hub
-        IMAGE_TAG  = "0.1"
-        DOCKER_CREDS = 'docker-hub-credentials'  // ID des credentials dans Jenkins
+        IMAGE_NAME   = 'tawdi/smartlogi'
+        IMAGE_TAG    = '0.1'
+        DOCKER_CREDS = 'docker-hub-credentials'
     }
 
     stages {
@@ -19,8 +17,8 @@ pipeline {
             steps {
                 echo 'Récupération du code depuis GitHub...'
                 git branch: 'main',
-                    url: 'https://github.com/Tawdi/SmartLogi-V.0.2.git',
-//                     credentialsId: 'github-credentials'  // optionnel si repo public
+                    url: 'https://github.com/Tawdi/SmartLogi-V.0.2.git'
+                // credentialsId: 'github-credentials'  // à décommenter si repo privé
             }
         }
 
@@ -31,9 +29,7 @@ pipeline {
             }
             post {
                 always {
-                    // Publication des résultats de tests dans Jenkins
                     junit 'target/surefire-reports/**/*.xml'
-                    // Archive le JAR pour traçabilité
                     archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
                 }
             }
@@ -42,24 +38,25 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 echo 'Construction de l’image Docker...'
-                // Spring Boot 3+ avec Buildpacks (recommandé, pas besoin de Dockerfile)
-                sh 'mvn spring-boot:build-image -Dspring-boot.build-image.imageName=${IMAGE_NAME}:${IMAGE_TAG}'
-
-                // Alternative si tu as un Dockerfile classique :
+                // Attention : pour que ${IMAGE_NAME} et ${IMAGE_TAG} soient résolus, utiliser des guillemets doubles
+                sh "mvn spring-boot:build-image -Dspring-boot.build-image.imageName=${IMAGE_NAME}:${IMAGE_TAG}"
+                // Alternative Dockerfile classique :
                 // sh "docker build -t ${IMAGE_NAME}:${IMAGE_TAG} ."
             }
         }
 
         stage('Push Docker Image') {
             when {
-                branch 'main'  // uniquement sur la branche principale
+                branch 'main'
             }
             steps {
                 echo 'Push de l’image sur Docker Hub...'
-                withDockerRegistry([credentialsId: DOCKER_CREDS, url: '']) {
-                    sh "docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${IMAGE_NAME}:latest"
-                    sh "docker push ${IMAGE_NAME}:${IMAGE_TAG}"
-                    sh "docker push ${IMAGE_NAME}:latest"
+                script {
+                    docker.withRegistry('', DOCKER_CREDS) {
+                        sh "docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${IMAGE_NAME}:latest"
+                        sh "docker push ${IMAGE_NAME}:${IMAGE_TAG}"
+                        sh "docker push ${IMAGE_NAME}:latest"
+                    }
                 }
             }
         }
@@ -70,15 +67,13 @@ pipeline {
             }
             steps {
                 echo 'Déploiement simple pour vérification...'
-                // Arrête et supprime l’ancien container s’il existe
                 sh '''
                     docker stop smartlogi-test || true
                     docker rm smartlogi-test || true
                 '''
-                // Lance le nouveau
-                sh '''
+                sh """
                     docker run -d --name smartlogi-test -p 8081:8080 ${IMAGE_NAME}:${IMAGE_TAG}
-                '''
+                """
                 echo 'Application déployée sur http://localhost:8081'
             }
         }
@@ -86,13 +81,13 @@ pipeline {
 
     post {
         success {
-            echo 'Pipeline réussie avec succès ! 🚀 Ton application est prête.'
+            echo 'Pipeline réussie avec succès ! Ton application est prête.'
         }
         failure {
             echo 'Échec de la pipeline. Vérifie les logs ci-dessus.'
         }
         always {
-            // Nettoyage optionnel des images locales pour éviter l’encombrement
+            // Si ton agent n’a pas Docker, commente cette ligne
             sh 'docker system prune -f || true'
         }
     }
