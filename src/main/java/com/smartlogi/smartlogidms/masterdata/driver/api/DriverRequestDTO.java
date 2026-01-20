@@ -14,4 +14,6 @@ public class DriverRequestDTO extends PersonneRequestDTO {
 
     @Size(groups = {ValidationGroups.Create.class, ValidationGroups.Update.class}, max = 100)
     private String vehicule;
+
+    private String zoneAssigneeId;
 }

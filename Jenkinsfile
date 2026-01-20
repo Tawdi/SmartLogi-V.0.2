@@ -39,9 +39,9 @@ pipeline {
             steps {
                 echo 'Construction de l’image Docker...'
                 // Attention : pour que ${IMAGE_NAME} et ${IMAGE_TAG} soient résolus, utiliser des guillemets doubles
-                sh "mvn spring-boot:build-image -Dspring-boot.build-image.imageName=${IMAGE_NAME}:${IMAGE_TAG}"
+//                 sh "mvn spring-boot:build-image -Dspring-boot.build-image.imageName=${IMAGE_NAME}:${IMAGE_TAG}"
                 // Alternative Dockerfile classique :
-                // sh "docker build -t ${IMAGE_NAME}:${IMAGE_TAG} ."
+                sh "docker build -t ${IMAGE_NAME}:${IMAGE_TAG} ."
             }
         }
 

@@ -81,16 +81,27 @@ public class GenericSpecification<T> implements Specification<T> {
 
         };
     }
-
     @SuppressWarnings("unchecked")
     private <R> Path<R> getPath(Root<T> root, String key) {
-        String[] parts = key.split("\\.");
-        Path<R> path = (Path<R>) root;
-        for (String part : parts) {
-            path = path.get(part);
+        if (key.contains(".")) {
+            // Simple join: zone.nom → root.join("zone").get("nom")
+            String[] parts = key.split("\\.", 2);
+            Join<?, ?> join = root.join(parts[0], JoinType.LEFT);
+            return (Path<R>) join.get(parts[1]);
         }
-        return path;
+        // Simple field
+        return root.get(key);
     }
+
+//    @SuppressWarnings("unchecked")
+//    private <R> Path<R> getPath(Root<T> root, String key) {
+//        String[] parts = key.split("\\.");
+//        Path<R> path = (Path<R>) root;
+//        for (String part : parts) {
+//            path = path.get(part);
+//        }
+//        return path;
+//    }
 
     private Object parseValue(String value) {
         // Try Double

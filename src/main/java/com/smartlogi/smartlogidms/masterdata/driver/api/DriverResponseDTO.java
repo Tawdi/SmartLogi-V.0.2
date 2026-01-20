@@ -12,5 +12,7 @@ import lombok.ToString;
 public class DriverResponseDTO extends PersonneResponseDTO<String> {
     private String zoneAssigneeId;
     private String zoneAssigneeNom;
+    private String vehicule;
+
 
 }

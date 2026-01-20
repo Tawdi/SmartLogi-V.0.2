@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
-@PreAuthorize("isAuthenticated()")
+//@PreAuthorize("isAuthenticated()")
 public abstract class AbstractBaseController<T extends BaseEntity<I>, I, R1, R2> implements BaseController<T, I, R1, R2> {
 
     protected final BaseCrudService<T, R1, R2, I> service;
@@ -90,7 +90,7 @@ public abstract class AbstractBaseController<T extends BaseEntity<I>, I, R1, R2>
             description = "Retrieves all resources of this type. Use with caution for large datasets."
     )
     @ApiResponse(responseCode = "200", description = "Resources retrieved successfully")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('MANAGER','ADMIN')")
     public ResponseEntity<ApiResponseDTO<List<R2>>> getAll() {
         List<R2> responseDTOs = service.findAll();
         return ResponseEntity.ok(ApiResponseDTO.success("Resources retrieved successfully", responseDTOs));

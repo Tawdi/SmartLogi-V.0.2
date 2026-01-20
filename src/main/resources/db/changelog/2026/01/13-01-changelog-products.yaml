@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0-change-products-default
+      author: admin
+      changes:
+        - addDefaultValue:
+            tableName: products
+            columnName: deleted
+            defaultValueBoolean: false

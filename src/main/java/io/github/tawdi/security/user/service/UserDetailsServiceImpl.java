@@ -1,5 +1,6 @@
 package io.github.tawdi.security.user.service;
 
+import io.github.tawdi.security.user.domain.UserAccount;
 import io.github.tawdi.security.user.repository.UserAccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,8 +15,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private final UserAccountRepository repository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserAccount loadUserByUsername(String username) throws UsernameNotFoundException {
         return repository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
     }
+
+//    public UserAccount loadUserByUsername(String username) throws UsernameNotFoundException {
+//        return repository.findByUsername(username)
+//                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
+//    }
 }

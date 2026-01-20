@@ -38,6 +38,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                                 .requestMatchers(
@@ -66,6 +67,7 @@ public class SecurityConfig {
         // Origines autorisées (frontends internes uniquement)
         config.setAllowedOrigins(List.of(
                 "http://localhost:4200",
+                "http://localhost:5173",
                 "http://localhost:3000",
                 "http://localhost:8080"
         ));

@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/clients")
 @Tag(name = "Clients", description = "Client management APIs")
-@PreAuthorize("hasAnyRole('MANAGER','ADMIN')")
 public class ClientController extends StringBaseController<ClientExpediteur, ClientRequestDTO, ClientResponseDTO> {
 
     private final ClientService clientService;
@@ -26,7 +25,7 @@ public class ClientController extends StringBaseController<ClientExpediteur, Cli
         super(clientService, clientMapper);
         this.clientService = clientService;
     }
-
+    @PreAuthorize("hasAnyRole('MANAGER','ADMIN')")
     @GetMapping("/search")
     public ResponseEntity<ApiResponseDTO<Page<ClientResponseDTO>>> search(@RequestParam(required = false, defaultValue = "", name = "q") String keyword, Pageable pageable) {
         return ResponseEntity

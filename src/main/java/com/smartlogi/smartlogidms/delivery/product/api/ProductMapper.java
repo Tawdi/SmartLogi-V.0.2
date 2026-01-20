@@ -5,6 +5,8 @@ import com.smartlogi.smartlogidms.delivery.product.domain.Product;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.BeanMapping;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
 
 @Mapper(componentModel = "spring")
@@ -20,6 +22,7 @@ public interface ProductMapper extends BaseMapper<Product, ProductRequestDTO, Pr
 
 
     @Override
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)

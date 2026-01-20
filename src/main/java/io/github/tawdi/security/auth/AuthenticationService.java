@@ -1,6 +1,7 @@
 package io.github.tawdi.security.auth;
 
 import io.github.tawdi.security.jwt.JwtService;
+import io.github.tawdi.security.user.domain.UserAccount;
 import io.github.tawdi.security.user.service.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,11 +22,13 @@ public class AuthenticationService {
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
         );
 
-        UserDetails user = userDetailsService.loadUserByUsername(request.getUsername());
+        UserAccount user = userDetailsService.loadUserByUsername(request.getUsername());
+
         String jwt = jwtService.generateToken(user);
 
         return AuthenticationResponse.builder()
                 .token(jwt)
+                .role(user.getRole().getName())
                 .expiresIn(jwtService.getExpirationMs())
                 .build();
     }

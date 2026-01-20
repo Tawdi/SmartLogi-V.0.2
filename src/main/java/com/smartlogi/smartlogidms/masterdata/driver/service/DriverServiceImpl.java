@@ -31,6 +31,22 @@ public class DriverServiceImpl extends StringCrudServiceImpl<Driver, DriverReque
     }
 
     @Override
+    @Transactional
+    public DriverResponseDTO update(String id, DriverRequestDTO dto) {
+
+        Driver existingEntity = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Resource not found with id: " + id));
+
+        mapper.updateEntityFromDto(dto, existingEntity);
+        if (dto.getZoneAssigneeId() != null) {
+            Zone zone = zoneRepository.findById(dto.getZoneAssigneeId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Zone not found"));
+            existingEntity.setZoneAssignee(zone);
+        }
+
+        return mapper.toDto(repository.save(existingEntity));
+    }
+    @Override
     @Transactional(readOnly = true)
     public Optional<DriverResponseDTO> findByEmail(String email) {
         return driverRepository.findByEmail(email)

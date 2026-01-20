@@ -67,12 +67,13 @@ public class FilterParser {
         SearchOperation op = parseOp(opStr);
         Object parsedValue = parseValue(value.isEmpty() ? opStr : value);
 
-        if (field.contains(".")) {
-            String[] fieldParts = field.split("\\.", 2);
-            spec.add(new SearchCriteria(fieldParts[1], parsedValue, op, fieldParts[0]));
-        } else {
-            spec.add(new SearchCriteria(field, parsedValue, op));
-        }
+        spec.add(new SearchCriteria(field, parsedValue, op));
+//        if (field.contains(".")) {
+//            String[] fieldParts = field.split("\\.", 2);
+//            spec.add(new SearchCriteria(fieldParts[1], parsedValue, op, fieldParts[0]));
+//        } else {
+//            spec.add(new SearchCriteria(field, parsedValue, op));
+//        }
     }
 
     private static SearchOperation parseOp(String opStr) {

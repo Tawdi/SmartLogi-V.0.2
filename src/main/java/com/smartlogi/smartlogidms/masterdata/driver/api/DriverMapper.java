@@ -33,6 +33,7 @@ public interface DriverMapper extends BaseMapper<Driver, DriverRequestDTO, Drive
     @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "zoneAssignee", ignore = true)
     @Mapping(target = "userAccount",ignore = true)
+    @Mapping(target = "vehicule", source = "vehicule")
     void updateEntityFromDto(DriverRequestDTO dto, @MappingTarget Driver entity);
 
 }
